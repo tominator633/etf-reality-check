@@ -1,7 +1,9 @@
+import { copy } from "@content/copy";
+
 export default function Home() {
   return (
     <main>
-      <h1>ETF Reality Check</h1>
+      <h1>{copy.meta.title}</h1>
     </main>
   );
 }

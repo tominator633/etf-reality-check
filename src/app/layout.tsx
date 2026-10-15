@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { copy } from "@content/copy";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ETF Reality Check",
-  description: "[[CHYBÍ TEXT: popis stránky pro vyhledávače]]",
+  title: copy.meta.title,
+  description: copy.meta.description,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

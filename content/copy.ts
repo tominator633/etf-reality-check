@@ -6,6 +6,11 @@
 export const missingText = (what: string) => `[[CHYBÍ TEXT: ${what}]]`;
 
 export const copy = {
+  meta: {
+    title: "ETF Reality Check",
+    description: missingText("popis stránky pro vyhledávače a sdílení"),
+  },
+
   quiz: {
     // brief kap. 4
     question: "VOO, IVV, SPYM a SPY sledují stejný S&P 500. Můžete si je koupit u českého brokera?",
