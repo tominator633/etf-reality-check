@@ -1,5 +1,6 @@
 /*
- * DOČASNÉ – finální paletu dodá Tom.
+ * Paleta podle Toma (15. 10. 2026): #FFC349, #525EA7, #5FACD3, #97DDE9, bílé pozadí s lehkým
+ * gradientem. Odvozené odstíny (inkoust, šedé karty, hover) jsou návrh – doladí se.
  *
  * Jediné místo pro barvy, typografii, mezery, rádiusy, stíny a délky přechodů.
  * Komponenty používají jen var(--…). Textové kombinace barev mají kontrast
@@ -8,36 +9,52 @@
  */
 
 :root {
+  /* Paleta (Tom) */
+  --palette-yellow: #ffc349; /* jen plocha s tmavým textem – jako text na bílé má 1,6 : 1 */
+  --palette-indigo: #525ea7; /* text i plocha (5,97 : 1 na bílé) */
+  --palette-sky: #5facd3; /* jen dekorace – jako text na bílé má 2,5 : 1 */
+  --palette-cyan: #97dde9; /* jen pozadí s tmavým textem */
+
   /* Barvy – podklad a inkoust */
-  --color-bg: #faf8f5; /* off-white podklad stránky */
+  --color-bg: #ffffff; /* bílý podklad stránky */
+  --color-bg-tint: #eef8fb; /* konec jemného gradientu pozadí */
+  --gradient-page: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 30%, var(--color-bg-tint) 100%);
   --color-surface: #ffffff; /* karty, formulář */
-  --color-ink: #1c1917; /* hlavní text */
-  --color-ink-muted: #57534e; /* vedlejší text, popisky */
-  --color-border: #8a847c; /* okraje polí a karet (≥ 3 : 1 vůči podkladu) */
-  --color-border-subtle: #e7e5e4; /* dekorativní oddělovače */
+  --color-ink: #161a33; /* hlavní text (tmavě modrošedý) */
+  --color-ink-muted: #4a5072; /* vedlejší text, popisky */
+  --color-border: #7c82a0; /* okraje polí a karet (≥ 3 : 1 vůči podkladu) */
+  --color-border-subtle: #e3e7ef; /* dekorativní oddělovače, stopa jezdce */
 
-  /* Akcent – oranžová: čísla poplatků, CTA, zvýraznění */
-  --color-accent: #c2410c; /* oranžový text na světlém podkladu */
-  --color-accent-fill: #f97316; /* plocha CTA, vždy s tmavým textem */
-  --color-on-accent-fill: #1c1917; /* text na oranžové ploše */
-  --color-accent-fill-hover: #ea580c;
+  /* Akcent: částky poplatků (indigo text) a CTA (žlutá plocha s tmavým textem) */
+  --color-accent: var(--palette-indigo);
+  --color-accent-fill: var(--palette-yellow);
+  --color-on-accent-fill: #161a33;
+  --color-accent-fill-hover: #f5b12e;
 
-  /* Odznak „nejnižší TER“ – zelená jen tady, vždy s textem */
+  /* Zvolená odpověď kvízu */
+  --color-selected: var(--palette-indigo);
+  --color-on-selected: #ffffff;
+
+  /* Dekorace a zvýraznění */
+  --color-decor: var(--palette-sky); /* proužky, ne text */
+  --color-highlight: var(--palette-cyan); /* pozadí čipů tickerů */
+  --color-on-highlight: #161a33;
+
+  /* Odznak „nejnižší TER“ – zelená jen tady, vždy s textem (brief kap. 13) */
   --color-badge-bg: #dcfce7;
   --color-badge-ink: #14532d;
 
   /* Americké karty – zašedlé, ale čitelné */
-  --color-us-card-bg: #f3f1ee;
-  --color-us-card-ink: #44403c;
-  --color-us-card-ink-muted: #57534e;
+  --color-us-card-bg: #f0f2f6;
+  --color-us-card-ink: #3a3f5c;
+  --color-us-card-ink-muted: #4a5072;
 
   /* Stavy */
-  --color-error: #b91c1c;
-  --color-focus: #1d4ed8;
+  --color-error: #b42318;
+  --color-focus: var(--palette-indigo);
 
-  /* Typografie – systémový font stack, next/font doplníme po výběru písem */
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
-    sans-serif;
+  /* Typografie – IBM Plex Sans Condensed přes next/font (shared/lib/fonts.ts), systémový fallback */
+  --font-sans: var(--font-plex-sans-condensed), system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-numeric: var(--font-sans);
 
   --font-size-sm: 1rem; /* 16 px – minimum pro text */
@@ -47,10 +64,11 @@
   --font-size-2xl: 2.25rem; /* 36 px */
   --font-size-3xl: 3rem; /* 48 px */
 
+  /* IBM Plex Sans Condensed má řezy do 700; načtené jsou 400–700 (shared/lib/fonts.ts) */
   --font-weight-regular: 400;
   --font-weight-medium: 500;
-  --font-weight-bold: 700;
-  --font-weight-black: 800;
+  --font-weight-bold: 600;
+  --font-weight-black: 700;
 
   --line-height-tight: 1.15;
   --line-height-snug: 1.3;
@@ -96,8 +114,8 @@
   --focus-ring-offset: 0.125rem; /* 2 px */
 
   /* Stíny */
-  --shadow-card: 0 0.0625rem 0.125rem rgb(28 25 23 / 0.06), 0 0.25rem 0.75rem rgb(28 25 23 / 0.06);
-  --shadow-sticky: 0 -0.25rem 1rem rgb(28 25 23 / 0.12);
+  --shadow-card: 0 0.0625rem 0.125rem rgb(22 26 51 / 0.06), 0 0.25rem 0.75rem rgb(22 26 51 / 0.06);
+  --shadow-sticky: 0 -0.25rem 1rem rgb(22 26 51 / 0.12);
 
   /* Délky přechodů */
   --duration-fast: 120ms;

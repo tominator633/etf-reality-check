@@ -64,11 +64,11 @@ export const copy = {
 
   lead: {
     // brief kap. 7
-    heading: "Tohle byl jen S&P 500. Co když chcete víc než Ameriku?",
+    heading: "Tohle byl jen S&P\u00a0500. Co když chcete víc než Ameriku?",
     intro:
       "Evropská dvojčata dalších populárních ETF a jak z nich poskládat celé portfolio najdete v taháku:",
     benefits: [
-      "evropská dvojčata populárních NYSE ETF, nejen na S&P 500",
+      "evropská dvojčata populárních NYSE ETF, nejen na S&P\u00a0500",
       "jak poskládat celý svět ze dvou až tří fondů",
       "na co si dát pozor u českého brokera a u daní",
     ],

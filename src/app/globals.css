@@ -18,7 +18,8 @@ html {
 
 body {
   min-height: 100dvh;
-  background: var(--color-bg);
+  background: var(--gradient-page);
+  background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: var(--font-size-sm);

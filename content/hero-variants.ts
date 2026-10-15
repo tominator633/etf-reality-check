@@ -26,14 +26,14 @@ export const heroVariants: Record<HeroVariantId, HeroVariant> = {
     utmContent: "ad_a",
     motivation: "Není ETF jako ETF – zvědavost: jde to vůbec koupit?",
     h1: () => "NENÍ ETF JAKO ETF",
-    subtitle: () => "VOO, IVV, SPYM a SPY sledují stejný S&P 500. Liší se poplatkem.",
+    subtitle: () => "VOO, IVV, SPYM a SPY sledují stejný S&P\u00a0500. Liší se poplatkem.",
   },
   b: {
     id: "b",
     utmContent: "ad_b",
     // Návrh ke schválení (brief kap. 16, bod 1).
     motivation: "Poplatek v korunách – strach z přeplácení",
-    h1: ({ feeDifference }) => `STEJNÝ S&P 500, ROZDÍL ${feeDifference}`,
+    h1: ({ feeDifference }) => `STEJNÝ S&P\u00a0500, ROZDÍL ${feeDifference}`,
     subtitle: ({ years }) => `Tolik dělá rozdíl v poplatku mezi fondy na stejný index za ${years}.`,
   },
 };

@@ -43,8 +43,8 @@
 }
 
 .button[aria-pressed="true"] {
-  background: var(--color-ink);
-  color: var(--color-surface);
+  background: var(--color-selected);
+  color: var(--color-on-selected);
   outline: 0;
 }
 

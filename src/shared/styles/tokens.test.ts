@@ -5,10 +5,11 @@ import { describe, expect, it } from "vitest";
 // Kontrast textových kombinací podle WCAG 2.x (AA: text ≥ 4,5 : 1, prvky UI ≥ 3 : 1).
 const css = readFileSync(join(__dirname, "tokens.css"), "utf8");
 
+// Hodnota tokenu jako hex; odkaz var(--jiny-token) se dohledá.
 function token(name: string): string {
-  const match = css.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`));
-  if (!match) throw new Error(`Token --${name} nemá hex hodnotu`);
-  return match[1];
+  const match = css.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6}|var\\(--([a-z0-9-]+)\\))`));
+  if (!match) throw new Error(`Token --${name} nemá hex hodnotu ani var()`);
+  return match[2] ? token(match[2]) : match[1];
 }
 
 function luminance(hex: string): number {
@@ -24,6 +25,12 @@ function contrast(a: string, b: string): number {
 
 const TEXT_PAIRS: [foreground: string, background: string][] = [
   ["color-ink", "color-bg"],
+  ["color-ink", "color-bg-tint"],
+  ["color-ink-muted", "color-bg-tint"],
+  ["color-accent", "color-bg-tint"],
+  ["color-error", "color-bg-tint"],
+  ["color-on-selected", "color-selected"],
+  ["color-on-highlight", "color-highlight"],
   ["color-ink", "color-surface"],
   ["color-ink-muted", "color-bg"],
   ["color-ink-muted", "color-surface"],
@@ -44,6 +51,7 @@ const UI_PAIRS: [foreground: string, background: string][] = [
   ["color-border", "color-surface"],
   ["color-focus", "color-bg"],
   ["color-focus", "color-surface"],
+  ["color-focus", "color-bg-tint"],
 ];
 
 describe("tokens.css – kontrast", () => {

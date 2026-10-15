@@ -15,6 +15,7 @@
 }
 
 .ucits {
+  border-top: var(--focus-ring-width) solid var(--color-decor);
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
 }

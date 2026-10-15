@@ -24,9 +24,9 @@
 
 .chip {
   padding: var(--chip-padding-block) var(--chip-padding-inline);
-  border: var(--border-width) solid var(--color-border);
   border-radius: var(--radius-pill);
-  background: var(--color-surface);
+  background: var(--color-highlight);
+  color: var(--color-on-highlight);
   font-weight: var(--font-weight-bold);
   font-variant-numeric: tabular-nums;
 }
