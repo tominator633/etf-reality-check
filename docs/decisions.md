@@ -67,3 +67,8 @@ Formát: datum · co · proč. Nová rozhodnutí připisuj na konec. Podklad pro
 - **15. 10. 2026 · `pairs.ts`: pořadí párů = pořadí amerických fondů v `etf.json`, odznak počítá jen z ověřeného TER.** Pořadí VOO, IVV, SPYM, SPY se mění v datech, ne v kódu; neověřené TER nesmí odznak získat ani ho ostatním vzít.
 - **15. 10. 2026 · `format.ts` nahrazuje mezery v datu nedělitelnými.** `Intl.DateTimeFormat("cs-CZ")` vrací `15. 10. 2026` s obyčejnými mezerami, tech-spec 0.11 chce nedělitelné.
 - **15. 10. 2026 · Veřejné API featury (`etf-reality-check/index.ts`) zatím nevzniklo.** Exportovalo by komponentu `EtfRealityCheck`, která přijde až v kroku 5 („nic na později“).
+- **15. 10. 2026 · Šablony v `content/` přijímají už naformátované řetězce (např. `formatCzk()`), ne čísla.** `content/` tak nezávisí na `shared/lib/format.ts` a nemůže v něm vzniknout číslo; formátování zůstává na jednom místě.
+- **15. 10. 2026 · Podnadpis hero B: „za 20 let“ → `za ${years}` z výchozích jezdců.** V briefu je číslo napsané ručně; musí sedět s `assumptions.json`, jinak by po změně výchozí doby lhalo.
+- **15. 10. 2026 · Test `content/content.test.ts` hlídá, že texty neobsahují číslice** (výjimky: „S&P 500“, „1 otázka“) ani zakázané fráze („doporučujeme“, „kupte“, „ten si koupíte“, „zaručen…“).
+- **15. 10. 2026 · Drobné UI texty, které brief nemá, ale tech-spec je uvádí doslova, převzaty z tech-specu** („Zdarma, bez registrace · 1 otázka“, „— (neověřeno)“, „Odesílám…“, „Zkuste to prosím za chvíli.“, „Zkusit znovu“, „Kopii jsme poslali na …“). Ostatní chybějící texty jsou `[[CHYBÍ TEXT: …]]` (nevymýšlíme je).
+- **15. 10. 2026 · Dvojice pro částku v hero B pracovně SPY vs. SPYM (`heroBComparedFundIds`), čeká na Tomovo schválení.**
