@@ -29,6 +29,8 @@ const TEXT_PAIRS: [foreground: string, background: string][] = [
   ["color-ink-muted", "color-bg-tint"],
   ["color-accent", "color-bg-tint"],
   ["color-error", "color-bg-tint"],
+  ["color-hero-title", "color-bg-tint"],
+  ["color-hero-title", "color-bg"],
   ["color-ink", "color-bg-tint-bottom"],
   ["color-ink-muted", "color-bg-tint-bottom"],
   ["color-error", "color-bg-tint-bottom"],

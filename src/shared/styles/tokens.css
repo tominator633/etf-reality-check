@@ -36,6 +36,7 @@
   --color-surface: #ffffff; /* karty, formulář */
   --color-ink: #161a33; /* hlavní text (tmavě modrošedý) */
   --color-ink-muted: #4a5072; /* vedlejší text, popisky */
+  --color-hero-title: var(--palette-indigo); /* H1 v hero (Tom); na žlutém podkladu 4,6 : 1 */
   --color-border: #7c82a0; /* okraje polí a karet (≥ 3 : 1 vůči podkladu) */
   --color-border-subtle: #e3e7ef; /* dekorativní oddělovače, stopa jezdce */
 

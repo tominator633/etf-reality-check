@@ -4,6 +4,7 @@
 }
 
 .title {
+  color: var(--color-hero-title);
   font-size: var(--font-size-2xl);
   letter-spacing: var(--letter-spacing-caps);
 }
