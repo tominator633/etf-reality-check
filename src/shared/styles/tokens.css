@@ -1,0 +1,96 @@
+/*
+ * DOČASNÉ – finální paletu dodá Tom.
+ *
+ * Jediné místo pro barvy, typografii, mezery, rádiusy, stíny a délky přechodů.
+ * Komponenty používají jen var(--…). Textové kombinace barev mají kontrast
+ * aspoň 4,5 : 1 (WCAG AA), kontroluje je tokens.test.ts – při změně palety
+ * spusťte `npm run test`.
+ */
+
+:root {
+  /* Barvy – podklad a inkoust */
+  --color-bg: #faf8f5; /* off-white podklad stránky */
+  --color-surface: #ffffff; /* karty, formulář */
+  --color-ink: #1c1917; /* hlavní text */
+  --color-ink-muted: #57534e; /* vedlejší text, popisky */
+  --color-border: #8a847c; /* okraje polí a karet (≥ 3 : 1 vůči podkladu) */
+  --color-border-subtle: #e7e5e4; /* dekorativní oddělovače */
+
+  /* Akcent – oranžová: čísla poplatků, CTA, zvýraznění */
+  --color-accent: #c2410c; /* oranžový text na světlém podkladu */
+  --color-accent-fill: #f97316; /* plocha CTA, vždy s tmavým textem */
+  --color-on-accent-fill: #1c1917; /* text na oranžové ploše */
+  --color-accent-fill-hover: #ea580c;
+
+  /* Odznak „nejnižší TER“ – zelená jen tady, vždy s textem */
+  --color-badge-bg: #dcfce7;
+  --color-badge-ink: #14532d;
+
+  /* Americké karty – zašedlé, ale čitelné */
+  --color-us-card-bg: #f3f1ee;
+  --color-us-card-ink: #44403c;
+  --color-us-card-ink-muted: #57534e;
+
+  /* Stavy */
+  --color-error: #b91c1c;
+  --color-focus: #1d4ed8;
+
+  /* Typografie – systémový font stack, next/font doplníme po výběru písem */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif;
+  --font-numeric: var(--font-sans);
+
+  --font-size-sm: 1rem; /* 16 px – minimum pro text */
+  --font-size-md: 1.125rem; /* 18 px */
+  --font-size-lg: 1.375rem; /* 22 px */
+  --font-size-xl: 1.75rem; /* 28 px */
+  --font-size-2xl: 2.25rem; /* 36 px */
+  --font-size-3xl: 3rem; /* 48 px */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 800;
+
+  --line-height-tight: 1.15;
+  --line-height-snug: 1.3;
+  --line-height-body: 1.55;
+
+  --letter-spacing-caps: 0.02em;
+
+  /* Mezery */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --page-gutter: var(--space-4);
+  --content-max-width: 45rem;
+
+  /* Dotykové plochy */
+  --touch-target: 3rem; /* 48 px */
+
+  /* Rádiusy */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 999rem;
+
+  /* Okraje */
+  --border-width: 0.0625rem; /* 1 px */
+  --focus-ring-width: 0.1875rem; /* 3 px */
+  --focus-ring-offset: 0.125rem; /* 2 px */
+
+  /* Stíny */
+  --shadow-card: 0 0.0625rem 0.125rem rgb(28 25 23 / 0.06), 0 0.25rem 0.75rem rgb(28 25 23 / 0.06);
+  --shadow-sticky: 0 -0.25rem 1rem rgb(28 25 23 / 0.12);
+
+  /* Délky přechodů */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+}

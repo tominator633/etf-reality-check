@@ -36,3 +36,13 @@ Formát: datum · co · proč. Nová rozhodnutí připisuj na konec. Podklad pro
 - **15. 10. 2026 · Brief měl jiný vzorec (`r/12`) a jiný datový soubor (`funds.json`) než tech-spec;** srovnáno na tech-spec.
 - **15. 10. 2026 · Tabulka v mockupu měla „modelový zisk“ bez odečtení poplatků** a čísla spočítaná jinou konvencí; nahrazeno výpočtem z `projection.ts` a testy.
 - **15. 10. 2026 · TER VUAA a CSPX pocházely z agregátoru (Lightyear),** ne od správce; označeno jako neověřené do ověření u primárního zdroje.
+
+## Rozhodnutí z implementace (Claude Code)
+
+- **15. 10. 2026 · Tech-spec přesunut z kořene do `docs/05-technicka-implementace.md`.** CLAUDE.md, brief i tech-spec kap. 3 ho tam očekávají; obsah beze změny.
+- **15. 10. 2026 · Fonty zatím jako systémový font stack v `tokens.css` (`--font-sans`), `next/font` přidáme po výběru písem (Tom).** Nechceme vybírat písmo za Toma a systémový stack nemá žádnou síťovou zátěž ani riziko chybějící diakritiky.
+- **15. 10. 2026 · Dočasná paleta v `tokens.css` a test kontrastu `src/shared/styles/tokens.test.ts`.** Test počítá kontrast podle WCAG přímo z `tokens.css` (text ≥ 4,5 : 1, okraje a fokus ≥ 3 : 1), takže finální paleta od Toma se ověří stejným `npm run test`. První návrh šedé americké karty (`#efedea`) s oranžovým číslem měl jen 4,43 : 1, opraveno na `#f3f1ee` (4,59 : 1).
+- **15. 10. 2026 · Aliasy `@data/*` a `@content/*` vedle `@/*`.** Složky `data/` a `content/` jsou podle tech-spec kap. 3 mimo `src/`; aliasy jsou v `tsconfig.json` i `vitest.config.mts`.
+- **15. 10. 2026 · Z šablony create-next-app vypnuté `cacheComponents` a `partialPrefetching`.** Stránka je statická, experimentální režimy nepotřebujeme; méně překvapení při buildu.
+- **15. 10. 2026 · `@types/node` 22 místo 20 ze šablony.** Vitest 5 vyžaduje typy Node ≥ 22 a lokálně běží Node 22.
+- **15. 10. 2026 · Všechny verze balíčků v `package.json` přesně (bez `^`).** Tech-spec kap. 1 nechce `latest`; přesné verze zaručí stejný build lokálně i na Vercelu.
