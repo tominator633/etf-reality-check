@@ -17,7 +17,7 @@
 
   /* Barvy – podklad a inkoust */
   --color-bg: #ffffff; /* bílý podklad stránky */
-  --color-bg-tint: #eef8fb; /* konec jemného gradientu pozadí */
+  --color-bg-tint: #fff3db; /* konec jemného gradientu pozadí: 20 % #FFC349 + 80 % bílé */
   --gradient-page: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 30%, var(--color-bg-tint) 100%);
   --color-surface: #ffffff; /* karty, formulář */
   --color-ink: #161a33; /* hlavní text (tmavě modrošedý) */
