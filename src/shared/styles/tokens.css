@@ -17,8 +17,11 @@
 
   /* Barvy – podklad a inkoust */
   --color-bg: #ffffff; /* bílý podklad stránky */
-  --color-bg-tint: #fff3db; /* konec jemného gradientu pozadí: 20 % #FFC349 + 80 % bílé */
-  --gradient-page: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 30%, var(--color-bg-tint) 100%);
+  --color-bg-tint: #ffde9b; /* žlutá nahoře v gradientu: 55 % #FFC349 + 45 % bílé */
+  /* Gradient pozadí: žlutá nahoře (za hero) → bílá. Končí nad tlačítky ANO/NE, aby žlutá
+     tlačítka nestála na žlutém podkladu; dál je pozadí bílé. */
+  --gradient-page-length: 18rem;
+  --gradient-page: linear-gradient(180deg, var(--color-bg-tint) 0, var(--color-bg) var(--gradient-page-length));
   --color-surface: #ffffff; /* karty, formulář */
   --color-ink: #161a33; /* hlavní text (tmavě modrošedý) */
   --color-ink-muted: #4a5072; /* vedlejší text, popisky */
