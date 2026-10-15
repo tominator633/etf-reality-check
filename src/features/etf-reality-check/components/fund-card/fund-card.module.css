@@ -1,0 +1,63 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  height: 100%;
+  min-width: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  overflow-wrap: anywhere;
+}
+
+.us {
+  background: var(--color-us-card-bg);
+  color: var(--color-us-card-ink);
+}
+
+.ucits {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.ticker {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-tight);
+}
+
+.issuer,
+.source {
+  color: var(--color-ink-muted);
+}
+
+.us .issuer,
+.us .source {
+  color: var(--color-us-card-ink-muted);
+}
+
+.badge {
+  align-self: flex-start;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-badge-bg);
+  color: var(--color-badge-ink);
+  font-weight: var(--font-weight-bold);
+}
+
+.ter {
+  font-variant-numeric: tabular-nums;
+}
+
+.fee {
+  padding-top: var(--space-2);
+  line-height: var(--line-height-snug);
+}
+
+.amount {
+  display: block;
+  color: var(--color-accent);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-black);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

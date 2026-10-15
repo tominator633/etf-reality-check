@@ -1,0 +1,22 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.heading {
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+}
+
+.group {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  gap: var(--space-3);
+}
+
+.usColumn {
+  display: grid;
+  gap: var(--space-3);
+}

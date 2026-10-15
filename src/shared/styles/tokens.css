@@ -74,6 +74,16 @@
   /* Dotykové plochy */
   --touch-target: 3rem; /* 48 px */
 
+  /* Jezdce (input type="range") */
+  --slider-track-height: 0.5rem;
+  --slider-thumb-size: 1.75rem; /* vizuálně 28 px, dotyková plocha = výška inputu (--touch-target) */
+  --color-slider-track: var(--color-border-subtle);
+  --color-slider-fill: var(--color-accent);
+
+  /* Čipy tickerů v hero */
+  --chip-padding-block: var(--space-1);
+  --chip-padding-inline: var(--space-3);
+
   /* Rádiusy */
   --radius-sm: 0.375rem;
   --radius-md: 0.75rem;

@@ -26,8 +26,6 @@ export const copy = {
       ne: missingText("první řádek odhalení po odpovědi NE (správně)"),
     },
     body: "Většinou ne. Americká ETF nemají dokument KID, který pravidla EU vyžadují, takže je drobný investor z EU obvykle nekoupí. Každé z nich má ale evropské dvojče na stejný index. A poplatky se liší.",
-    // tech-spec 6.3: odkaz na zdroj k tvrzení o KID/PRIIPs
-    source: missingText("zdroj k tvrzení o KID/PRIIPs (název + URL)"),
   },
 
   pairGrid: {
@@ -41,9 +39,14 @@ export const copy = {
     terLabel: "TER",
     distribution: { ACC: "akum.", DIST: "dist." },
     lowestTerBadge: "nejnižší TER",
-    feeCost: (amount: string) => `přijdete o ${amount} na poplatcích`,
+    // „přijdete o {částka} na poplatcích“ – částka se v UI zvýrazní, proto zvlášť
+    feeCost: { before: "přijdete o", after: "na poplatcích" },
     // tech-spec 4.4: neověřená hodnota se nikdy nevykreslí jako 0
     unverified: "— (neověřeno)",
+    // tech-spec 6.3 (source-note u TER a u tvrzení o KID)
+    sourcePrefix: "Zdroj:",
+    // krátký odkaz na zdroj TER na kartě; celý popis zdroje je v aria-label a title
+    sourceLink: "zdroj",
   },
 
   sliders: {

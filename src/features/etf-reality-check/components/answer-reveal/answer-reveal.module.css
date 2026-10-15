@@ -1,0 +1,14 @@
+.reveal {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.firstLine {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+}
+
+.source {
+  color: var(--color-ink-muted);
+}

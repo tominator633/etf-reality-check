@@ -1,0 +1,10 @@
+.realityCheck {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.reveal {
+  display: grid;
+  gap: var(--space-5);
+  scroll-margin-top: var(--space-4);
+}
