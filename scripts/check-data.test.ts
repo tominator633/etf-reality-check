@@ -71,6 +71,30 @@ describe("checkData", () => {
     expect(checkData(data, assumptions, dev).errors).toContainEqual(expect.stringContaining("není oboustranný"));
   });
 
+  it("sdílené dvojče (SPYL ↔ SPYM i SPY) projde", () => {
+    const spyl = dataset.funds.find((fund) => fund.id === "spyl")!;
+    expect(spyl.relatedFundIds).toEqual(["spym", "spy"]);
+    expect(checkData(fullyVerifiedDataset(), assumptions, prod).errors).toEqual([]);
+  });
+
+  it("sdílené dvojče, které o jednom americkém fondu neví → chyba", () => {
+    const data = fullyVerifiedDataset();
+    data.funds.find((fund) => fund.id === "spyl")!.relatedFundIds = ["spym"];
+    expect(checkData(data, assumptions, dev).errors).toContainEqual(expect.stringContaining("spy ↔ spyl: pár není oboustranný"));
+  });
+
+  it("americký fond v kvízu bez dvojčete nebo s víc dvojčaty → chyba", () => {
+    const none = fullyVerifiedDataset();
+    none.funds.find((fund) => fund.id === "voo")!.relatedFundIds = [];
+    none.funds.find((fund) => fund.id === "vuaa")!.relatedFundIds = [];
+    expect(checkData(none, assumptions, dev).errors).toContainEqual(expect.stringContaining("voo: americký fond v kvízu musí mít právě jedno UCITS dvojče (má 0)"));
+
+    const two = fullyVerifiedDataset();
+    two.funds.find((fund) => fund.id === "voo")!.relatedFundIds = ["vuaa", "cspx"];
+    two.funds.find((fund) => fund.id === "cspx")!.relatedFundIds = ["ivv", "voo"];
+    expect(checkData(two, assumptions, dev).errors).toContainEqual(expect.stringContaining("(má 2)"));
+  });
+
   it("odkaz na neexistující fond → chyba", () => {
     const data = fullyVerifiedDataset();
     data.funds[0].relatedFundIds = ["neexistuje"];

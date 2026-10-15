@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import etf from "@data/etf.json";
 import { datasetSchema, type Dataset, type Fund } from "@data/schema";
-import { buildPairs, lowestTerIds } from "./pairs";
+import { buildPairs, groupByUcits, lowestTerIds, uniqueUcitsFunds } from "./pairs";
 
 const dataset = datasetSchema.parse(etf);
 const clone = (): Dataset => structuredClone(dataset);
@@ -11,6 +11,8 @@ function withTer(fund: Fund, value: number | null, status: "verified" | "unverif
   return { ...fund, ter: { ...fund.ter, value, status } };
 }
 
+const fundById = (id: string) => dataset.funds.find((fund) => fund.id === id)!;
+
 describe("buildPairs", () => {
   it("vrací 4 páry ve správném pořadí (VOO, IVV, SPYM, SPY)", () => {
     const pairs = buildPairs(dataset);
@@ -18,7 +20,7 @@ describe("buildPairs", () => {
       ["VOO", "VUAA"],
       ["IVV", "CSPX"],
       ["SPYM", "SPYL"],
-      ["SPY", "SPY5"],
+      ["SPY", "SPYL"],
     ]);
   });
 
@@ -37,34 +39,70 @@ describe("buildPairs", () => {
     expect(() => buildPairs(data)).toThrow(/není oboustranný/);
   });
 
+  it("sdílené dvojče, které o jednom z amerických fondů neví → výjimka", () => {
+    const data = clone();
+    data.funds.find((fund) => fund.id === "spyl")!.relatedFundIds = ["spym"];
+    expect(() => buildPairs(data)).toThrow(/spy ↔ spyl není oboustranný/);
+  });
+
   it("americký fond bez dvojčete → výjimka", () => {
     const data = clone();
     data.funds.find((fund) => fund.id === "voo")!.relatedFundIds = [];
     expect(() => buildPairs(data)).toThrow(/nemá evropské dvojče/);
   });
 
+  it("americký fond s víc dvojčaty → výjimka", () => {
+    const data = clone();
+    data.funds.find((fund) => fund.id === "voo")!.relatedFundIds = ["vuaa", "cspx"];
+    data.funds.find((fund) => fund.id === "cspx")!.relatedFundIds = ["ivv", "voo"];
+    expect(() => buildPairs(data)).toThrow(/víc evropských dvojčat/);
+  });
+
   it("fondy s rolí guide-only se do párů nedostanou", () => {
     const data = clone();
-    for (const fund of data.funds) if (fund.id === "spy" || fund.id === "spy5") fund.role = "guide-only";
+    for (const fund of data.funds) if (fund.id === "spy") fund.role = "guide-only";
     expect(buildPairs(data).map((pair) => pair.us.ticker)).toEqual(["VOO", "IVV", "SPYM"]);
   });
 });
 
-describe("lowestTerIds – odznak „nejnižší TER“", () => {
-  const ucits = buildPairs(dataset).map((pair) => pair.ucits.fund);
-  const [vuaa, cspx, spyl, spy5] = ucits;
+describe("groupByUcits a uniqueUcitsFunds – SPYL jen jednou", () => {
+  const pairs = buildPairs(dataset);
 
-  it("jediný nejnižší TER → jeden fond", () => {
-    expect(lowestTerIds([withTer(vuaa, 0.07), withTer(cspx, 0.07), withTer(spyl, 0.03), withTer(spy5, 0.05)])).toEqual([
-      "spyl",
+  it("každý UCITS fond je v seznamu právě jednou, v pořadí párů", () => {
+    expect(uniqueUcitsFunds(pairs).map((fund) => fund.ticker)).toEqual(["VUAA", "CSPX", "SPYL"]);
+  });
+
+  it("skupina SPYL obsahuje SPYM i SPY ve stejném pořadí jako páry", () => {
+    expect(groupByUcits(pairs).map((group) => [group.ucits.ticker, group.us.map((us) => us.ticker)])).toEqual([
+      ["VUAA", ["VOO"]],
+      ["CSPX", ["IVV"]],
+      ["SPYL", ["SPYM", "SPY"]],
     ]);
   });
 
+  it("skupiny pokrývají všechny americké fondy právě jednou", () => {
+    const usInGroups = groupByUcits(pairs).flatMap((group) => group.us.map((us) => us.fund.id));
+    expect(usInGroups.sort()).toEqual(pairs.map((pair) => pair.us.fund.id).sort());
+  });
+});
+
+describe("lowestTerIds – odznak „nejnižší TER“", () => {
+  const vuaa = fundById("vuaa");
+  const cspx = fundById("cspx");
+  const spyl = fundById("spyl");
+
+  it("jediný nejnižší TER → jeden fond", () => {
+    expect(lowestTerIds([withTer(vuaa, 0.07), withTer(cspx, 0.05), withTer(spyl, 0.03)])).toEqual(["spyl"]);
+  });
+
   it("shoda → odznak dostanou všechny shodné", () => {
-    expect(lowestTerIds([withTer(vuaa, 0.07), withTer(cspx, 0.07), withTer(spyl, 0.03), withTer(spy5, 0.03)])).toEqual([
-      "spyl",
-      "spy5",
-    ]);
+    expect(lowestTerIds([withTer(vuaa, 0.07), withTer(cspx, 0.03), withTer(spyl, 0.03)])).toEqual(["cspx", "spyl"]);
+  });
+
+  it("sdílené dvojče předané vícekrát dostane odznak jednou", () => {
+    const ucitsFromPairs = buildPairs(dataset).map((pair) => withTer(pair.ucits.fund, pair.ucits.fund.id === "spyl" ? 0.01 : 0.07));
+    expect(ucitsFromPairs.filter((fund) => fund.id === "spyl")).toHaveLength(2);
+    expect(lowestTerIds(ucitsFromPairs)).toEqual(["spyl"]);
   });
 
   it("neověřené nebo chybějící TER se nepočítá", () => {

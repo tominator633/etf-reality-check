@@ -1,5 +1,5 @@
 {
-  "datasetVersion": "2026-10-15.2",
+  "datasetVersion": "2026-10-15.3",
   "funds": [
     {
       "id": "voo",
@@ -335,7 +335,7 @@
         "verifiedAt": null
       },
       "relatedFundIds": [
-        "spy5"
+        "spyl"
       ],
       "role": "quiz-pair"
     },
@@ -597,93 +597,7 @@
         "verifiedAt": null
       },
       "relatedFundIds": [
-        "spym"
-      ],
-      "role": "quiz-pair"
-    },
-    {
-      "id": "spy5",
-      "name": "State Street SPDR S&P 500 UCITS ETF (Dist)",
-      "issuer": "State Street",
-      "domicile": "IE",
-      "regime": "UCITS",
-      "isin": {
-        "value": "IE00B6YX5C33",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY5",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      },
-      "index": {
-        "value": "S&P 500 Index",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY5",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      },
-      "ter": {
-        "value": 0.03,
-        "unit": "%",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY5",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      },
-      "aum": {
-        "value": null,
-        "unit": "bn USD",
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
-      },
-      "distribution": {
-        "value": "DIST",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY5",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka: Income Treatment – Distribution, Distribution Frequency – Quarterly."
-      },
-      "baseCurrency": {
-        "value": "USD",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY5",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Na stránce „Share Class Currency“."
-      },
-      "hedged": false,
-      "kidAvailableForEURetail": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
-      },
-      "relatedFundIds": [
+        "spym",
         "spy"
       ],
       "role": "quiz-pair"
@@ -851,33 +765,6 @@
         "source": {
           "label": "State Street – SPYL",
           "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      }
-    },
-    {
-      "fundId": "spy5",
-      "ticker": "SPY5",
-      "exchange": {
-        "value": "Deutsche Börse",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY5",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka označuje Deutsche Börse jako primární burzu."
-      },
-      "tradingCurrency": {
-        "value": "EUR",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY5",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy"
         },
         "asOf": "2026-10-15",
         "verifiedAt": "2026-10-15"

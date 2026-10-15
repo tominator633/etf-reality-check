@@ -81,6 +81,16 @@ export function checkData(rawDataset: unknown, rawAssumptions: unknown, options:
     }
 
     if (fund.role === "quiz-pair") {
+      if (fund.regime === "US-registered") {
+        // Jeden UCITS fond smí být dvojčetem víc amerických fondů, americký fond má ale dvojče právě jedno.
+        const twins = funds.filter(
+          (candidate) =>
+            candidate.role === "quiz-pair" && candidate.regime === "UCITS" && fund.relatedFundIds.includes(candidate.id),
+        );
+        if (twins.length !== 1) {
+          errors.push(`${fund.id}: americký fond v kvízu musí mít právě jedno UCITS dvojče (má ${twins.length})`);
+        }
+      }
       for (const key of REQUIRED_FOR_QUIZ) {
         if (fund[key].status === "unverified") {
           const message = `${fund.id}.${key}: neověřeno (povinné pro kvíz)`;
