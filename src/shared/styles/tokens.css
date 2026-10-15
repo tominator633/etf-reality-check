@@ -1,5 +1,5 @@
 /*
- * Paleta podle Toma (15. 10. 2026): #FFC349, #525EA7, #5FACD3, #97DDE9, bílé pozadí s lehkým
+ * Paleta podle Toma (15. 10. 2026): #FFC349, #57008E, #5FACD3, #97DDE9, bílé pozadí s lehkým
  * gradientem. Odvozené odstíny (inkoust, šedé karty, hover) jsou návrh – doladí se.
  *
  * Jediné místo pro barvy, typografii, mezery, rádiusy, stíny a délky přechodů.
@@ -11,17 +11,17 @@
 :root {
   /* Paleta (Tom) */
   --palette-yellow: #ffc349; /* jen plocha s tmavým textem – jako text na bílé má 1,6 : 1 */
-  --palette-indigo: #525ea7; /* text i plocha (5,97 : 1 na bílé) */
+  --palette-purple: #57008e; /* text i plocha (11,7 : 1 na bílé); nahradila #525EA7 */
   --palette-sky: #5facd3; /* jen dekorace – jako text na bílé má 2,5 : 1 */
   --palette-cyan: #97dde9; /* jen pozadí s tmavým textem; teď nepoužitá (čipy v hero nahradily malé karty) */
 
   /* Barvy – podklad a inkoust */
   --color-bg: #ffffff; /* bílý podklad stránky */
   --color-bg-tint: #ffde9b; /* žlutá nahoře v gradientu: 55 % #FFC349 + 45 % bílé */
-  --color-bg-tint-bottom: #d4d7e9; /* indigo dole v gradientu: 25 % #525EA7 + 75 % bílé */
+  --color-bg-tint-bottom: #e6d9ee; /* fialová dole v gradientu: 15 % #57008E + 85 % bílé */
   /* Gradient pozadí: žlutá za celým hero (plná do --gradient-top-solid, do bílé v --gradient-top-end),
-     bílá uprostřed, dole indigo (posledních --gradient-bottom-length stránky). Na indigovém konci
-     indigo text nestačí (4,2 : 1) – barevný text dole jen na bílých kartách. */
+     bílá uprostřed, dole fialová (posledních --gradient-bottom-length stránky). Silnější fialová dole
+     by nestačila červenému textu chyb (při 25 % jen 3,9 : 1). */
   --gradient-top-solid: 8rem;
   --gradient-top-end: 26rem;
   --gradient-bottom-length: 18rem;
@@ -36,19 +36,19 @@
   --color-surface: #ffffff; /* karty, formulář */
   --color-ink: #161a33; /* hlavní text (tmavě modrošedý) */
   --color-ink-muted: #4a5072; /* vedlejší text, popisky */
-  --color-hero-title: var(--palette-indigo); /* H1 v hero (Tom); na žlutém podkladu 4,6 : 1 */
+  --color-hero-title: var(--palette-purple); /* H1 v hero (Tom); na žlutém podkladu 9 : 1 */
   --color-border: #7c82a0; /* okraje polí a karet (≥ 3 : 1 vůči podkladu) */
   --color-border-subtle: #e3e7ef; /* dekorativní oddělovače, stopa jezdce */
 
-  /* Akcent: částky poplatků (indigo text) a CTA (žlutá plocha s tmavým textem) */
-  --color-accent: var(--palette-indigo);
+  /* Akcent: částky poplatků (fialový text) a CTA (žlutá plocha s tmavým textem) */
+  --color-accent: var(--palette-purple);
   --color-accent-fill: var(--palette-yellow);
   --color-on-accent-fill: #161a33;
   --color-accent-fill-hover: #f5b12e;
   --color-accent-fill-border: var(--color-ink); /* obrys žlutého CTA – na žlutém podkladu by plocha splynula */
 
   /* Zvolená odpověď kvízu */
-  --color-selected: var(--palette-indigo);
+  --color-selected: var(--palette-purple);
   --color-on-selected: #ffffff;
 
   /* Dekorace a zvýraznění */
@@ -65,7 +65,7 @@
 
   /* Stavy */
   --color-error: #b42318;
-  --color-focus: var(--palette-indigo);
+  --color-focus: var(--palette-purple);
 
   /* Typografie – IBM Plex Sans Condensed přes next/font (shared/lib/fonts.ts), systémový fallback */
   --font-sans: var(--font-plex-sans-condensed), system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
