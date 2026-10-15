@@ -589,7 +589,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 | 3 | `projection.ts`, `pairs.ts`, `format.ts` + unit testy | MUST | `feat(reality-check): výpočet poplatků + testy` | ✅ |
 | 4 | `content/copy.ts` a `hero-variants.ts` z `brief.md` (chybějící texty jako `[[CHYBÍ TEXT]]`) | MUST | `feat(content): texty stránky` | ✅ (texty se průběžně mění) |
 | 5 | Hero + otázka + odhalení (páry, karty, jezdce) | MUST | po komponentách | ✅ |
-| 6 | `db/schema.sql`, `save-lead.ts`, `/api/lead`, `lead-capture` + stavy chyb | MUST | `feat(lead): formulář a uložení do Neonu` | ✅ kód a testy; chybí `DATABASE_URL` (Tom) |
+| 6 | `db/schema.sql`, `save-lead.ts`, `/api/lead`, `lead-capture` + stavy chyb | MUST | `feat(lead): formulář a uložení do Neonu` | ✅ ověřeno proti Neonu lokálně (API i formulář, duplicita) |
 | 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` | stav úspěchu hotový, PDF a `use-lead-status` chybí |
 | 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` | – |
 | 9 | Varianty hero A/B, middleware/proxy, `ads/` | MUST | `feat(ads): varianty pro reklamy` | částka hero B počítaná (`buildHeroValues`), zbytek – |
