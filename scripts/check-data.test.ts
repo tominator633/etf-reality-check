@@ -59,7 +59,7 @@ describe("checkData", () => {
 
   it("neověřená hodnota, která není null → chyba", () => {
     const data = clone(dataset);
-    (data.funds[0].ter as { value: unknown }).value = 0.03;
+    Object.assign(data.funds[0].ter, { value: 0.03, status: "unverified", source: null, verifiedAt: null });
     expect(checkData(data, assumptions, dev).errors).toContainEqual(
       expect.stringContaining("neověřená hodnota musí být null"),
     );

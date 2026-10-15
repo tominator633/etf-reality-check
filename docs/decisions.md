@@ -54,3 +54,11 @@ Formát: datum · co · proč. Nová rozhodnutí připisuj na konec. Podklad pro
 - **15. 10. 2026 · Rozpor brief kap. 10 / tech-spec 4.3 × zadání session: hodnoty State Street (SPYM, SPYL, SPY5) jsou zatím `null`.** Dokumenty je vedou jako ověřené, ale bez URL a data; bez zdroje je `check-data` nepřijme. Ověřují se v kroku 2b.
 - **15. 10. 2026 · `hedged: false` u všech 8 fondů.** Schéma vyžaduje boolean bez zdroje; žádný z fondů nemá v názvu „Hedged“. Ověřit spolu s ostatními údaji.
 - **15. 10. 2026 · Jedna kótace na fond (ticker z briefu), burza i měna obchodování `null`.** UCITS fondy se obchodují na více burzách; kterou kótaci ukázat, rozhodne ověření u správce.
+- **15. 10. 2026 · Ověření u správců (krok 2b): hodnoty čteny ze serverem vráceného HTML (curl) nebo z vykresleného textu (VOO, vestavěný prohlížeč), nikdy ze shrnutí vyhledávače.** Vyhledávání sloužilo jen k nalezení stránky správce. Žádný výběr investora se neodklikával; u stránek Vanguard UK a State Street NL (verze „professional/intermediary“) server vrátil obsah bez výběru.
+- **15. 10. 2026 · `distribution: "DIST"` u amerických fondů = stránka uvádí čtvrtletní výplatu výnosů.** Schéma zná jen ACC/DIST; převod je zapsán v `note` každé hodnoty.
+- **15. 10. 2026 · TER u SPYM a SPY je „Gross Expense Ratio“ ze stránky State Street.** Čistý (net) poměr stránka neuvádí; poznámka u hodnoty.
+- **15. 10. 2026 · Index VUAA ponechán přesně podle stránky („S&P 500 Net Total Return“), u ostatních „S&P 500 Index“.** Nesjednocujeme text, který správce píše jinak.
+- **15. 10. 2026 · Burza VUAA a CSPX zůstává `null`.** Ticker je na více burzách a stránka správce primární neoznačuje (u SPYL a SPY5 ano: Deutsche Börse); volba kótace je produktové rozhodnutí pro Toma, možnosti jsou v `note`.
+- **15. 10. 2026 · ISIN VOO a IVV zůstává `null`.** Stránky správců uvádějí jen CUSIP; ISIN z CUSIPu neodvozujeme.
+- **15. 10. 2026 · `asOf` jen tam, kde stránka u hodnoty uvádí datum** (State Street „as of 15 Oct 2026“, VOO TER „as of 04/28/2026“); jinak `null`.
+- **15. 10. 2026 · Název SPYL/SPY5 upraven na „State Street SPDR S&P 500 UCITS ETF (Acc/Dist)“ podle stránky správce.**
