@@ -1,82 +1,87 @@
 {
-  "datasetVersion": "2026-10-15.3",
+  "datasetVersion": "2026-10-15.4",
+  "verifiedAt": "2026-10-15",
   "funds": [
     {
       "id": "voo",
       "name": "Vanguard S&P 500 ETF",
       "issuer": "Vanguard",
-      "domicile": "US",
-      "regime": "US-registered",
-      "isin": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null,
-        "note": "Stránka uvádí jen CUSIP, ISIN ne."
+      "type": "US",
+      "domicile": {
+        "value": "US",
+        "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+        "sourceLabel": "Vanguard – prospekt VOO",
+        "asOf": "2026-04-28",
+        "note": "Fond je americká registrovaná investiční společnost (Investment Company Act of 1940)."
       },
       "index": {
-        "value": "S&P 500 Index",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "Vanguard – VOO (profil fondu)",
-          "url": "https://investor.vanguard.com/investment-products/etfs/profile/voo"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15"
+        "value": "S&P 500",
+        "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+        "sourceLabel": "Vanguard – prospekt VOO",
+        "asOf": "2026-04-28"
       },
       "ter": {
         "value": 0.03,
-        "unit": "%",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "Vanguard – VOO (profil fondu)",
-          "url": "https://investor.vanguard.com/investment-products/etfs/profile/voo"
-        },
+        "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+        "sourceLabel": "Vanguard – prospekt VOO",
         "asOf": "2026-04-28",
-        "verifiedAt": "2026-10-15",
-        "note": "Na stránce „Expense ratio“."
+        "note": "Total Annual Fund Operating Expenses 0.03 % [Převedeno ze zlomku 0.0003 na procenta podle tech-spec 5.2.]"
       },
-      "aum": {
-        "value": null,
-        "unit": "bn USD",
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "isin": {
+        "value": "US9229083632",
+        "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+        "sourceLabel": "Vanguard – prospekt VOO (CUSIP)",
+        "asOf": "2026-04-28",
+        "note": "Odvozeno z CUSIP 922908363 podle ISO 6166. Shoda ověřena na Cbonds (https://cbonds.com/etf/33/), 15. 10. 2026."
       },
       "distribution": {
         "value": "DIST",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "Vanguard – VOO (profil fondu)",
-          "url": "https://investor.vanguard.com/investment-products/etfs/profile/voo"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka uvádí Distribution schedule: Quarterly."
+        "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+        "sourceLabel": "Vanguard – prospekt VOO",
+        "asOf": "2026-04-28",
+        "note": "Dividendy se vyplácejí čtvrtletně (březen, červen, září, prosinec)."
       },
       "baseCurrency": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+        "value": "USD",
+        "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+        "sourceLabel": "Vanguard – prospekt VOO",
+        "asOf": "2026-04-28",
+        "note": "Odvozeno: NAV a finanční údaje jsou v USD, „base currency“ prospekt výslovně neuvádí."
       },
-      "hedged": false,
-      "kidAvailableForEURetail": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "hedged": {
+        "value": false,
+        "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+        "sourceLabel": "Vanguard – prospekt VOO",
+        "asOf": "2026-04-28",
+        "note": "Odvozeno: fond drží americké akcie v USD, měnové zajištění prospekt nezmiňuje."
+      },
+      "listing": {
+        "exchange": {
+          "value": "NYSE Arca",
+          "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+          "sourceLabel": "Vanguard – prospekt VOO",
+          "asOf": "2026-04-28"
+        },
+        "ticker": {
+          "value": "VOO",
+          "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+          "sourceLabel": "Vanguard – prospekt VOO",
+          "asOf": "2026-04-28"
+        },
+        "tradingCurrency": {
+          "value": "USD",
+          "sourceUrl": "https://personal1.vanguard.com/pub/Pdf/p968.pdf",
+          "sourceLabel": "Vanguard – prospekt VOO",
+          "asOf": "2026-04-28",
+          "note": "Odvozeno: americká burza obchoduje v USD."
+        }
+      },
+      "czRetailAvailable": {
+        "value": false,
+        "sourceUrl": "https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:02014R1286-20240109",
+        "sourceLabel": "Nařízení Evropského parlamentu a Rady (EU) č. 1286/2014 (PRIIPs), čl. 13",
+        "asOf": "2026-10-15",
+        "note": "Nařízení vyžaduje KID pro retailové investory v EU. Vanguard pro VOO KID nevydává (na stránkách správce není, ověřeno 15. 10. 2026), proto ho EU broker retailovému investorovi obvykle nenabídne. Znění nařízení ke 2024-01-09."
       },
       "relatedFundIds": [
         "vuaa"
@@ -86,79 +91,84 @@
     {
       "id": "ivv",
       "name": "iShares Core S&P 500 ETF",
-      "issuer": "iShares",
-      "domicile": "US",
-      "regime": "US-registered",
-      "isin": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null,
-        "note": "Stránka uvádí jen CUSIP, ISIN ne."
+      "issuer": "iShares (BlackRock)",
+      "type": "US",
+      "domicile": {
+        "value": "US",
+        "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+        "sourceLabel": "iShares – stránka produktu IVV",
+        "asOf": "2026-10-15",
+        "note": "Fond je americká registrovaná investiční společnost (Investment Company Act of 1940)."
       },
       "index": {
-        "value": "S&P 500 Index",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) – IVV",
-          "url": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf"
-        },
-        "asOf": "2026-10-14",
-        "verifiedAt": "2026-10-15"
+        "value": "S&P 500",
+        "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+        "sourceLabel": "iShares – stránka produktu IVV",
+        "asOf": "2026-10-15",
+        "note": "Benchmark Index: S&P 500 Index"
       },
       "ter": {
         "value": 0.03,
-        "unit": "%",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) – IVV",
-          "url": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15",
-        "note": "Na stránce „Expense Ratio: Fees as stated in the prospectus“."
+        "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+        "sourceLabel": "iShares – stránka produktu IVV",
+        "asOf": "2026-10-15",
+        "note": "Expense Ratio 0.03 % podle aktuálního prospektu (stránka neuvádí datum, asOf = den ověření). [Převedeno ze zlomku 0.0003 na procenta podle tech-spec 5.2.]"
       },
-      "aum": {
-        "value": null,
-        "unit": "bn USD",
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "isin": {
+        "value": "US4642872000",
+        "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+        "sourceLabel": "iShares – stránka produktu IVV (CUSIP)",
+        "asOf": "2026-10-15",
+        "note": "Odvozeno z CUSIP 464287200 podle ISO 6166. Shoda ověřena na Cbonds (https://cbonds.com/etf/45/), 15. 10. 2026."
       },
       "distribution": {
         "value": "DIST",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) – IVV",
-          "url": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka uvádí výplatu výnosů čtvrtletně (Distribution Frequency: Quarterly)."
+        "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+        "sourceLabel": "iShares – stránka produktu IVV",
+        "asOf": "2026-10-15",
+        "note": "Distribution Frequency: Quarterly (čtvrtletní výplata dividend)."
       },
       "baseCurrency": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+        "value": "USD",
+        "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+        "sourceLabel": "iShares – stránka produktu IVV",
+        "asOf": "2026-10-15",
+        "note": "Odvozeno: NAV a čistá aktiva jsou uvedeny v USD, „base currency“ stránka výslovně neuvádí."
       },
-      "hedged": false,
-      "kidAvailableForEURetail": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "hedged": {
+        "value": false,
+        "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+        "sourceLabel": "iShares – stránka produktu IVV",
+        "asOf": "2026-10-15",
+        "note": "Odvozeno: fond drží americké akcie v USD, měnové zajištění stránka nezmiňuje."
+      },
+      "listing": {
+        "exchange": {
+          "value": "NYSE Arca",
+          "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+          "sourceLabel": "iShares – stránka produktu IVV",
+          "asOf": "2026-10-15"
+        },
+        "ticker": {
+          "value": "IVV",
+          "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+          "sourceLabel": "iShares – stránka produktu IVV",
+          "asOf": "2026-10-15"
+        },
+        "tradingCurrency": {
+          "value": "USD",
+          "sourceUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+          "sourceLabel": "iShares – stránka produktu IVV",
+          "asOf": "2026-10-15",
+          "note": "Odvozeno: americká burza obchoduje v USD, závěrečná cena je uvedena v USD."
+        }
+      },
+      "czRetailAvailable": {
+        "value": false,
+        "sourceUrl": "https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:02014R1286-20240109",
+        "sourceLabel": "Nařízení Evropského parlamentu a Rady (EU) č. 1286/2014 (PRIIPs), čl. 13",
+        "asOf": "2026-10-15",
+        "note": "Nařízení vyžaduje KID pro retailové investory v EU. iShares pro IVV KID nevydává (mezi dokumenty fondu není, ověřeno 15. 10. 2026), proto ho EU broker retailovému investorovi obvykle nenabídne. Znění nařízení ke 2024-01-09."
       },
       "relatedFundIds": [
         "cspx"
@@ -168,84 +178,81 @@
     {
       "id": "spym",
       "name": "State Street SPDR Portfolio S&P 500 ETF",
-      "issuer": "State Street",
-      "domicile": "US",
-      "regime": "US-registered",
-      "isin": {
-        "value": "US78464A8541",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYM",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym"
-        },
+      "issuer": "State Street Investment Management",
+      "type": "US",
+      "domicile": {
+        "value": "US",
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+        "sourceLabel": "State Street – stránka produktu SPYM",
         "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+        "note": "Fond je klasifikován podle amerického Investment Company Act of 1940."
       },
       "index": {
-        "value": "S&P 500 Index",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYM",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym"
-        },
+        "value": "S&P 500",
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+        "sourceLabel": "State Street – stránka produktu SPYM, Fund Information",
         "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+        "note": "Benchmark: S&P 500 Index (od 24. 1. 2020, dříve jiné indexy)."
       },
       "ter": {
         "value": 0.02,
-        "unit": "%",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYM",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym"
-        },
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+        "sourceLabel": "State Street – stránka produktu SPYM, Fund Information",
         "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Na stránce „Gross Expense Ratio“."
+        "note": "Gross Expense Ratio 0.02 % (hrubý, před případnými slevami; dle stránky převzato z aktuálního prospektu). [Převedeno ze zlomku 0.0002 na procenta podle tech-spec 5.2.]"
       },
-      "aum": {
-        "value": null,
-        "unit": "bn USD",
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "isin": {
+        "value": "US78464A8541",
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+        "sourceLabel": "State Street – stránka produktu SPYM, Listing Information",
+        "asOf": "2026-10-15"
       },
       "distribution": {
         "value": "DIST",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYM",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym"
-        },
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+        "sourceLabel": "State Street – stránka produktu SPYM, Fund Information",
         "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka uvádí výplatu výnosů čtvrtletně (Distribution Frequency: Quarterly)."
+        "note": "Distribution Frequency: Quarterly (čtvrtletní výplata dividend)."
       },
       "baseCurrency": {
         "value": "USD",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYM",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+        "sourceLabel": "State Street – stránka produktu SPYM, Fund Information",
+        "asOf": "2026-10-15"
       },
-      "hedged": false,
-      "kidAvailableForEURetail": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "hedged": {
+        "value": false,
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+        "sourceLabel": "State Street – stránka produktu SPYM",
+        "asOf": "2026-10-15",
+        "note": "Odvozeno: fond drží americké akcie v USD, měnové zajištění stránka nezmiňuje."
+      },
+      "listing": {
+        "exchange": {
+          "value": "NYSE Arca",
+          "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+          "sourceLabel": "State Street – stránka produktu SPYM, Listing Information",
+          "asOf": "2026-10-15"
+        },
+        "ticker": {
+          "value": "SPYM",
+          "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+          "sourceLabel": "State Street – stránka produktu SPYM, Listing Information",
+          "asOf": "2026-10-15"
+        },
+        "tradingCurrency": {
+          "value": "USD",
+          "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+          "sourceLabel": "State Street – stránka produktu SPYM, Listing Information",
+          "asOf": "2026-10-15"
+        }
+      },
+      "czRetailAvailable": {
+        "value": false,
+        "sourceUrl": "https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:02014R1286-20240109",
+        "sourceLabel": "Nařízení Evropského parlamentu a Rady (EU) č. 1286/2014 (PRIIPs), čl. 13",
+        "asOf": "2026-10-15",
+        "note": "Nařízení vyžaduje KID pro retailové investory v EU. State Street pro SPYM KID nevydává a stránka fondu uvádí, že produkty jsou určeny jen osobám v USA (Information for Non-U.S. Investors), ověřeno 15. 10. 2026. Proto ho EU broker retailovému investorovi obvykle nenabídne. Znění nařízení ke 2024-01-09."
       },
       "relatedFundIds": [
         "spyl"
@@ -254,85 +261,82 @@
     },
     {
       "id": "spy",
-      "name": "SPDR S&P 500 ETF Trust",
-      "issuer": "State Street",
-      "domicile": "US",
-      "regime": "US-registered",
-      "isin": {
-        "value": "US78462F1030",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy"
-        },
+      "name": "State Street SPDR S&P 500 ETF Trust",
+      "issuer": "State Street Investment Management",
+      "type": "US",
+      "domicile": {
+        "value": "US",
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+        "sourceLabel": "State Street – stránka produktu SPY",
         "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+        "note": "Odvozeno: SPY je americký unit investment trust (podílový trust) kotovaný na NYSE Arca, správce i trustee jsou americké společnosti State Street."
       },
       "index": {
-        "value": "S&P 500 Index",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy"
-        },
+        "value": "S&P 500",
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+        "sourceLabel": "State Street – stránka produktu SPY, Fund Information",
         "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+        "note": "Benchmark: S&P 500 Index"
       },
       "ter": {
         "value": 0.0945,
-        "unit": "%",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy"
-        },
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+        "sourceLabel": "State Street – stránka produktu SPY, Fund Information",
         "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Na stránce „Gross Expense Ratio“."
+        "note": "Gross Expense Ratio 0.0945 % (hrubý, před případnými slevami; dle stránky převzato z aktuálního prospektu). [Převedeno ze zlomku 0.000945 na procenta podle tech-spec 5.2.]"
       },
-      "aum": {
-        "value": null,
-        "unit": "bn USD",
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "isin": {
+        "value": "US78462F1030",
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+        "sourceLabel": "State Street – stránka produktu SPY, Listing Information",
+        "asOf": "2026-10-15"
       },
       "distribution": {
         "value": "DIST",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy"
-        },
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+        "sourceLabel": "State Street – stránka produktu SPY, Fund Information",
         "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka uvádí výplatu výnosů čtvrtletně (Distribution Frequency: Quarterly)."
+        "note": "Distribution Frequency: Quarterly (čtvrtletní výplata dividend)."
       },
       "baseCurrency": {
         "value": "USD",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+        "sourceLabel": "State Street – stránka produktu SPY, Fund Information",
+        "asOf": "2026-10-15"
       },
-      "hedged": false,
-      "kidAvailableForEURetail": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "hedged": {
+        "value": false,
+        "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+        "sourceLabel": "State Street – stránka produktu SPY",
+        "asOf": "2026-10-15",
+        "note": "Odvozeno: fond drží americké akcie v USD, měnové zajištění stránka nezmiňuje."
+      },
+      "listing": {
+        "exchange": {
+          "value": "NYSE Arca",
+          "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+          "sourceLabel": "State Street – stránka produktu SPY, Listing Information",
+          "asOf": "2026-10-15"
+        },
+        "ticker": {
+          "value": "SPY",
+          "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+          "sourceLabel": "State Street – stránka produktu SPY, Listing Information",
+          "asOf": "2026-10-15"
+        },
+        "tradingCurrency": {
+          "value": "USD",
+          "sourceUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+          "sourceLabel": "State Street – stránka produktu SPY, Listing Information",
+          "asOf": "2026-10-15"
+        }
+      },
+      "czRetailAvailable": {
+        "value": false,
+        "sourceUrl": "https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:02014R1286-20240109",
+        "sourceLabel": "Nařízení Evropského parlamentu a Rady (EU) č. 1286/2014 (PRIIPs), čl. 13",
+        "asOf": "2026-10-15",
+        "note": "Nařízení vyžaduje KID pro retailové investory v EU. State Street pro SPY KID nevydává a stránka fondu uvádí, že produkty jsou určeny jen osobám v USA (Information for Non-U.S. Investors), ověřeno 15. 10. 2026. Proto ho EU broker retailovému investorovi obvykle nenabídne. Znění nařízení ke 2024-01-09."
       },
       "relatedFundIds": [
         "spyl"
@@ -343,84 +347,80 @@
       "id": "vuaa",
       "name": "Vanguard S&P 500 UCITS ETF (USD) Accumulating",
       "issuer": "Vanguard",
-      "domicile": "IE",
-      "regime": "UCITS",
-      "isin": {
-        "value": "IE00BFMXXD54",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "Vanguard UK – S&P 500 UCITS ETF (USD) Accumulating",
-          "url": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15"
+      "type": "UCITS",
+      "domicile": {
+        "value": "IE",
+        "sourceUrl": "https://fund-docs.vanguard.com/ie00bfmxxd54_priipskid_en.pdf",
+        "sourceLabel": "Vanguard – KID VUAA (29. 9. 2026)",
+        "asOf": "2026-09-29",
+        "note": "Podfond Vanguard Funds plc, UCITS schválený Central Bank of Ireland."
       },
       "index": {
-        "value": "S&P 500 Net Total Return",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "Vanguard UK – S&P 500 UCITS ETF (USD) Accumulating",
-          "url": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15",
-        "note": "Benchmark podle stránky; cíl fondu: sledovat Standard and Poor’s 500 Index."
+        "value": "S&P 500",
+        "sourceUrl": "https://fund-docs.vanguard.com/ie00bfmxxd54_priipskid_en.pdf",
+        "sourceLabel": "Vanguard – KID VUAA (29. 9. 2026)",
+        "asOf": "2026-09-29",
+        "note": "Fond sleduje Standard and Poor's 500 Index."
       },
       "ter": {
         "value": 0.07,
-        "unit": "%",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "Vanguard UK – S&P 500 UCITS ETF (USD) Accumulating",
-          "url": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15",
-        "note": "Na stránce „OCF/TER“."
+        "sourceUrl": "https://fund-docs.vanguard.com/ie00bfmxxd54_priipskid_en.pdf",
+        "sourceLabel": "Vanguard – KID VUAA (29. 9. 2026)",
+        "asOf": "2026-09-29",
+        "note": "Management fees and other administrative or operating costs 0.07 % p.a. [Převedeno ze zlomku 0.0007 na procenta podle tech-spec 5.2.]"
       },
-      "aum": {
-        "value": null,
-        "unit": "bn USD",
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "isin": {
+        "value": "IE00BFMXXD54",
+        "sourceUrl": "https://fund-docs.vanguard.com/ie00bfmxxd54_priipskid_en.pdf",
+        "sourceLabel": "Vanguard – KID VUAA (29. 9. 2026)",
+        "asOf": "2026-09-29"
       },
       "distribution": {
         "value": "ACC",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "Vanguard UK – S&P 500 UCITS ETF (USD) Accumulating",
-          "url": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka: všechny dividendy se reinvestují (Accumulation)."
+        "sourceUrl": "https://fund-docs.vanguard.com/ie00bfmxxd54_priipskid_en.pdf",
+        "sourceLabel": "Vanguard – KID VUAA (29. 9. 2026)",
+        "asOf": "2026-09-29",
+        "note": "Výnosy se reinvestují a promítají do ceny akcií."
       },
       "baseCurrency": {
         "value": "USD",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "Vanguard UK – S&P 500 UCITS ETF (USD) Accumulating",
-          "url": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15"
+        "sourceUrl": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating",
+        "sourceLabel": "Vanguard UK – stránka produktu VUAA, Purchase information",
+        "asOf": "2026-10-15"
       },
-      "hedged": false,
-      "kidAvailableForEURetail": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "hedged": {
+        "value": false,
+        "sourceUrl": "https://fund-docs.vanguard.com/ie00bfmxxd54_priipskid_en.pdf",
+        "sourceLabel": "Vanguard – KID VUAA (29. 9. 2026)",
+        "asOf": "2026-09-29",
+        "note": "Odvozeno: KID upozorňuje na měnové riziko a zajištění nezmiňuje."
+      },
+      "listing": {
+        "exchange": {
+          "value": "Xetra (Deutsche Börse)",
+          "sourceUrl": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating",
+          "sourceLabel": "Vanguard UK – stránka produktu VUAA, Fund codes: EUR – Deutsche Boerse",
+          "asOf": "2026-10-15"
+        },
+        "ticker": {
+          "value": "VUAA",
+          "sourceUrl": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating",
+          "sourceLabel": "Vanguard UK – stránka produktu VUAA, Fund codes: EUR – Deutsche Boerse",
+          "asOf": "2026-10-15"
+        },
+        "tradingCurrency": {
+          "value": "EUR",
+          "sourceUrl": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating",
+          "sourceLabel": "Vanguard UK – stránka produktu VUAA, Fund codes: EUR – Deutsche Boerse",
+          "asOf": "2026-10-15"
+        }
+      },
+      "czRetailAvailable": {
+        "value": true,
+        "sourceUrl": "https://fund-docs.vanguard.com/ie00bfmxxd54_priipskid_en.pdf",
+        "sourceLabel": "Vanguard – KID VUAA (29. 9. 2026)",
+        "asOf": "2026-09-29",
+        "note": "Fond má PRIIPs KID vyžadovaný pro retailové investory v EU a podle KID je registrován k prodeji v dalších státech EHP. Českou republiku KID jmenovitě neuvádí."
       },
       "relatedFundIds": [
         "voo"
@@ -429,85 +429,83 @@
     },
     {
       "id": "cspx",
-      "name": "iShares Core S&P 500 UCITS ETF",
-      "issuer": "iShares",
-      "domicile": "IE",
-      "regime": "UCITS",
-      "isin": {
-        "value": "IE00B5BMR087",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) UK – CSPX",
-          "url": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15"
+      "name": "iShares Core S&P 500 UCITS ETF USD (Acc)",
+      "issuer": "iShares (BlackRock)",
+      "type": "UCITS",
+      "domicile": {
+        "value": "IE",
+        "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+        "sourceLabel": "iShares – stránka produktu CSPX, Key Facts",
+        "asOf": "2026-10-15",
+        "note": "Domicile: Ireland; UCITS: Yes; Issuing Company: iShares VII plc."
       },
       "index": {
-        "value": "S&P 500 Index",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) UK – CSPX",
-          "url": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15"
+        "value": "S&P 500",
+        "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+        "sourceLabel": "iShares – stránka produktu CSPX, Key Facts",
+        "asOf": "2026-10-15",
+        "note": "Benchmark Index: S&P 500 Index"
       },
       "ter": {
         "value": 0.07,
-        "unit": "%",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) UK – CSPX",
-          "url": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15",
-        "note": "Na stránce „Total Expense Ratio“."
+        "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+        "sourceLabel": "iShares – stránka produktu CSPX, Key Facts",
+        "asOf": "2026-10-15",
+        "note": "Total Expense Ratio 0.07 % (stránka neuvádí datum, asOf = den ověření). [Převedeno ze zlomku 0.0007 na procenta podle tech-spec 5.2.]"
       },
-      "aum": {
-        "value": null,
-        "unit": "bn USD",
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "isin": {
+        "value": "IE00B5BMR087",
+        "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+        "sourceLabel": "iShares – stránka produktu CSPX, Key Facts",
+        "asOf": "2026-10-15"
       },
       "distribution": {
         "value": "ACC",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) UK – CSPX",
-          "url": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka: Use of Income – Accumulating."
+        "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+        "sourceLabel": "iShares – stránka produktu CSPX, Key Facts",
+        "asOf": "2026-10-15",
+        "note": "Use of Income: Accumulating"
       },
       "baseCurrency": {
         "value": "USD",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) UK – CSPX",
-          "url": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15"
+        "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+        "sourceLabel": "iShares – stránka produktu CSPX, Key Facts",
+        "asOf": "2026-10-15"
       },
-      "hedged": false,
-      "kidAvailableForEURetail": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "hedged": {
+        "value": false,
+        "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+        "sourceLabel": "iShares – stránka produktu CSPX",
+        "asOf": "2026-10-15",
+        "note": "Odvozeno: podle stránky mají měnově zajištěné třídy v názvu slovo „Hedged“; třída USD (Acc) ho nemá."
+      },
+      "listing": {
+        "exchange": {
+          "value": "Xetra (Deutsche Börse)",
+          "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+          "sourceLabel": "iShares – stránka produktu CSPX, Listings: Deutsche Boerse Xetra",
+          "asOf": "2026-10-15"
+        },
+        "ticker": {
+          "value": "SXR8",
+          "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+          "sourceLabel": "iShares – stránka produktu CSPX, Listings: Deutsche Boerse Xetra",
+          "asOf": "2026-10-15",
+          "note": "Na Xetře se fond obchoduje pod tickerem SXR8, ne CSPX (CSPX je ticker na London Stock Exchange v USD)."
+        },
+        "tradingCurrency": {
+          "value": "EUR",
+          "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+          "sourceLabel": "iShares – stránka produktu CSPX, Listings: Deutsche Boerse Xetra",
+          "asOf": "2026-10-15"
+        }
+      },
+      "czRetailAvailable": {
+        "value": true,
+        "sourceUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+        "sourceLabel": "iShares – stránka produktu CSPX, Registered Locations",
+        "asOf": "2026-10-15",
+        "note": "Česká republika je výslovně uvedena mezi zeměmi registrace fondu."
       },
       "relatedFundIds": [
         "ivv"
@@ -517,258 +515,89 @@
     {
       "id": "spyl",
       "name": "State Street SPDR S&P 500 UCITS ETF (Acc)",
-      "issuer": "State Street",
-      "domicile": "IE",
-      "regime": "UCITS",
-      "isin": {
-        "value": "IE000XZSV718",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYL",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+      "issuer": "State Street Investment Management",
+      "type": "UCITS",
+      "domicile": {
+        "value": "IE",
+        "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+        "sourceLabel": "State Street – stránka produktu SPYL, Fund Information",
+        "asOf": "2026-10-14",
+        "note": "Domicile: Ireland; UCITS Compliant: Yes; Fund Umbrella: SSGA SPDR ETFs Europe I plc."
       },
       "index": {
-        "value": "S&P 500 Index",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYL",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+        "value": "S&P 500",
+        "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+        "sourceLabel": "State Street – stránka produktu SPYL, Fund Information",
+        "asOf": "2026-10-14",
+        "note": "Benchmark: S&P 500 Index"
       },
       "ter": {
         "value": 0.03,
-        "unit": "%",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYL",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
+        "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+        "sourceLabel": "State Street – stránka produktu SPYL, Fund Information",
+        "asOf": "2026-10-14",
+        "note": "TER 0,03 % [Převedeno ze zlomku 0.0003 na procenta podle tech-spec 5.2.]"
       },
-      "aum": {
-        "value": null,
-        "unit": "bn USD",
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "isin": {
+        "value": "IE000XZSV718",
+        "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+        "sourceLabel": "State Street – stránka produktu SPYL, Fund Information",
+        "asOf": "2026-10-14"
       },
       "distribution": {
         "value": "ACC",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYL",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka: Income Treatment – Accumulation."
+        "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+        "sourceLabel": "State Street – stránka produktu SPYL, Fund Information",
+        "asOf": "2026-10-14",
+        "note": "Income Treatment: Accumulation"
       },
       "baseCurrency": {
         "value": "USD",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYL",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Na stránce „Share Class Currency“."
+        "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+        "sourceLabel": "State Street – stránka produktu SPYL, Fund Information",
+        "asOf": "2026-10-14",
+        "note": "Share Class Currency: USD (stránka uvádí měnu třídy, ne základní měnu celého fondu)."
       },
-      "hedged": false,
-      "kidAvailableForEURetail": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
+      "hedged": {
+        "value": false,
+        "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+        "sourceLabel": "State Street – stránka produktu SPYL, výběr tříd",
+        "asOf": "2026-10-14",
+        "note": "Třída je označena jako USD Unhedged (Acc)."
+      },
+      "listing": {
+        "exchange": {
+          "value": "Xetra (Deutsche Börse)",
+          "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+          "sourceLabel": "State Street – stránka produktu SPYL, Listing and Ticker Information",
+          "asOf": "2026-10-14",
+          "note": "Deutsche Börse je primární burza fondu."
+        },
+        "ticker": {
+          "value": "SPYL",
+          "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+          "sourceLabel": "State Street – stránka produktu SPYL, Listing and Ticker Information",
+          "asOf": "2026-10-14"
+        },
+        "tradingCurrency": {
+          "value": "EUR",
+          "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+          "sourceLabel": "State Street – stránka produktu SPYL, Listing and Ticker Information",
+          "asOf": "2026-10-14"
+        }
+      },
+      "czRetailAvailable": {
+        "value": true,
+        "sourceUrl": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+        "sourceLabel": "State Street – stránka produktu SPYL, Fund Information: Countries of Registration",
+        "asOf": "2026-10-14",
+        "note": "Česká republika je výslovně uvedena mezi zeměmi registrace fondu."
       },
       "relatedFundIds": [
         "spym",
         "spy"
       ],
       "role": "quiz-pair"
-    }
-  ],
-  "listings": [
-    {
-      "fundId": "voo",
-      "ticker": "VOO",
-      "exchange": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null,
-        "note": "Stránka správce burzu neuvádí."
-      },
-      "tradingCurrency": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
-      }
-    },
-    {
-      "fundId": "ivv",
-      "ticker": "IVV",
-      "exchange": {
-        "value": "NYSE Arca",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "iShares (BlackRock) – IVV",
-          "url": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf"
-        },
-        "asOf": null,
-        "verifiedAt": "2026-10-15"
-      },
-      "tradingCurrency": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null,
-        "note": "Stránka měnu obchodování neuvádí."
-      }
-    },
-    {
-      "fundId": "spym",
-      "ticker": "SPYM",
-      "exchange": {
-        "value": "NYSE Arca",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYM",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      },
-      "tradingCurrency": {
-        "value": "USD",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYM",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      }
-    },
-    {
-      "fundId": "spy",
-      "ticker": "SPY",
-      "exchange": {
-        "value": "NYSE Arca",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      },
-      "tradingCurrency": {
-        "value": "USD",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPY",
-          "url": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      }
-    },
-    {
-      "fundId": "vuaa",
-      "ticker": "VUAA",
-      "exchange": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null,
-        "note": "Ticker VUAA je podle stránky správce na Deutsche Boerse (EUR), Borsa Italiana (EUR), London Stock Exchange (USD) a Bolsa Mexicana (MXN); primární burzu stránka neuvádí – vybere Tom."
-      },
-      "tradingCurrency": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
-      }
-    },
-    {
-      "fundId": "cspx",
-      "ticker": "CSPX",
-      "exchange": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null,
-        "note": "Ticker CSPX je podle stránky správce na London Stock Exchange (USD), Euronext Amsterdam (EUR), Bolsa Mexicana (MXN) a Santiago (USD); primární burzu stránka neuvádí – vybere Tom."
-      },
-      "tradingCurrency": {
-        "value": null,
-        "status": "unverified",
-        "type": "fact",
-        "source": null,
-        "asOf": null,
-        "verifiedAt": null
-      }
-    },
-    {
-      "fundId": "spyl",
-      "ticker": "SPYL",
-      "exchange": {
-        "value": "Deutsche Börse",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYL",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15",
-        "note": "Stránka označuje Deutsche Börse jako primární burzu."
-      },
-      "tradingCurrency": {
-        "value": "EUR",
-        "status": "verified",
-        "type": "fact",
-        "source": {
-          "label": "State Street – SPYL",
-          "url": "https://www.ssga.com/nl/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy"
-        },
-        "asOf": "2026-10-15",
-        "verifiedAt": "2026-10-15"
-      }
     }
   ]
 }

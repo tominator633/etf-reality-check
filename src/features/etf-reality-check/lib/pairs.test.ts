@@ -7,8 +7,8 @@ const dataset = datasetSchema.parse(etf);
 const clone = (): Dataset => structuredClone(dataset);
 
 // TER níž jsou vstupy testu, ne ověřená data.
-function withTer(fund: Fund, value: number | null, status: "verified" | "unverified" = "verified"): Fund {
-  return { ...fund, ter: { ...fund.ter, value, status } };
+function withTer(fund: Fund, value: number | null, sourced = true): Fund {
+  return { ...fund, ter: { ...fund.ter, value, sourceUrl: sourced ? fund.ter.sourceUrl : null } };
 }
 
 const fundById = (id: string) => dataset.funds.find((fund) => fund.id === id)!;
@@ -18,16 +18,28 @@ describe("buildPairs", () => {
     const pairs = buildPairs(dataset);
     expect(pairs.map((pair) => [pair.us.ticker, pair.ucits.ticker])).toEqual([
       ["VOO", "VUAA"],
-      ["IVV", "CSPX"],
+      ["IVV", "SXR8"],
       ["SPYM", "SPYL"],
       ["SPY", "SPYL"],
     ]);
   });
 
+  it("ticker se bere z listing.ticker, ne z id fondu (CSPX na Xetře = SXR8)", () => {
+    const cspx = buildPairs(dataset).find((pair) => pair.ucits.fund.id === "cspx")!.ucits;
+    expect(cspx.ticker).toBe(cspx.fund.listing.ticker.value);
+    expect(cspx.ticker).toBe("SXR8");
+  });
+
+  it("fond bez tickeru → výjimka", () => {
+    const data = clone();
+    data.funds.find((fund) => fund.id === "vuaa")!.listing.ticker.value = null;
+    expect(() => buildPairs(data)).toThrow(/vuaa nemá ticker/);
+  });
+
   it("každý pár je oboustranný a vlevo je vždy americký fond, vpravo UCITS", () => {
     for (const { us, ucits } of buildPairs(dataset)) {
-      expect(us.fund.regime).toBe("US-registered");
-      expect(ucits.fund.regime).toBe("UCITS");
+      expect(us.fund.type).toBe("US");
+      expect(ucits.fund.type).toBe("UCITS");
       expect(us.fund.relatedFundIds).toContain(ucits.fund.id);
       expect(ucits.fund.relatedFundIds).toContain(us.fund.id);
     }
@@ -69,13 +81,13 @@ describe("groupByUcits a uniqueUcitsFunds – SPYL jen jednou", () => {
   const pairs = buildPairs(dataset);
 
   it("každý UCITS fond je v seznamu právě jednou, v pořadí párů", () => {
-    expect(uniqueUcitsFunds(pairs).map((fund) => fund.ticker)).toEqual(["VUAA", "CSPX", "SPYL"]);
+    expect(uniqueUcitsFunds(pairs).map((fund) => fund.ticker)).toEqual(["VUAA", "SXR8", "SPYL"]);
   });
 
   it("skupina SPYL obsahuje SPYM i SPY ve stejném pořadí jako páry", () => {
     expect(groupByUcits(pairs).map((group) => [group.ucits.ticker, group.us.map((us) => us.ticker)])).toEqual([
       ["VUAA", ["VOO"]],
-      ["CSPX", ["IVV"]],
+      ["SXR8", ["IVV"]],
       ["SPYL", ["SPYM", "SPY"]],
     ]);
   });
@@ -105,8 +117,8 @@ describe("lowestTerIds – odznak „nejnižší TER“", () => {
     expect(lowestTerIds(ucitsFromPairs)).toEqual(["spyl"]);
   });
 
-  it("neověřené nebo chybějící TER se nepočítá", () => {
-    expect(lowestTerIds([withTer(vuaa, 0.01, "unverified"), withTer(cspx, null), withTer(spyl, 0.03)])).toEqual(["spyl"]);
-    expect(lowestTerIds([withTer(vuaa, null, "unverified")])).toEqual([]);
+  it("TER bez zdroje nebo chybějící TER se nepočítá", () => {
+    expect(lowestTerIds([withTer(vuaa, 0.01, false), withTer(cspx, null), withTer(spyl, 0.03)])).toEqual(["spyl"]);
+    expect(lowestTerIds([withTer(vuaa, null, false)])).toEqual([]);
   });
 });
