@@ -77,10 +77,25 @@ a {
   text-underline-offset: 0.15em;
 }
 
+/* Text jen pro čtečky obrazovky (a honeypot formuláře) */
+.visually-hidden {
+  position: absolute;
+  width: var(--border-width);
+  height: var(--border-width);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* Fokus jen při ovládání klávesnicí */
 :focus-visible {
   outline: var(--focus-ring-width) solid var(--color-focus);
   outline-offset: var(--focus-ring-offset);
+}
+
+/* Nadpisy a texty, na které přesouvá fokus skript (tabindex="-1"), nejsou ovládací prvky. */
+[tabindex="-1"]:focus-visible {
+  outline: none;
 }
 
 /* Omezení pohybu */

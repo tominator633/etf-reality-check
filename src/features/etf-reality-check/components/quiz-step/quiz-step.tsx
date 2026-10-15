@@ -32,7 +32,7 @@ export function QuizStep({ answer, onAnswer }: QuizStepProps) {
             >
               {chosen && <span aria-hidden="true">{result.symbol} </span>}
               {copy.quiz.answers[option]}
-              {chosen && <span className={styles.visuallyHidden}> – {result.label}</span>}
+              {chosen && <span className="visually-hidden"> – {result.label}</span>}
             </button>
           );
         })}

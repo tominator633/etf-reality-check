@@ -71,23 +71,19 @@ export const copy = {
   },
 
   lead: {
-    // brief kap. 7
-    heading: "Tohle byl jen S&P\u00a0500. Co když chcete víc než Ameriku?",
-    intro:
-      "Evropská dvojčata dalších populárních ETF a jak z nich poskládat celé portfolio najdete v taháku:",
-    benefits: [
-      "evropská dvojčata populárních NYSE ETF, nejen na S&P\u00a0500",
-      "jak poskládat celý svět ze dvou až tří fondů",
-      "na co si dát pozor u českého brokera a u daní",
-    ],
+    // Tom 15. 10. 2026: dvoukrokový formulář – nejdřív tlačítko, po kliknutí pole e-mail
+    offer: missingText("text nad tlačítkem: co návštěvník v PDF získá"),
+    cta: "CHCI KOMPLETNÍ SROVNÁNÍ V PDF",
     emailLabel: missingText("viditelný popisek pole e-mail"),
     emailPlaceholder: "vas@email.cz",
-    submit: "Poslat tahák",
+    submit: "Odeslat PDF",
+    // brief kap. 7
     downloadNote: "Tahák stáhnete hned po odeslání.",
     // brief kap. 7: zobrazit JEN při EMAIL_ENABLED=true
     emailAlsoNote: "pošleme vám ho i e-mailem",
     noSpam: "Žádný spam, odhlásit se můžete jedním kliknutím.",
     privacyLink: "zásady zpracování údajů",
+    consentVersionLabel: "Verze:",
     // tech-spec 7.1 a 7.2
     submitting: "Odesílám…",
     errors: {
@@ -127,6 +123,11 @@ export const copy = {
     heading: missingText("nadpis sekce Zdroje a metodika"),
     methodologyLink: missingText("text odkazu na /metodika"),
     disclaimer: missingText("upozornění: nejde o investiční ani daňové poradenství (finální znění)"),
+  },
+
+  privacy: {
+    title: missingText("nadpis stránky zásad zpracování osobních údajů"),
+    body: missingText("zásady zpracování osobních údajů: správce, účel, právní základ, doba uložení, práva, kontakt"),
   },
 
   footer: {

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { copy } from "@content/copy";
 import { formatCzk } from "@/shared/lib/format";
+import { storeQuizAnswer } from "@/shared/lib/quiz-answer-storage";
 import { clampInput, defaultInput, projectAll, type ProjectionInput } from "../../lib/projection";
 import { allFunds, type RealityCheckView } from "../../lib/view-model";
 import { AnswerReveal } from "../answer-reveal/answer-reveal";
@@ -49,7 +50,13 @@ export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
   return (
     <section className={styles.realityCheck}>
       {!answer && <UsFundPreview funds={view.usFunds} verifiedAt={view.verifiedAt} />}
-      <QuizStep answer={answer} onAnswer={setAnswer} />
+      <QuizStep
+        answer={answer}
+        onAnswer={(chosen) => {
+          setAnswer(chosen);
+          storeQuizAnswer(chosen); // pro lead (features spolu nesdílí stav)
+        }}
+      />
       {answer && (
         <div id="reveal-start" className={styles.reveal}>
           <AnswerReveal answer={answer} kidSource={view.kidSource} headingRef={revealHeading} />
