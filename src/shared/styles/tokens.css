@@ -47,9 +47,10 @@
   --color-accent-fill-hover: #f5b12e;
   --color-accent-fill-border: var(--color-ink); /* obrys žlutého CTA – na žlutém podkladu by plocha splynula */
 
-  /* Zvolená odpověď kvízu */
-  --color-selected: var(--palette-purple);
-  --color-on-selected: #ffffff;
+  /* Zvolená odpověď kvízu: zelená = správně (NE), červená = špatně (ANO) */
+  --color-answer-correct: #15803d;
+  --color-answer-wrong: var(--color-error);
+  --color-on-answer: #ffffff;
 
   /* Dekorace a zvýraznění */
   --color-decor: var(--palette-sky); /* proužky, ne text */

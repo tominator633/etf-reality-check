@@ -43,8 +43,23 @@
   color: var(--color-ink-muted);
 }
 
-.button[aria-pressed="true"] {
-  border-color: var(--color-selected);
-  background: var(--color-selected);
-  color: var(--color-on-selected);
+.button.correct {
+  border-color: var(--color-answer-correct);
+  background: var(--color-answer-correct);
+  color: var(--color-on-answer);
+}
+
+.button.wrong {
+  border-color: var(--color-answer-wrong);
+  background: var(--color-answer-wrong);
+  color: var(--color-on-answer);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: var(--border-width);
+  height: var(--border-width);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

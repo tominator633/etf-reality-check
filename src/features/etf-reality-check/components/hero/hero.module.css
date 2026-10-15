@@ -10,9 +10,28 @@
 }
 
 .subtitle {
-  font-size: var(--font-size-md);
+  display: grid;
+  gap: var(--space-1);
   line-height: var(--line-height-snug);
+}
+
+.lead {
   color: var(--color-ink-muted);
+  font-size: var(--font-size-md);
+}
+
+.middle {
+  color: var(--color-ink);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.punch {
+  color: var(--color-ink);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-tight);
 }
 
 @media (min-width: 40rem) {

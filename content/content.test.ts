@@ -37,7 +37,7 @@ describe("content", () => {
   it("hero B dosazuje částku i dobu z proměnných", () => {
     const values = { feeDifference: "«ČÁSTKA»", years: "«DOBA»" };
     expect(heroVariants.b.h1(values)).toContain("«ČÁSTKA»");
-    expect(heroVariants.b.subtitle(values)).toContain("«DOBA»");
+    expect(heroVariants.b.subtitle(values).join(" ")).toContain("«DOBA»");
   });
 
   it("souhrnná věta pod jezdci dosazuje všechny čtyři hodnoty", () => {

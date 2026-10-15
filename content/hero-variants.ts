@@ -17,7 +17,8 @@ export type HeroVariant = {
   utmContent: string;
   motivation: string;
   h1: (values: HeroValues) => string;
-  subtitle: (values: HeroValues) => string;
+  /** Podnadpis po řádcích; hero dává řádkům stupňovanou velikost (poslední = pointa). */
+  subtitle: (values: HeroValues) => string[];
 };
 
 export const heroVariants: Record<HeroVariantId, HeroVariant> = {
@@ -26,7 +27,12 @@ export const heroVariants: Record<HeroVariantId, HeroVariant> = {
     utmContent: "ad_a",
     motivation: "Není ETF jako ETF – zvědavost: jde to vůbec koupit?",
     h1: () => "NENÍ ETF JAKO ETF",
-    subtitle: () => "VOO, IVV, SPYM a SPY sledují stejný S&P\u00a0500. Liší se poplatkem.",
+    // Tom 15. 10. 2026: tři řádky místo „VOO, IVV, SPYM a SPY sledují stejný S&P 500. Liší se poplatkem.“
+    subtitle: () => [
+      "VOO, IVV, SPYM a SPY jsou populární americká ETF",
+      "všechny sledují stejný index S&P\u00a0500",
+      "Liší se poplatkem (TER)",
+    ],
   },
   b: {
     id: "b",
@@ -34,7 +40,7 @@ export const heroVariants: Record<HeroVariantId, HeroVariant> = {
     // Návrh ke schválení (brief kap. 16, bod 1).
     motivation: "Poplatek v korunách – strach z přeplácení",
     h1: ({ feeDifference }) => `STEJNÝ S&P\u00a0500, ROZDÍL ${feeDifference}`,
-    subtitle: ({ years }) => `Tolik dělá rozdíl v poplatku mezi fondy na stejný index za ${years}.`,
+    subtitle: ({ years }) => [`Tolik dělá rozdíl v poplatku mezi fondy na stejný index za ${years}.`],
   },
 };
 

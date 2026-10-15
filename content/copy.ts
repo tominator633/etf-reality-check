@@ -15,6 +15,11 @@ export const copy = {
     // Tom 15. 10. 2026 (zkráceno proti brief kap. 4, tickery a index říká podnadpis hero)
     question: "Můžete si je koupit v Česku?",
     answers: { ano: "ANO", ne: "NE" },
+    // výsledek u zvoleného tlačítka: symbol + text pro čtečky (barva nesmí být jediný nositel významu)
+    result: {
+      correct: { symbol: "✓", label: "správně" },
+      wrong: { symbol: "✗", label: "špatně" },
+    },
   },
 
   reveal: {
