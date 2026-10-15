@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { umamiConfig, umamiOrigin } from "./umami-config";
+import { umamiConfig, umamiConnectSources, umamiOrigin } from "./umami-config";
 
 const env = {
   NEXT_PUBLIC_UMAMI_WEBSITE_ID: "test-id",
@@ -25,3 +25,21 @@ describe("umamiConfig", () => {
     expect(umamiOrigin({ ...env, NEXT_PUBLIC_UMAMI_SCRIPT_URL: "script.js" })).toBeNull();
   });
 });
+
+describe("umamiConnectSources", () => {
+  it("Umami Cloud: origin skriptu + poddomény umami.is (data jdou na gateway.umami.is)", () => {
+    const cloud = { ...env, NEXT_PUBLIC_UMAMI_SCRIPT_URL: "https://cloud.umami.is/script.js" };
+    expect(umamiConnectSources(cloud)).toEqual(["https://cloud.umami.is", "https://*.umami.is"]);
+  });
+
+  it("vlastní instance: jen origin skriptu; vypnuté Umami: nic", () => {
+    expect(umamiConnectSources(env)).toEqual(["https://analytics.example.com"]);
+    expect(umamiConnectSources({})).toEqual([]);
+  });
+
+  it("podobně pojmenovaná cizí doména nedostane výjimku", () => {
+    const fake = { ...env, NEXT_PUBLIC_UMAMI_SCRIPT_URL: "https://evilumami.is/script.js" };
+    expect(umamiConnectSources(fake)).toEqual(["https://evilumami.is"]);
+  });
+});
+

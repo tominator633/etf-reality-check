@@ -454,7 +454,7 @@ export async function saveLead(lead: Lead): Promise<"created" | "duplicate"> {
 - `features/analytics/lib/track.ts`: `track(name, props?)` volá `window.umami?.track`, nikdy nevyhodí chybu, ve vývoji navíc `console.debug`. Všechny eventy automaticky doplní `variant` z `data-variant` na `<main>`. Typy hlídají max. 1 vlastnost navíc. `trackOnce()` = jednou za relaci (`sessionStorage`).
 - `features/analytics/hooks/use-track-in-view.ts`: ≥ 50 % ve viewportu, jednou za relaci, volitelná podmínka.
 - `features/analytics/lib/utm.ts`: `getUtm()` uloží UTM z první URL do `sessionStorage`, lead je posílá s sebou.
-- CSP v `next.config.ts` (varianta „bez nonce“ z dokumentace Next 16): `script-src`/`connect-src` jen `'self'` + origin skriptu Umami.
+- CSP v `next.config.ts` (varianta „bez nonce“ z dokumentace Next 16): `script-src` jen `'self'` + origin skriptu Umami, `connect-src` navíc poddomény `umami.is` (Umami Cloud posílá data na `gateway.umami.is`).
 
 ### 9.2 Eventy
 
@@ -596,7 +596,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 | 5 | Hero + otázka + odhalení (páry, karty, jezdce) | MUST | po komponentách | ✅ |
 | 6 | `db/schema.sql`, `save-lead.ts`, `/api/lead`, `lead-capture` + stavy chyb | MUST | `feat(lead): formulář a uložení do Neonu` | ✅ ověřeno proti Neonu lokálně (API i formulář, duplicita) |
 | 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` | stav úspěchu hotový, PDF a `use-lead-status` chybí |
-| 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` | ✅ kód, eventy a CSP; chybí účet Umami (env) |
+| 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` | ✅ (Umami Cloud napojený na produkci) |
 | 9 | Varianty hero A/B, middleware/proxy, `ads/` | MUST | `feat(ads): varianty pro reklamy` | částka hero B počítaná (`buildHeroValues`), zbytek – |
 | 10 | Nasazení na Vercel, Neon integrace, smoke test na telefonu | MUST | `chore(deploy): …` | – |
 | 11 | Doplnění ověřených dat (Tom) | MUST | `data: ověřené TER/ISIN k DD. MM. 2026` | ✅ |
