@@ -3,14 +3,33 @@ import { formatCzk, formatDate, formatTer } from "@/shared/lib/format";
 import type { FundView } from "../../lib/view-model";
 import styles from "./fund-card.module.css";
 
-type FundCardProps = { fund: FundView; feeCost: number | null; lowestTer: boolean };
+type FundCardProps =
+  | { variant?: "full"; fund: FundView; feeCost: number | null; lowestTer: boolean }
+  | { variant: "compact"; fund: FundView };
 
-// Ticker, správce, ACC/DIST (u UCITS), TER se zdrojem a jedno velké číslo „přijdete o X Kč“.
-export function FundCard({ fund, feeCost, lowestTer }: FundCardProps) {
+// Plná karta: ticker, správce, ACC/DIST (u UCITS), TER se zdrojem a jedno velké číslo „přijdete o X Kč“.
+// Malá karta (nad otázkou, před odpovědí): jen ticker a TER; zdroj TER je v řádku pod řadou karet.
+export function FundCard(props: FundCardProps) {
+  const { fund } = props;
   const { feeCost: feeText, unverified } = copy.fundCard;
+  const typeClass = fund.type === "US" ? styles.us : styles.ucits;
+  const ter = fund.ter === null ? unverified : formatTer(fund.ter);
+
+  if (props.variant === "compact") {
+    return (
+      <article className={`${styles.card} ${styles.compact} ${typeClass}`}>
+        <p className={styles.ticker}>{fund.ticker}</p>
+        <p className={styles.ter}>
+          {copy.fundCard.terLabel} <span className={styles.compactValue}>{ter}</span>
+        </p>
+      </article>
+    );
+  }
+
+  const { feeCost, lowestTer } = props;
 
   return (
-    <article className={`${styles.card} ${fund.type === "US" ? styles.us : styles.ucits}`}>
+    <article className={`${styles.card} ${typeClass}`}>
       <p className={styles.ticker}>{fund.ticker}</p>
       <p className={styles.issuer}>
         {fund.issuer}
@@ -23,7 +42,7 @@ export function FundCard({ fund, feeCost, lowestTer }: FundCardProps) {
         </p>
       )}
       <p className={styles.ter}>
-        {copy.fundCard.terLabel} {fund.ter === null ? unverified : formatTer(fund.ter)}
+        {copy.fundCard.terLabel} {ter}
         {fund.terSource && (
           <span className={styles.source}>
             {" · "}

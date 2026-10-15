@@ -9,6 +9,21 @@
   overflow-wrap: anywhere;
 }
 
+.compact {
+  gap: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.compact .ticker {
+  font-size: var(--font-size-lg);
+}
+
+.compactValue {
+  display: block;
+  white-space: nowrap;
+}
+
 .us {
   background: var(--color-us-card-bg);
   color: var(--color-us-card-ink);

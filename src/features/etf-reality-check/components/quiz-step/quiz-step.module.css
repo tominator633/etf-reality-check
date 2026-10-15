@@ -48,7 +48,3 @@
   background: var(--color-selected);
   color: var(--color-on-selected);
 }
-
-.hint {
-  color: var(--color-ink-muted);
-}

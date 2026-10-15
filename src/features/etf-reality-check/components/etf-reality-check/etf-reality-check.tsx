@@ -9,11 +9,13 @@ import { AnswerReveal } from "../answer-reveal/answer-reveal";
 import { FundPairGrid } from "../fund-pair-grid/fund-pair-grid";
 import { ProjectionSliders } from "../projection-sliders/projection-sliders";
 import { QuizStep, type Answer } from "../quiz-step/quiz-step";
+import { UsFundPreview } from "../us-fund-preview/us-fund-preview";
 import styles from "./etf-reality-check.module.css";
 
 type EtfRealityCheckProps = { view: RealityCheckView };
 
-// Kontejner kvízu: drží odpověď a jezdce. Odhalení se odkryje pod otázkou (tech-spec 6.1).
+// Kontejner kvízu: drží odpověď a jezdce. Před odpovědí malé karty amerických fondů nad otázkou,
+// po odpovědi zmizí a odhalení se odkryje pod otázkou (tech-spec 6.1).
 export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
   const [answer, setAnswer] = useState<Answer | null>(null);
   const [input, setInput] = useState<ProjectionInput>(defaultInput);
@@ -46,6 +48,7 @@ export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
 
   return (
     <section className={styles.realityCheck}>
+      {!answer && <UsFundPreview funds={view.usFunds} verifiedAt={view.verifiedAt} />}
       <QuizStep answer={answer} onAnswer={setAnswer} />
       {answer && (
         <div id="reveal-start" className={styles.reveal}>

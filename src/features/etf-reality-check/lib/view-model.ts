@@ -19,8 +19,10 @@ export type GroupView = { ucits: FundView; us: FundView[] };
 
 export type RealityCheckView = {
   groups: GroupView[];
-  /** Americké tickery v pořadí párů (čipy v hero). */
-  usTickers: string[];
+  /** Americké fondy v pořadí párů (malé karty nad otázkou). */
+  usFunds: FundView[];
+  /** Kdy byla data naposledy ověřena (etf.json verifiedAt). */
+  verifiedAt: string;
   /** UCITS fondy s odznakem „nejnižší TER“. */
   lowestTerIds: string[];
   /** Zdroj k tvrzení, že americká ETF drobný investor v EU obvykle nekoupí (czRetailAvailable). */
@@ -51,7 +53,8 @@ export function buildRealityCheckView(dataset: Dataset): RealityCheckView {
 
   return {
     groups: groups.map((group) => ({ ucits: toFundView(group.ucits), us: group.us.map(toFundView) })),
-    usTickers: pairs.map((pair) => pair.us.ticker),
+    usFunds: pairs.map((pair) => toFundView(pair.us)),
+    verifiedAt: dataset.verifiedAt,
     lowestTerIds: lowestTerIds(groups.map((group) => group.ucits.fund)),
     kidSource: firstUs ? toSource(firstUs.czRetailAvailable) : null,
   };

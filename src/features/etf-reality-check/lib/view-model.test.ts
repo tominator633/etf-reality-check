@@ -15,8 +15,14 @@ describe("buildRealityCheckView", () => {
     ]);
   });
 
-  it("čipy v hero = americké tickery v pořadí párů", () => {
-    expect(view.usTickers).toEqual(["VOO", "IVV", "SPYM", "SPY"]);
+  it("malé karty nad otázkou = americké fondy v pořadí párů, stejná data jako v levém sloupci", () => {
+    expect(view.usFunds.map((fund) => fund.ticker)).toEqual(["VOO", "IVV", "SPYM", "SPY"]);
+    const leftColumn = view.groups.flatMap((group) => group.us);
+    for (const fund of view.usFunds) expect(leftColumn).toContainEqual(fund);
+  });
+
+  it("datum ověření je z etf.json", () => {
+    expect(view.verifiedAt).toBe(dataset.verifiedAt);
   });
 
   it("allFunds vrací 7 fondů, žádný dvakrát", () => {

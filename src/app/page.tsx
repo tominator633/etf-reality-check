@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <main className={styles.page}>
-      <Hero h1={variant.h1(heroValues)} subtitle={variant.subtitle(heroValues)} tickers={view.usTickers} />
+      <Hero h1={variant.h1(heroValues)} subtitle={variant.subtitle(heroValues)} />
       <EtfRealityCheck view={view} />
     </main>
   );

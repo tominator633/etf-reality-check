@@ -25,7 +25,6 @@ export function QuizStep({ answer, onAnswer }: QuizStepProps) {
           </button>
         ))}
       </div>
-      <p className={styles.hint}>{copy.quiz.hint}</p>
     </fieldset>
   );
 }

@@ -15,8 +15,6 @@ export const copy = {
     // Tom 15. 10. 2026 (zkráceno proti brief kap. 4, tickery a index říká podnadpis hero)
     question: "Můžete si je koupit v Česku?",
     answers: { ano: "ANO", ne: "NE" },
-    // Tom 15. 10. 2026 (tech-spec 6.2 bez „· 1 otázka“)
-    hint: "Zdarma, bez registrace",
   },
 
   reveal: {
@@ -26,6 +24,11 @@ export const copy = {
       ne: missingText("první řádek odhalení po odpovědi NE (správně)"),
     },
     body: "Většinou ne. Americká ETF nemají dokument KID, který pravidla EU vyžadují, takže je drobný investor z EU obvykle nekoupí. Každé z nich má ale evropské dvojče na stejný index. A poplatky se liší.",
+  },
+
+  preview: {
+    // řádek pod malými kartami nad otázkou: TER tam nemá místo pro vlastní odkaz na zdroj
+    terSource: (date: string) => `TER podle stránek a dokumentů správců, ověřeno ${date}. Zdroje u karet po odpovědi.`,
   },
 
   pairGrid: {
