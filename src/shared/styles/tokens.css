@@ -18,10 +18,21 @@
   /* Barvy – podklad a inkoust */
   --color-bg: #ffffff; /* bílý podklad stránky */
   --color-bg-tint: #ffde9b; /* žlutá nahoře v gradientu: 55 % #FFC349 + 45 % bílé */
-  /* Gradient pozadí: žlutá nahoře (za hero) → bílá. Končí nad tlačítky ANO/NE, aby žlutá
-     tlačítka nestála na žlutém podkladu; dál je pozadí bílé. */
-  --gradient-page-length: 18rem;
-  --gradient-page: linear-gradient(180deg, var(--color-bg-tint) 0, var(--color-bg) var(--gradient-page-length));
+  --color-bg-tint-bottom: #d4d7e9; /* indigo dole v gradientu: 25 % #525EA7 + 75 % bílé */
+  /* Gradient pozadí: žlutá za celým hero (plná do --gradient-top-solid, do bílé v --gradient-top-end),
+     bílá uprostřed, dole indigo (posledních --gradient-bottom-length stránky). Na indigovém konci
+     indigo text nestačí (4,2 : 1) – barevný text dole jen na bílých kartách. */
+  --gradient-top-solid: 8rem;
+  --gradient-top-end: 26rem;
+  --gradient-bottom-length: 18rem;
+  --gradient-page: linear-gradient(
+    180deg,
+    var(--color-bg-tint) 0,
+    var(--color-bg-tint) var(--gradient-top-solid),
+    var(--color-bg) var(--gradient-top-end),
+    var(--color-bg) calc(100% - var(--gradient-bottom-length)),
+    var(--color-bg-tint-bottom) 100%
+  );
   --color-surface: #ffffff; /* karty, formulář */
   --color-ink: #161a33; /* hlavní text (tmavě modrošedý) */
   --color-ink-muted: #4a5072; /* vedlejší text, popisky */
@@ -33,6 +44,7 @@
   --color-accent-fill: var(--palette-yellow);
   --color-on-accent-fill: #161a33;
   --color-accent-fill-hover: #f5b12e;
+  --color-accent-fill-border: var(--color-ink); /* obrys žlutého CTA – na žlutém podkladu by plocha splynula */
 
   /* Zvolená odpověď kvízu */
   --color-selected: var(--palette-indigo);
@@ -116,6 +128,7 @@
 
   /* Okraje */
   --border-width: 0.0625rem; /* 1 px */
+  --border-width-strong: 0.125rem; /* 2 px */
   --focus-ring-width: 0.1875rem; /* 3 px */
   --focus-ring-offset: 0.125rem; /* 2 px */
 

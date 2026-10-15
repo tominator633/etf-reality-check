@@ -23,7 +23,7 @@
 
 .button {
   min-height: var(--touch-target);
-  border: 0;
+  border: var(--border-width-strong) solid var(--color-accent-fill-border);
   border-radius: var(--radius-md);
   background: var(--color-accent-fill);
   color: var(--color-on-accent-fill);
@@ -38,15 +38,15 @@
 
 .button:disabled {
   cursor: default;
+  border-color: var(--color-border);
   background: var(--color-surface);
   color: var(--color-ink-muted);
-  outline: var(--border-width) solid var(--color-border);
 }
 
 .button[aria-pressed="true"] {
+  border-color: var(--color-selected);
   background: var(--color-selected);
   color: var(--color-on-selected);
-  outline: 0;
 }
 
 .hint {

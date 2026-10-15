@@ -29,6 +29,9 @@ const TEXT_PAIRS: [foreground: string, background: string][] = [
   ["color-ink-muted", "color-bg-tint"],
   ["color-accent", "color-bg-tint"],
   ["color-error", "color-bg-tint"],
+  ["color-ink", "color-bg-tint-bottom"],
+  ["color-ink-muted", "color-bg-tint-bottom"],
+  ["color-error", "color-bg-tint-bottom"],
   ["color-on-selected", "color-selected"],
   ["color-on-highlight", "color-highlight"],
   ["color-ink", "color-surface"],
@@ -52,6 +55,7 @@ const UI_PAIRS: [foreground: string, background: string][] = [
   ["color-focus", "color-bg"],
   ["color-focus", "color-surface"],
   ["color-focus", "color-bg-tint"],
+  ["color-accent-fill-border", "color-accent-fill"],
 ];
 
 describe("tokens.css – kontrast", () => {
