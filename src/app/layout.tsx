@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { copy } from "@content/copy";
-import { plexSansCondensed } from "@/shared/lib/fonts";
+import { fontVariables } from "@/shared/lib/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="cs" className={plexSansCondensed.variable}>
+    <html lang="cs" className={fontVariables}>
       <body>{children}</body>
     </html>
   );

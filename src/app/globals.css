@@ -50,8 +50,9 @@ button {
 h1,
 h2,
 h3 {
+  font-family: var(--font-heading);
   line-height: var(--line-height-tight);
-  font-weight: var(--font-weight-black);
+  font-weight: var(--font-weight-heading);
   text-wrap: balance;
 }
 

@@ -9,8 +9,9 @@
 .question {
   padding: 0;
   margin-bottom: var(--space-3);
+  font-family: var(--font-heading);
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-heading);
   line-height: var(--line-height-snug);
 }
 

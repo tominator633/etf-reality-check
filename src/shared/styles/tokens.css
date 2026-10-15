@@ -59,6 +59,9 @@
   /* Typografie – IBM Plex Sans Condensed přes next/font (shared/lib/fonts.ts), systémový fallback */
   --font-sans: var(--font-plex-sans-condensed), system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-numeric: var(--font-sans);
+  /* Nadpisy – Bakbak One (jediný řez 400, proto vlastní váha; tučnější by byl umělý) */
+  --font-heading: var(--font-bakbak-one), var(--font-sans);
+  --font-weight-heading: 400;
 
   --font-size-sm: 1rem; /* 16 px – minimum pro text */
   --font-size-md: 1.125rem; /* 18 px */
