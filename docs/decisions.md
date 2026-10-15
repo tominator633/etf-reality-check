@@ -62,3 +62,8 @@ Formát: datum · co · proč. Nová rozhodnutí připisuj na konec. Podklad pro
 - **15. 10. 2026 · ISIN VOO a IVV zůstává `null`.** Stránky správců uvádějí jen CUSIP; ISIN z CUSIPu neodvozujeme.
 - **15. 10. 2026 · `asOf` jen tam, kde stránka u hodnoty uvádí datum** (State Street „as of 15 Oct 2026“, VOO TER „as of 04/28/2026“); jinak `null`.
 - **15. 10. 2026 · Název SPYL/SPY5 upraven na „State Street SPDR S&P 500 UCITS ETF (Acc/Dist)“ podle stránky správce.**
+- **15. 10. 2026 · `projection.ts` exportuje navíc `monthlyRate()` a `defaultInput`.** `monthlyRate` je pomocná funkce, kterou tech-spec 5.3 #10 testuje (převod na měsíční sazbu); `defaultInput` = výchozí jezdce z `assumptions.json` pro hero B a stav kvízu.
+- **15. 10. 2026 · `clampInput` přijímá i číselný text („5000“) a nekonečno bere jako neplatné → výchozí.** Hodnota z `<input type="range">` přichází jako text.
+- **15. 10. 2026 · `pairs.ts`: pořadí párů = pořadí amerických fondů v `etf.json`, odznak počítá jen z ověřeného TER.** Pořadí VOO, IVV, SPYM, SPY se mění v datech, ne v kódu; neověřené TER nesmí odznak získat ani ho ostatním vzít.
+- **15. 10. 2026 · `format.ts` nahrazuje mezery v datu nedělitelnými.** `Intl.DateTimeFormat("cs-CZ")` vrací `15. 10. 2026` s obyčejnými mezerami, tech-spec 0.11 chce nedělitelné.
+- **15. 10. 2026 · Veřejné API featury (`etf-reality-check/index.ts`) zatím nevzniklo.** Exportovalo by komponentu `EtfRealityCheck`, která přijde až v kroku 5 („nic na později“).
