@@ -1,4 +1,4 @@
-# 💻 5. TECHNICKÁ IMPLEMENTACE A FUNKČNOST (verze 3.1)
+# 💻 5. TECHNICKÁ IMPLEMENTACE A FUNKČNOST (verze 3.2)
 
 **Pro koho:** pro Claude Code (a pro Toma jako zadavatele). Technická specifikace landing page **ETF Reality Check** (zadání B pro Clientelo, termín 16. 10. 2026).
 **Vztah k ostatním dokumentům:** *co* a *proč* (cílovka, texty, pořadí sekcí, reklamy) je v `brief.md`. Tady je *jak*. Při rozporu platí `brief.md`; rozpor zapiš do `docs/decisions.md`.
@@ -7,6 +7,8 @@
 **Změny proti verzi 2:** koncept kalkulačka + srovnávač nahrazen kvízem ETF Reality Check (původně 2 otázky, páry NYSE ↔ UCITS, 3 jezdce). Přepsány sekce 3, 4.3, 4.5, 5, 6, 9, 10, 13, 14, 15. Zrušen hypotetický fond s TER 0,40 %, jednorázový vklad a zamčené (rozmazané) sekce. Eventy mají prefix `rc_`. Stack, formulář, API, databáze a bezpečnost beze změny.
 
 **Změny ve verzi 3.1 (15. 10. 2026):** zrušena otázka 2 (pruh alokace, `index-weights.json`, `allocation-bar`, event `rc_q2_answer`, sloupec `quiz_q2`). Kvíz má jedinou otázku, formulář následuje hned po odhalení.
+
+**Změny ve verzi 3.2 (15. 10. 2026 večer, podle `docs/decisions.md`):** SPY5 vyřazen, SPY → SPYL (sdílené dvojče, 7 fondů, 7 karet). Nové schéma dat od Toma (4.2): `listing` uvnitř fondu, `sourceUrl` + `sourceLabel` u každé hodnoty, `czRetailAvailable`, datum ověření u datasetu. Paleta, písma a gradient (2). Hero s malými kartami fondů místo čipů, barva odpovědi podle správnosti (6). Dvoukrokový formulář, sanitizace a ochrana `/api/lead` (7). Stav kroků v 14. Obsah se může dál průběžně měnit – při změně upravit brief, tento dokument a `decisions.md`.
 
 ---
 
@@ -57,7 +59,9 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 - `src/app/globals.css` – reset, `@import` tokenů, základní typografie, `:focus-visible`, `prefers-reduced-motion`.
 - Každá komponenta má vlastní `<nazev>.module.css` a používá jen `var(--…)`. Natvrdo zapsaná barva nebo px mimo tokeny = chyba při review.
 - Mobile-first: základ 360 px, rozšíření `@media (min-width: 640px)` a `(min-width: 1024px)`.
-- Vizuální směr: `brief.md` kap. 13 (off-white podklad, tmavý inkoust, oranžový akcent na poplatky a CTA, zelená jen pro odznak „nejnižší TER“, americké karty zašedlé, ale v kontrastu AA). Konkrétní hex hodnoty a fonty dodá Tom; do té doby platí pravidla kontrastu z 11.2.
+- Vizuální směr: `brief.md` kap. 13 – paleta od Toma (`#FFC349` žlutá plocha CTA, `#57008E` fialová pro H1, částky a jezdce, `#5FACD3` dekorace), bílé pozadí s gradientem (žlutá nahoře, fialová dole), zelená/červená jen se symbolem. Role barev plynou z kontrastu (žlutá ani světle modrá nesmí být text).
+- Písma přes `next/font/google` v `src/shared/lib/fonts.ts`: **Bakbak One** (nadpisy, jediný řez 400) a **IBM Plex Sans Condensed** (text, řezy 400–700), subset latin + latin-ext. CSS proměnné na `<html>`, tokeny `--font-heading` a `--font-sans`.
+- Kontrasty textových dvojic hlídá `src/shared/styles/tokens.test.ts` (čte `tokens.css`, umí `var(--…)`) – při změně palety stačí `npm run test`.
 - Čísla: `font-variant-numeric: tabular-nums`.
 - Jezdce: vlastní styl `<input type="range">` (track + thumb přes tokeny), thumb min. 44 × 44 px dotyková plocha.
 
@@ -69,44 +73,49 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 /
 ├── src/
 │   ├── app/                                  # jen routy, tenké stránky skládající features
-│   │   ├── layout.tsx                        # fonty, metadata, Umami skript
-│   │   ├── globals.css
-│   │   ├── page.tsx, page.module.css         # landing (varianta A)
+│   │   ├── layout.tsx                        # fonty (next/font), metadata, Umami skript
+│   │   ├── globals.css                       # reset, typografie, .visually-hidden, gradient pozadí
+│   │   ├── page.tsx, page.module.css         # landing (varianta A): Hero + EtfRealityCheck + LeadCapture
 │   │   ├── v/[variant]/page.tsx              # hero pro reklamu A/B (staticky generované)
 │   │   ├── metodika/page.tsx                 # zdroje, vzorec, předpoklady
 │   │   ├── zasady-ochrany-udaju/page.tsx
-│   │   └── api/lead/route.ts                 # příjem formuláře
+│   │   └── api/lead/route.ts (+ route.test.ts) # příjem formuláře
 │   ├── features/
 │   │   ├── etf-reality-check/
 │   │   │   ├── components/
 │   │   │   │   ├── etf-reality-check/        # kontejner, drží stav (odpověď, jezdce)
-│   │   │   │   ├── hero/                     # H1 + podnadpis dle varianty + čipy tickerů
-│   │   │   │   ├── quiz-step/                # otázka + tlačítka ANO/NE
+│   │   │   │   ├── hero/                     # H1 + podnadpis (řádky) dle varianty, server-rendered
+│   │   │   │   ├── us-fund-preview/          # 4 malé karty amerických fondů před odpovědí
+│   │   │   │   ├── quiz-step/                # otázka + tlačítka ANO/NE (zelená/červená po odpovědi)
 │   │   │   │   ├── answer-reveal/            # výsledek odpovědi + vysvětlení + zdroj
 │   │   │   │   ├── fund-pair-grid/           # 2 sloupce NYSE ↔ UCITS
-│   │   │   │   ├── fund-card/                # ticker, správce, ACC/DIST, TER, poplatky v Kč
+│   │   │   │   ├── fund-card/                # varianta full (ticker, správce, ACC/DIST, TER+zdroj, Kč) a compact
 │   │   │   │   └── projection-sliders/       # 3 jezdce + souhrnná věta
 │   │   │   ├── lib/
 │   │   │   │   ├── projection.ts             # čisté funkce výpočtu
 │   │   │   │   ├── projection.test.ts
-│   │   │   │   ├── pairs.ts                  # sestaví páry z etf.json (relatedFundIds)
-│   │   │   │   └── pairs.test.ts
-│   │   │   └── index.ts                      # veřejné API: EtfRealityCheck
+│   │   │   │   ├── pairs.ts                  # páry z etf.json, groupByUcits (sdílené dvojče), lowestTerIds
+│   │   │   │   ├── view-model.ts             # serverem připravená data pro UI (jen to, co se zobrazí)
+│   │   │   │   ├── hero-values.ts            # částka a doba pro šablony hero
+│   │   │   │   └── *.test.ts
+│   │   │   └── index.ts                      # veřejné API: Hero, EtfRealityCheck, buildRealityCheckView, buildHeroValues
 │   │   ├── lead/
-│   │   │   ├── components/{lead-capture,lead-success,sticky-cta}/
-│   │   │   ├── hooks/use-lead-status.ts      # „už odesláno“ v localStorage (try/catch)
-│   │   │   ├── services/save-lead.ts         # import "server-only", SQL do Neonu
-│   │   │   └── index.ts                      # veřejné API: LeadCapture, StickyCta
+│   │   │   ├── components/{lead-capture,sticky-cta}/   # lead-capture: CTA → formulář → stav úspěchu
+│   │   │   ├── hooks/use-lead-status.ts      # „už odesláno“ v localStorage (try/catch) – krok 7
+│   │   │   ├── lib/{submit-lead.ts,consent.ts,guide.ts}
+│   │   │   ├── services/{save-lead.ts,rate-limit.ts}   # import "server-only"
+│   │   │   ├── server.ts                     # serverové API (jen pro src/app/api)
+│   │   │   └── index.ts                      # veřejné API: LeadCapture, CONSENT_VERSION
 │   │   └── analytics/
 │   │       ├── lib/{track.ts,utm.ts}
 │   │       └── index.ts                      # veřejné API: track, getUtm
 │   ├── shared/
 │   │   ├── components/ui/                    # button, source-note, disclaimer, badge, details…
 │   │   ├── components/icons/                 # vlastní SVG komponenty
-│   │   ├── lib/{format.ts,format.test.ts,fonts.ts}
-│   │   ├── schemas/lead.schema.ts            # Zod
+│   │   ├── lib/{format.ts,fonts.ts,sanitize.ts,quiz-answer-storage.ts} (+ testy)
+│   │   ├── schemas/lead.schema.ts            # Zod, sdílený klientem i serverem
 │   │   └── styles/tokens.css
-│   └── middleware.ts                         # utm_content → varianta hero (viz 8)
+│   └── proxy.ts                              # utm_content → varianta hero (viz 8; Next 16 = proxy.ts)
 ├── data/
 │   ├── etf.json                              # fondy + kótace + zdroje (jediný zdroj pravdy)
 │   ├── assumptions.json                      # modelové předpoklady a rozsahy jezdců
@@ -114,16 +123,15 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 ├── content/
 │   ├── copy.ts                               # všechny texty (otázky, odhalení, lead, FAQ, patička)
 │   └── hero-variants.ts                      # H1 + podnadpis pro A a B
-├── db/schema.sql
+├── db/schema.sql                             # tabulka leads s CHECK omezeními (spustit v Neon SQL Editoru)
 ├── scripts/
-│   ├── check-data.ts                         # validace dat (prebuild)
-│   ├── build-pdf.tsx                         # generuje public/tahak-etf-2026.pdf
-│   └── db-setup.ts
+│   ├── check-data.ts (+ test)                # validace dat (prebuild)
+│   └── build-pdf.tsx                         # generuje public/tahak-etf-2026.pdf
 ├── public/{tahak-etf-2026.pdf, fonts/}
 ├── ads/{reklama-a.md, reklama-b.md, obrázky kreativ}
 ├── tests/e2e/                                # Playwright
 ├── docs/{05-technicka-implementace.md, decisions.md}
-├── ai-log/                                   # exporty /export z Claude Code
+├── ai-log/{planovani,implementace}/          # konverzace z claude.ai a exporty session z Claude Code
 ├── brief.md
 ├── CLAUDE.md
 └── README.md
@@ -144,72 +152,66 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 
 ### 4.1 Princip
 
-- Dvě úrovně: **fond** (třída akcií: TER, index, ACC/DIST, ISIN) a **kótace** (ticker + burza + měna).
-- Každá zobrazená hodnota nese hodnotu, jednotku, zdroj (název + URL), `asOf`, `verifiedAt` a typ (`fact` / `historical` / `model`).
+- **Fond** (třída akcií: TER, index, ACC/DIST, ISIN, …) obsahuje jednu zobrazenou **kótaci** `listing` (ticker + burza + měna). UI ukazuje ticker z `listing.ticker` (u CSPX tedy SXR8).
+- Každá hodnota nese hodnotu, zdroj (`sourceUrl` + `sourceLabel`), `asOf` a volitelně `note`. Datum ověření je jedno pro dataset (`verifiedAt`), hodnota ho může přepsat. Modelové předpoklady jsou zvlášť v `assumptions.json`.
 - Americké (NYSE Arca) fondy a UCITS dvojčata jsou samostatné záznamy propojené `relatedFundIds`. Nikdy je neslučuj.
 
-### 4.2 Schéma (TypeScript / Zod – závazné)
+### 4.2 Schéma (TypeScript / Zod – závazné, `data/schema.ts`)
 
 ```ts
 type Sourced<T> = {
-  value: T | null;               // null = zatím neověřeno
-  unit?: "%" | "USD" | "EUR" | "CZK" | "bn USD";
-  status: "verified" | "unverified";
-  type: "fact" | "historical" | "model";
-  source: { label: string; url: string } | null;
+  value: T | null;               // null = neověřeno (bez zdroje)
+  sourceUrl: string | null;
+  sourceLabel: string | null;    // např. „Vanguard – KID VUAA (29. 9. 2026)“
   asOf: string | null;           // ISO datum, ke kterému údaj platí
-  verifiedAt: string | null;     // ISO datum, kdy jsme údaj zkontrolovali
-  note?: string;
+  verifiedAt?: string;           // přepíše dataset.verifiedAt
+  note?: string;                 // jak byla hodnota odvozena / přečtena
 };
 
 type Fund = {
   id: string;                    // "voo", "vuaa"
   name: string;
-  issuer: string;                // "Vanguard", "iShares", "State Street"
-  domicile: "US" | "IE" | "LU";
-  regime: "US-registered" | "UCITS";
-  isin: Sourced<string>;
+  issuer: string;
+  type: "US" | "UCITS";
+  domicile: Sourced<"US" | "IE" | "LU">;
   index: Sourced<string>;
   ter: Sourced<number>;          // v procentech, 0.03 = 0,03 %
-  aum: Sourced<number>;
+  isin: Sourced<string>;         // kontrolní číslice ISO 6166 ověřuje check-data
   distribution: Sourced<"ACC" | "DIST">;
   baseCurrency: Sourced<"USD" | "EUR">;
-  hedged: boolean;
-  kidAvailableForEURetail: Sourced<boolean>;
+  hedged: Sourced<boolean>;
+  listing: { exchange: Sourced<string>; ticker: Sourced<string>; tradingCurrency: Sourced<"USD" | "EUR" | "GBP"> };
+  czRetailAvailable: Sourced<boolean>;  // koupí ho drobný investor v ČR (KID/PRIIPs, registrace)
   relatedFundIds: string[];
-  role: "quiz-pair" | "guide-only";   // zobrazit v kvízu, nebo jen v taháku
-  previousTicker?: string;           // např. SPYM: "SPLG" – jen pokud ověřeno
+  role: "quiz-pair" | "guide-only";
+  previousTicker?: string;       // např. SPYM: "SPLG" – jen pokud ověřeno
 };
 
-type Listing = {
-  fundId: string;
-  ticker: string;
-  exchange: Sourced<string>;
-  tradingCurrency: Sourced<"USD" | "EUR" | "GBP">;
-};
-
-type Dataset = { datasetVersion: string; funds: Fund[]; listings: Listing[] };
+type Dataset = { datasetVersion: string; verifiedAt: string; funds: Fund[] };
 ```
+
+Objekty jsou striktní (neznámé pole = chyba).
 
 ### 4.3 Výběr fondů
 
 | Role | Fondy | Proč |
 |---|---|---|
-| `quiz-pair` (stránka, zdarma) | **VOO → VUAA, IVV → CSPX, SPYM → SPYL, SPY → SPY5** | Páry podle správce: kdo zná ticker z videa, hned vidí „svůj“ fond a jeho evropské dvojče. SPY5 je jediné distribuční. |
+| `quiz-pair` (stránka, zdarma) | **VOO → VUAA, IVV → CSPX, SPYM → SPYL, SPY → SPYL** | Páry podle správce: kdo zná ticker z videa, hned vidí „svůj“ fond a jeho evropské dvojče. SPYL je sdílené dvojče SPYM i SPY (SPY5 vyřazen – na stránce správce chyběla ČR mezi zeměmi registrace). Americký fond má právě jedno dvojče, UCITS fond jich smí mít víc. |
 | `guide-only` (tahák) | celý US trh, MSCI World, rozvíjející se trhy, celý svět (UCITS) | Rozšiřuje kvíz na celé portfolio. Konkrétní fondy vybere Tom (kategorie 3). Jen v PDF. |
 
 Pořadí na stránce: VOO, IVV, SPYM, SPY (jako v reklamě A).
 
-**Stav ověření k 15. 10. 2026:** SPYM 0,02 % (NYSE Arca), SPYL 0,03 %, SPY5 0,03 % (dist.) ověřeno u State Street. VOO, IVV, SPY, VUAA, CSPX a všechny ISINy = `null` / `unverified`, dokud je Tom nedoplní.
+**Stav ověření k 15. 10. 2026:** všech 7 fondů ověřeno Tomem (stránky a dokumenty správců, nařízení PRIIPs), `check-data` v produkci bez chyb. ISIN VOO a IVV odvozen z CUSIP.
 
 ### 4.4 Kontrola dat (`npm run check:data`, běží jako prebuild)
 
 Build selže, pokud:
-- data neodpovídají Zod schématu,
-- hodnota se `status: "verified"` nemá `source.url` nebo `verifiedAt`,
-- fond v `relatedFundIds` odkazuje na neexistující `id`, nebo pár není oboustranný,
-- v produkci (`NODE_ENV=production`) je u fondu s rolí `quiz-pair` povinná hodnota (`ter`, `isin`, `index`, `distribution`) `unverified` (ve vývoji jen varování),
-- `verifiedAt` je v budoucnosti (chyba) nebo starší než 90 dní (varování).
+- data neodpovídají Zod schématu (i neznámé pole),
+- hodnota, která není `null`, nemá `sourceUrl` nebo `sourceLabel`,
+- fond v `relatedFundIds` odkazuje na neexistující `id`, pár není oboustranný, nebo americký fond v kvízu nemá právě jedno UCITS dvojče,
+- v produkci (`NODE_ENV=production`) je u fondu s rolí `quiz-pair` povinná hodnota (`ter`, `isin`, `index`, `distribution`, `czRetailAvailable`) `null` (ve vývoji jen varování),
+- chybí ticker, ISIN nemá platnou kontrolní číslici, TER vypadá jako zlomek (< 0,01 %), nebo `czRetailAvailable` odporuje nadpisům sloupců (US = nekoupíte, UCITS = koupíte),
+- `asOf` nebo datum ověření je v budoucnosti (chyba); datum ověření starší než 90 dní = varování.
 
 UI nikdy nevykreslí `null` jako „0“. Ve vývoji zobrazí `— (neověřeno)`; karta bez TER nespočítá poplatky a ukáže totéž.
 
@@ -297,15 +299,16 @@ type State = {
 
 ### 6.2 Hero + otázka
 
-- H1 a podnadpis z `content/hero-variants.ts` podle varianty. Pod nimi 4 čipy tickerů (VOO · IVV · SPYM · SPY).
-- Otázka + tlačítka **ANO / NE** jsou součástí první obrazovky: vše above the fold na **360 × 640 px** (ověřit v Playwrightu). Tlačítka min. 48 px vysoká, vedle sebe.
-- Pod tlačítky drobně: „Zdarma, bez registrace · 1 otázka“.
+- H1 a podnadpis z `content/hero-variants.ts` podle varianty; podnadpis je pole řádků se stupňovanou velikostí (A: 3 řádky, poslední = pointa „Liší se poplatkem (TER)“). Hero je server-rendered.
+- Pod hero 4 **malé karty** amerických fondů (ticker + TER, `us-fund-preview`) a řádek se zdrojem TER a datem ověření. Jsou první částí klientského kontejneru, protože po odpovědi zmizí.
+- Otázka „Můžete si je koupit v Česku?“ + tlačítka **ANO / NE**: vše above the fold na **360 × 640 px** (ověřit v Playwrightu). Tlačítka min. 48 px vysoká, vedle sebe, žlutá s tmavým obrysem.
+- Po odpovědi se zvolené tlačítko obarví: NE zeleně + ✓, ANO červeně + ✗, pro čtečky „správně“ / „špatně“. Správná odpověď = konstanta `CORRECT_ANSWER = "ne"`.
 
 ### 6.3 Odhalení
 
-- `answer-reveal`: první řádek podle odpovědi (správně / nesprávně), pak společné vysvětlení s odkazem na zdroj (KID/PRIIPs).
-- `fund-pair-grid`: na mobilu **páry pod sebou** (řádek = NYSE karta vlevo, UCITS vpravo, 2 úzké sloupce); na ≥ 640 px klasické 2 sloupce s hlavičkami „USA · v ČR obvykle nekoupíte“ / „Evropské dvojče · koupíte“.
-- `fund-card`: ticker (velký), správce, u UCITS ACC/DIST jako text („akum.“ / „dist.“), TER se `source-note`, **jedno velké oranžové číslo** „přijdete o X Kč“. Americké karty zašedlé (kontrast AA).
+- `answer-reveal`: první řádek podle odpovědi (správně / nesprávně), pak společné vysvětlení se zdrojem z dat (`czRetailAvailable` amerického fondu – nařízení PRIIPs, čl. 13).
+- `fund-pair-grid`: dva sloupce s hlavičkami „USA · v ČR obvykle nekoupíte“ / „Evropské dvojče · koupíte“; řádky podle `groupByUcits()` – sdílené dvojče SPYL je **jedna** karta vedle SPYM i SPY (CSS subgrid). Celkem 7 karet.
+- `fund-card`: ticker (velký, z `listing.ticker`), správce, u UCITS ACC/DIST jako text („akum.“ / „dist.“), TER s krátkým odkazem „zdroj, datum“ (celý popis v `aria-label`/`title`), **jedno velké číslo** „přijdete o X Kč“ v barvě akcentu. Americké karty zašedlé (kontrast AA).
 - Odznak **„nejnižší TER“** (symbol + text) u všech UCITS fondů se shodně nejnižším TER. Počítá se z dat, ne natvrdo.
 - `projection-sliders`: 3 nativní range inputy s viditelnou hodnotou (`6 %`, `20 let`, `3 000 Kč`), `aria-valuetext` česky. Přepočet okamžitě (bez debounce pro UI; debounce jen pro analytiku).
 - Souhrnná věta pod jezdci: „Vložíte X Kč. Bez poplatků by to modelově bylo Y Kč, poplatky z toho uberou Z až W Kč podle fondu.“ (min/max přes fondy s ověřeným TER). Výsledek v `aria-live="polite"`.
@@ -317,7 +320,7 @@ Zrušena 15. 10. 2026 (viz `docs/decisions.md`). Téma „World není celý svě
 
 ### 6.5 Formulář je vždy v DOM
 
-`lead-capture` je na stránce od začátku (pod kvízem), i když návštěvník ještě neodpověděl. Nad formulářem je „most“ z `content/copy.ts` („Tohle byl jen S&P 500…“). Důvod: sticky CTA a přímý scroll musí mít kam vést i bez odpovědi, a A/B hypotéza č. 2 (formulář nad jezdci vs. pod nimi) se řeší jen přesunem v `src/app/` nebo v kontejneru.
+`lead-capture` je na stránce od začátku (pod kvízem), i když návštěvník ještě neodpověděl. Je dvoukrokový: text nabídky (zatím `[[CHYBÍ TEXT]]`) a tlačítko „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“, po kliknutí formulář (7.1). Důvod: sticky CTA a přímý scroll musí mít kam vést i bez odpovědi, a A/B hypotéza č. 2 (formulář nad jezdci vs. pod nimi) se řeší jen přesunem v `src/app/` nebo v kontejneru.
 
 ---
 
@@ -325,11 +328,14 @@ Zrušena 15. 10. 2026 (viz `docs/decisions.md`). Téma „World není celý svě
 
 ### 7.1 Pole
 
-- Jediné povinné pole: e-mail (`type="email"`, `autocomplete="email"`, `inputmode="email"`, viditelný label).
+- Formulář se zobrazí až po kliknutí na „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ (fokus do pole). Tlačítko odeslání „Odeslat PDF“.
+- Jediné povinné pole: e-mail (`type="email"`, `autocomplete="email"`, `inputmode="email"`, `maxlength=254`, viditelný label).
+- **Sanitizace + validace stejným schématem na klientu i serveru** (`shared/lib/sanitize.ts`, `shared/schemas/lead.schema.ts`): NFKC, odstranění řídicích/zero-width/bidi znaků, trim, malá písmena; pak `z.email()`, max 254 znaků (lokální část 64). Ostatní pole (UTM jen `[A-Za-z0-9_.+- ]`, max 100; varianta; odpověď kvízu; `startedAt`) se při neplatné hodnotě nahradí bezpečným výchozím stavem, neznámá pole se zahodí.
 - Honeypot `website` (vizuálně skryté, `tabindex="-1"`, `aria-hidden`).
 - Pod tlačítkem informace o zpracování + odkaz na `/zasady-ochrany-udaju`; verze textu `consentVersion` se ukládá k leadu.
 - Věta „pošleme vám ho i e-mailem“ se vykreslí **jen** při `EMAIL_ENABLED=true`.
-- Bez jména a telefonu. Text tlačítka z `content/copy.ts` (výchozí „Poslat tahák“).
+- Bez jména a telefonu. Texty z `content/copy.ts`.
+- Odpověď kvízu předá kvíz formuláři přes `sessionStorage` (`shared/lib/quiz-answer-storage.ts`), ne sdíleným stavem.
 - Při odesílání „Odesílám…“, tlačítko zablokované. Neon se po nečinnosti probouzí → timeout na klientu cca 10 s → chybový stav.
 
 ### 7.2 API `POST /api/lead`
@@ -344,7 +350,8 @@ Request:
 ```
 
 Zpracování:
-- Zod validace (`shared/schemas/lead.schema.ts`): formát e-mailu, max 254 znaků, trim + lowercase; `quiz` volitelné.
+- Jen `application/json` (jinak 415), tělo max 4 kB (413), validní JSON objekt (400 `invalid_request`).
+- Zod validace (`shared/schemas/lead.schema.ts`, viz 7.1); chyba jen u e-mailu → 400 `invalid_email`.
 - Honeypot vyplněn nebo odesláno za < 2 s od `startedAt` → `200 { ok: true }`, nic neukládat.
 - Rate limit 5 požadavků / 10 min / IP v paměti instance (best effort; omezení do README).
 - `saveLead()` → `"created"` / `"duplicate"`. Duplicita → 200 (neprozrazovat existenci e-mailu).
@@ -354,6 +361,7 @@ Zpracování:
 |---|---|---|---|
 | Uloženo / duplicita | 200 | `{ ok: true, guideUrl: "/tahak-etf-2026.pdf" }` | stav úspěchu |
 | Neplatný e-mail | 400 | `{ ok: false, code: "invalid_email" }` | chyba u pole |
+| Neplatný požadavek / typ / velikost | 400 / 415 / 413 | `{ ok: false, code: "invalid_request" }` | chyba + „Zkusit znovu“ |
 | Příliš mnoho pokusů | 429 | `{ ok: false, code: "rate_limited" }` | „Zkuste to prosím za chvíli.“ |
 | Chyba serveru / DB / chybí `DATABASE_URL` | 500 | `{ ok: false, code: "server_error" }` | chyba + „Zkusit znovu“, e-mail zůstává v poli |
 
@@ -399,6 +407,8 @@ export async function saveLead(lead: Lead): Promise<"created" | "duplicate"> {
 ```
 
 - Hodnoty vždy jen přes tagged template. Nikdy skládání SQL řetězců.
+- `db/schema.sql` má navíc CHECK omezení (délka a malá písmena e-mailu, `variant IN ('a','b')`, `quiz_answer IN ('ano','ne')`, délky UTM) – druhá vrstva ochrany. Tabulka se zakládá jednorázově v Neon SQL Editoru (`db:setup` skript není – SQL ze souboru by šel mimo tagged template).
+- Verze souhlasu: `CONSENT_VERSION` v `features/lead/lib/consent.ts`.
 - Neukládat IP adresu ani user agent. `DATABASE_URL` jen na serveru.
 - Ve vývoji samostatná Neon branch (dev), produkce vlastní.
 - Před odevzdáním: testovací lead v produkci + screenshot tabulky do README.
@@ -503,7 +513,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 - Tlačítka odpovědí jako `<button>` ve `<fieldset>` s `<legend>` = znění otázky.
 - Viditelný `:focus-visible`, ovladatelnost klávesnicí (i jezdce), `prefers-reduced-motion`.
 - Barva nikdy jako jediný nositel významu (odznak, správně/špatně).
-- Kontrast: bílý text na `#F97316` ≈ 2,8 : 1 nevyhovuje; na oranžovém CTA tmavý text; oranžový text na světlém podkladu jen v sytém odstínu (např. `#C2410C`). Zašedlé americké karty také ≥ 4,5 : 1. Finální hodnoty ověřit nástrojem.
+- Kontrast: text ≥ 4,5 : 1, prvky UI ≥ 3 : 1 – hlídá `tokens.test.ts`. Žlutá `#FFC349` (1,6 : 1 na bílé) a modrá `#5FACD3` (2,5 : 1) nikdy jako text; žluté CTA vždy s tmavým textem a obrysem. Zašedlé americké karty také ≥ 4,5 : 1.
 
 ### 11.3 Lokalizace
 
@@ -513,7 +523,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 ### 11.4 Bezpečnost
 
 - Tajné klíče jen na serveru, `import "server-only"` ve `services/`.
-- Hlavičky v `next.config`: `X-Content-Type-Options`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, základní CSP povolující Umami.
+- Hlavičky v `next.config`: `X-Content-Type-Options`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, `Permissions-Policy`, bez `X-Powered-By` (hotovo); základní CSP povolující Umami přibude v kroku 8.
 - SQL jen parametrizovaně. Žádné osobní údaje v URL ani v analytice.
 
 ### 11.5 SEO a sdílení
@@ -548,9 +558,10 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 
 **E2E (Playwright, iPhone 13 + Pixel 7), `/api/lead` mockované přes `page.route`:**
 - hero H1 + otázka + tlačítka ANO/NE viditelné bez scrollu na 360 × 640,
-- klik ANO → odhalení s 8 kartami, klik NE → jiný první řádek, stejné karty,
+- klik ANO → odhalení se 7 kartami (SPYL jednou), malé karty nahoře zmizí, ANO červené; klik NE → jiný první řádek, stejné karty, NE zelené,
 - pohyb jezdce → změna čísel na kartách i v souhrnné větě,
 - sticky CTA se objeví po odhalení a zmizí u formuláře,
+- klik na „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ → formulář s fokusem v poli,
 - neplatný e-mail → chyba u pole, nic se neodešle,
 - API 200 → stav úspěchu, odkaz na PDF vrací 200,
 - API 500 → chybová hláška, e-mail zůstává, „Zkusit znovu“ funguje,
@@ -571,22 +582,22 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 
 ## 🚀 14. PLÁN IMPLEMENTACE
 
-| # | Krok | Priorita | Commit |
-|---|---|---|---|
-| 1 | Init Next.js + TS, struktura `src/`, `tokens.css` (dočasné hodnoty), `globals.css`, fonty, `.env.example` | MUST | `chore: init projektu` |
-| 2 | `data/schema.ts`, `etf.json` (8 fondů, ověřené State Street hodnoty, zbytek `null`), `assumptions.json`, `check-data` | MUST | `feat(data): schéma a validace dat` |
-| 3 | `projection.ts`, `pairs.ts`, `format.ts` + unit testy | MUST | `feat(reality-check): výpočet poplatků + testy` |
-| 4 | `content/copy.ts` a `hero-variants.ts` z `brief.md` (chybějící texty jako `[[CHYBÍ TEXT]]`) | MUST | `feat(content): texty stránky` |
-| 5 | Hero + otázka + odhalení (páry, karty, jezdce) | MUST | po komponentách |
-| 6 | `db/schema.sql`, `save-lead.ts`, `/api/lead`, `lead-capture` + stavy chyb | MUST | `feat(lead): formulář a uložení do Neonu` |
-| 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` |
-| 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` |
-| 9 | Varianty hero A/B, middleware/proxy, `ads/` | MUST | `feat(ads): varianty pro reklamy` |
-| 10 | Nasazení na Vercel, Neon integrace, smoke test na telefonu | MUST | `chore(deploy): …` |
-| 11 | Doplnění ověřených dat (Tom) | MUST | `data: ověřené TER/ISIN k DD. MM. 2026` |
-| 12 | Sticky CTA, FAQ, `/metodika`, zásady ochrany údajů | SHOULD | |
-| 13 | E2E testy, Lighthouse ladění | SHOULD | |
-| 14 | E-mail přes Resend (jen s doménou) | COULD | |
+| # | Krok | Priorita | Commit | Stav 15. 10. večer |
+|---|---|---|---|---|
+| 1 | Init Next.js + TS, struktura `src/`, `tokens.css`, `globals.css`, fonty, `.env.example` | MUST | `chore: init projektu` | ✅ (paleta a písma od Toma doplněny) |
+| 2 | `data/schema.ts`, `etf.json`, `assumptions.json`, `check-data` | MUST | `feat(data): schéma a validace dat` | ✅ (schéma 3.2, 7 fondů) |
+| 3 | `projection.ts`, `pairs.ts`, `format.ts` + unit testy | MUST | `feat(reality-check): výpočet poplatků + testy` | ✅ |
+| 4 | `content/copy.ts` a `hero-variants.ts` z `brief.md` (chybějící texty jako `[[CHYBÍ TEXT]]`) | MUST | `feat(content): texty stránky` | ✅ (texty se průběžně mění) |
+| 5 | Hero + otázka + odhalení (páry, karty, jezdce) | MUST | po komponentách | ✅ |
+| 6 | `db/schema.sql`, `save-lead.ts`, `/api/lead`, `lead-capture` + stavy chyb | MUST | `feat(lead): formulář a uložení do Neonu` | ✅ kód a testy; chybí `DATABASE_URL` (Tom) |
+| 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` | stav úspěchu hotový, PDF a `use-lead-status` chybí |
+| 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` | – |
+| 9 | Varianty hero A/B, middleware/proxy, `ads/` | MUST | `feat(ads): varianty pro reklamy` | částka hero B počítaná (`buildHeroValues`), zbytek – |
+| 10 | Nasazení na Vercel, Neon integrace, smoke test na telefonu | MUST | `chore(deploy): …` | – |
+| 11 | Doplnění ověřených dat (Tom) | MUST | `data: ověřené TER/ISIN k DD. MM. 2026` | ✅ |
+| 12 | Sticky CTA, FAQ, `/metodika`, zásady ochrany údajů | SHOULD | | zásady jako kostra |
+| 13 | E2E testy, Lighthouse ladění | SHOULD | | – |
+| 14 | E-mail přes Resend (jen s doménou) | COULD | | – |
 
 Po každé relaci: `/export` do `ai-log/AAAA-MM-DD-tema.md`.
 
@@ -611,10 +622,11 @@ Po každé relaci: `/export` do `ai-log/AAAA-MM-DD-tema.md`.
 
 ## ❓ 16. OTEVŘENÉ OTÁZKY PRO TOMA
 
-1. Ověřené hodnoty: TER, ISIN a burza pro VOO, IVV, SPY, VUAA, CSPX + ISINy SPYM, SPYL, SPY5 (URL + datum).
+1. ~~Ověřené hodnoty~~ – hotovo 15. 10. 2026.
 2. Fondy pro tahák (`guide-only`): celý US trh, World, EM, celý svět.
-3. Paleta (hex) a 2 fonty s latin-ext pro `tokens.css`.
-4. Schválení reklamy B (a dvojice fondů pro částku v hero B).
-5. Vlastní doména? (rozhoduje o e-mailu přes Resend.)
-6. Účty: GitHub, Vercel, Neon, Umami Cloud – založit a doplnit env.
+3. ~~Paleta a fonty~~ – hotovo (doladění průběžně).
+4. Schválení reklamy B (a dvojice fondů pro částku v hero B, pracovně SPY vs. SPYM).
+5. Vlastní doména? (rozhoduje o e-mailu přes Resend a o textu tlačítka „Odeslat PDF“.)
+6. Účty: GitHub, Vercel, Neon (`DATABASE_URL`), Umami Cloud – založit a doplnit env.
 7. Kdo je uveden jako provozovatel (patička, zásady ochrany údajů)?
+8. Chybějící texty (`[[CHYBÍ TEXT]]` v `content/copy.ts`).

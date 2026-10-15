@@ -1,8 +1,8 @@
 # BRIEF – ETF Reality Check (konverzní landing page)
 
-> Jediný zdroj pravdy pro **co** stavíme a **proč**. Technické **jak** je v `docs/05-technicka-implementace.md` (verze 3), pravidla pro agenta v `CLAUDE.md`.
+> Jediný zdroj pravdy pro **co** stavíme a **proč**. Technické **jak** je v `docs/05-technicka-implementace.md` (verze 3.2), pravidla pro agenta v `CLAUDE.md`.
 > Při rozporu s tech-spec **platí tento brief**; rozpor zapsat do `docs/decisions.md`.
-> Stav: 15. 10. 2026, odevzdání pá 16. 10. 2026 dopoledne.
+> Stav: aktualizováno 15. 10. 2026 večer podle rozhodnutí v `docs/decisions.md` (Tom průběžně mění obsah; při nové změně brief upravit). Odevzdání pá 16. 10. 2026 dopoledne.
 
 ---
 
@@ -32,10 +32,10 @@ Americká videa radí „kup VOO“. **ETF Reality Check** jednou otázkou uká�
 
 | # | Sekce | Proč právě tady |
 |---|---|---|
-| 1 | **Hero** = H1 a vizuál z reklamy + 4 karty tickerů | Message match: člověk vidí totéž, na co klikl v reklamě. |
-| 2 | **Otázka 1** (ANO / NE) přímo v hero | První klik je odpověď, ne „zjistit více“. Mikro-závazek s nulovým tlakem. |
+| 1 | **Hero** = H1 z reklamy + podnadpis na 3 řádky + 4 malé karty amerických fondů (ticker + TER, zdroj TER v řádku pod nimi) | Message match: člověk vidí totéž, na co klikl v reklamě. Po odpovědi malé karty zmizí (fondy jsou pak ve velkých kartách v levém sloupci). |
+| 2 | **Otázka 1** (ANO / NE) přímo pod hero | První klik je odpověď, ne „zjistit více“. Mikro-závazek s nulovým tlakem. Zvolená odpověď se obarví: NE zeleně ✓ (správně), ANO červeně ✗ (špatně). |
 | 3 | **Odhalení**: vysvětlení + páry NYSE ↔ UCITS + 3 jezdce | Hlavní hodnota zdarma: „můj“ fond, jeho evropské dvojče a poplatky v Kč. |
-| 4 | **LeadCapture**: most „Tohle byl jen S&P 500“ + 3 body + jediné pole e-mail | Hned po hodnotě, kdy si návštěvník klade otázku „a co dál, co si tedy koupit?“. Žádný další krok mezi hodnotou a formulářem. |
+| 4 | **LeadCapture**: text nabídky + tlačítko „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ → po kliknutí jediné pole e-mail | Hned po hodnotě, kdy si návštěvník klade otázku „a co dál?“. Dvoukrokový formulář (rozhodl Tom, kap. 7). |
 | 5 | **Pojmy a FAQ** (rozbalovací): TER, KID/UCITS, ACC/DIST, měnové riziko | Pro ty, kdo potřebují kontext, ostatní nebrzdí. |
 | 6 | **Zdroje, metodika, upozornění, patička** | Důvěra, dohledatelnost, GDPR. |
 
@@ -45,7 +45,7 @@ Americká videa radí „kup VOO“. **ETF Reality Check** jednou otázkou uká�
 
 ## 4. Otázka – Můžete si je koupit v Česku?
 
-**Znění:** „VOO, IVV, SPYM a SPY sledují stejný S&P 500. Můžete si je koupit u českého brokera?“ → **ANO / NE**
+**Znění:** „Můžete si je koupit v Česku?“ → **ANO / NE** (tickery a index říká podnadpis hero těsně nad otázkou). Správně je **NE**.
 
 **Odhalení (stejné pro obě odpovědi, liší se jen první řádek):**
 > Většinou ne. Americká ETF nemají dokument KID, který pravidla EU vyžadují, takže je drobný investor z EU obvykle nekoupí. Každé z nich má ale evropské dvojče na stejný index. A poplatky se liší.
@@ -55,11 +55,13 @@ Americká videa radí „kup VOO“. **ETF Reality Check** jednou otázkou uká�
 | NYSE | UCITS dvojče | Pozn. |
 |---|---|---|
 | VOO (Vanguard) | VUAA | akum. |
-| IVV (iShares) | CSPX | akum. |
+| IVV (iShares) | CSPX – na kartě ticker **SXR8** (zobrazená kótace na Xetře; CSPX je ticker v Londýně) | akum. |
 | SPYM (State Street) | SPYL | akum. |
-| SPY (State Street) | SPY5 | **dist.** – jediné distribuční, ukázat na kartě |
+| SPY (State Street) | SPYL | akum. – SPY5 vyřazen 15. 10. 2026 |
 
-**Karta fondu:** ticker, správce, ACC/DIST (u UCITS), TER, **jedno velké číslo: „přijdete o … Kč na poplatcích“**. Čísla na kartách oranžově.
+SPYL je dvojčetem SPYM i SPY: v mřížce je **jedna** karta SPYL vedle obou amerických karet, nikdy dvakrát. Na stránce tak je 7 karet (4 americké + 3 evropské). Žádný evropský fond na stránce není distribuční.
+
+**Karta fondu:** ticker (z kótace v datech), správce, ACC/DIST (u UCITS), TER s odkazem na zdroj a datem, **jedno velké číslo: „přijdete o … Kč na poplatcích“**. Čísla na kartách v barvě akcentu (fialová, kap. 13).
 
 **Zvýraznění:** odznak **„nejnižší TER“** u evropského fondu (nebo fondů) s nejnižším TER. Při shodě dostanou odznak všechny shodné. Formulovat jako fakt, ne jako doporučení („ten, který si koupíte“ **ne**).
 
@@ -95,13 +97,14 @@ Kvíz má jedinou otázku. Téma „World není celý svět“ a skládání por
 
 ## 7. LeadCapture – nabídka a formulář
 
-**Most (nadpis):** Tohle byl jen S&P 500. Co když chcete víc než Ameriku?
-**Text:** Evropská dvojčata dalších populárních ETF a jak z nich poskládat celé portfolio najdete v taháku:
-- ✓ evropská dvojčata populárních NYSE ETF, nejen na S&P 500
-- ✓ jak poskládat celý svět ze dvou až tří fondů
-- ✓ na co si dát pozor u českého brokera a u daní
+**Dvoukrokový (Tom, 15. 10. 2026):** nejdřív text nabídky a tlačítko **„CHCI KOMPLETNÍ SROVNÁNÍ V PDF“**, po kliknutí formulář `[ vas@email.cz ]` `[ Odeslat PDF ]`. Jediné pole, honeypot, sanitizace a validace na klientu i serveru, chybové stavy podle tech-spec kap. 7.
 
-**Formulář:** `[ vas@email.cz ]` `[ Poslat tahák ]`. Jediné pole, honeypot, validace a chybové stavy podle tech-spec kap. 7.
+**Text nabídky nad tlačítkem:** zatím `[[CHYBÍ TEXT]]` (dodá Tom). Původní návrh (nepoužit, k dispozici):
+- Most: Tohle byl jen S&P 500. Co když chcete víc než Ameriku?
+- Text: Evropská dvojčata dalších populárních ETF a jak z nich poskládat celé portfolio najdete v taháku:
+  ✓ evropská dvojčata populárních NYSE ETF, nejen na S&P 500 · ✓ jak poskládat celý svět ze dvou až tří fondů · ✓ na co si dát pozor u českého brokera a u daní
+
+⚠️ **„Odeslat PDF“** slibuje odeslání, ale e-mail je vypnutý (`EMAIL_ENABLED=false`); otevřený bod kap. 16.
 
 **Pod tlačítkem:** „Tahák stáhnete hned po odeslání.“ + „Žádný spam, odhlásit se můžete jedním kliknutím.“ + odkaz na zásady zpracování údajů.
 - Větu „**pošleme vám ho i e-mailem**“ zobrazit **jen** při `EMAIL_ENABLED=true` (ověřená doména v Resendu). Jinak se nesmí objevit.
@@ -135,13 +138,14 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 
 | | **A – „Není ETF jako ETF“** (zvědavost: jde to vůbec koupit?) | **B – „Poplatek v korunách“** (strach z přeplácení) – návrh ke schválení |
 |---|---|---|
-| Vizuál | 4 karty VOO · IVV · SPYM · SPY | 2 karty vedle sebe (dražší a levnější fond na S&P 500) a velké oranžové číslo rozdílu v Kč |
+| Vizuál | 4 karty VOO · IVV · SPYM · SPY | 2 karty vedle sebe (dražší a levnější fond na S&P 500) a velké číslo rozdílu v Kč v barvě akcentu |
 | Text | NENÍ ETF JAKO ETF. Stejný index S&P 500. Jiný ticker. Jiný poplatek. Které si koupíte v Česku? Otestujte se jednou otázkou → | STEJNÝ S&P 500. ROZDÍL X Kč. Při 3 000 Kč měsíčně za 20 let. A ten levnější v Česku obvykle nekoupíte. Spočítejte si to → |
 | H1 na stránce | NENÍ ETF JAKO ETF | STEJNÝ S&P 500, ROZDÍL X Kč |
-| Podnadpis | VOO, IVV, SPYM a SPY sledují stejný S&P 500. Liší se poplatkem. Které z nich si koupíte u českého brokera? | Tolik dělá rozdíl v poplatku mezi fondy na stejný index za 20 let. Které z nich si ale koupíte u českého brokera? |
+| Podnadpis | 3 řádky se stupňovanou velikostí: „VOO, IVV, SPYM a SPY jsou populární americká ETF“ / „všechny sledují stejný index S&P 500“ / „Liší se poplatkem (TER)“ | Tolik dělá rozdíl v poplatku mezi fondy na stejný index za {doba z výchozích jezdců}. |
 | URL | `/?utm_source=meta&utm_medium=paid_social&utm_campaign=etf_reality_check&utm_content=ad_a` | totéž s `utm_content=ad_b` |
 
 - Bez UTM se zobrazí A. Liší se jen hero (H1 a podnadpis), otázka a zbytek stránky jsou stejné.
+- Podnadpisy na stránce nekončí otázkou (jediná otázka v hero je otázka kvízu); reklamy svou otázku mají.
 - **B: X a dvojice fondů** se doplní z `projection.ts` po ověření TER. Pracovně SPY vs. SPYM (největší rozdíl mezi americkými fondy, srovnání „stejný trh, stejný typ fondu“). Číslo v hero musí přesně odpovídat výchozímu nastavení jezdců a kartám pod ním.
 - Každé tvrzení v reklamě musí stránka doložit.
 - Do souborů reklam patří: text, popis vizuálu, formát, URL, který hero ukazuje, na jakou motivaci cílí a odkud je každé tvrzení.
@@ -150,16 +154,16 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 
 ## 10. Data (`data/etf.json`, schéma podle tech-spec kap. 4)
 
-Fondy a kótace odděleně, každá hodnota jako `Sourced<T>` (hodnota, zdroj, `asOf`, `verifiedAt`, status). Páry NYSE ↔ UCITS přes `relatedFundIds`.
+7 fondů (VOO, IVV, SPYM, SPY → VUAA, CSPX, SPYL). Každá hodnota má `value`, `sourceUrl`, `sourceLabel`, `asOf` a volitelně `note`; kótace (burza, ticker, měna) je objekt `listing` uvnitř fondu; `czRetailAvailable` říká, zda fond drobný investor v ČR koupí. Páry přes `relatedFundIds`.
 
 | Stav k 15. 10. 2026 | |
 |---|---|
-| ✅ ověřeno u State Street | SPYM 0,02 % (NYSE Arca), SPYL 0,03 %, SPY5 0,03 % (dist.) |
-| ⏳ **ověřit u správce** | VOO, IVV, SPY (NYSE), **VUAA a CSPX** (0,07 % zatím jen z Lightyear, tedy agregátor, ne primární zdroj) |
-| ⏳ ověřit | ISINy všech fondů |
+| ✅ ověřeno Tomem (stránky a dokumenty správců, PRIIPs) | TER, ISIN, index, ACC/DIST, měna, domicil, zajištění, kótace a dostupnost v ČR u všech 7 fondů |
+| ℹ️ | ISIN VOO a IVV odvozen z CUSIP (ISO 6166, kontrolní číslice ověřena); VUAA: KID existuje, ČR jmenovitě neuvádí – podle PRIIPs stačí (Tom) |
 
-- Fond bez `source_url` a `verified_at` neprojde `check-data` a build spadne.
-- Volitelně na kartě SPYM „(dříve SPLG)“, protože ve starších videích má jiný ticker. Ověřit u State Street.
+- TER se v datech zapisuje v procentech (`0.03` = 0,03 %).
+- Hodnota bez zdroje neprojde `check-data`; v produkci nesmí být povinná hodnota kvízu `null`.
+- Volitelně na kartě SPYM „(dříve SPLG)“ – na stránce State Street zatím nenalezeno.
 
 ---
 
@@ -194,17 +198,20 @@ Fondy a kótace odděleně, každá hodnota jako `Sourced<T>` (hodnota, zdroj, `
 **Hypotézy (dle dopadu):**
 1. **Hero s otázkou (ANO/NE) vs. hero s konkrétním číslem v Kč** („Stejný S&P 500, rozdíl X Kč“) → lead / návštěva, sekundárně `rc_answer` / návštěva. Hero rozhoduje o tom, kolik lidí vůbec začne; částečně ho testují už reklamy A a B.
 2. **Formulář nad jezdci (hned za páry) vs. pod jezdci** → lead / návštěva a `rc_form_view` / `rc_answer`. Jezdce zvyšují zapojení, ale prodlužují cestu k formuláři na mobilu.
-3. **Text tlačítka** „Poslat tahák“ vs. „Chci evropská dvojčata“ → lead / `rc_form_focus`.
+3. **Dvoukrokový formulář (tlačítko → pole e-mail) vs. pole rovnou** → lead / `rc_form_view`. Krok navíc může snižovat konverzi.
+4. **Text tlačítka** „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ vs. „Chci evropská dvojčata“ → `rc_cta_click` / `rc_form_view`.
 
 ---
 
-## 13. Vizuál
+## 13. Vizuál (Tom, 15. 10. 2026)
 
-- Off-white podklad, tmavý inkoust, **akcent oranžová**: čísla poplatků, CTA, zvýraznění. Pravidlo: oranžově vždy to, co je mezi kartami společné (poplatky).
-- Zelená jen pro odznak „nejnižší TER“ a vždy s textem, ne jen barvou.
+- **Paleta:** `#FFC349` (žlutá – plocha tlačítek s tmavým textem a obrysem), `#57008E` (fialová – H1 v hero, částky poplatků, jezdce, fokus), `#5FACD3` (dekorace), `#97DDE9` (zatím nepoužitá). Tmavý modrošedý inkoust.
+- **Pozadí:** bílé s gradientem – výrazná žlutá nahoře za hero, dole jemná fialová.
+- **Písma:** nadpisy Bakbak One, text IBM Plex Sans Condensed (obojí `next/font`, latin-ext).
+- Zelená pro odznak „nejnižší TER“ a pro správnou odpověď, červená pro špatnou – vždy se symbolem/textem, ne jen barvou.
 - Americké karty zašedlé, ale čitelné (kontrast AA i u šedé!).
-- Hero + otázka + tlačítka ANO/NE se musí vejít **above the fold na 360 × 640 px**. Pokud ne, 4 tickery jako jeden řádek „čipů“, ne velké karty.
-- Tabulární číslice, české formáty (`0,03 %`, `4 975 Kč`), text min. 16 px, žádné gradienty, glassmorphism ani stock fotky.
+- Hero + otázka + tlačítka ANO/NE se musí vejít **above the fold na 360 × 640 px**.
+- Tabulární číslice, české formáty (`0,03 %`, `4 557 Kč`), text min. 16 px, žádný glassmorphism ani stock fotky.
 
 ---
 
@@ -220,6 +227,8 @@ Fondy a kótace odděleně, každá hodnota jako `Sourced<T>` (hodnota, zdroj, `
 
 ## 16. Otevřené body (Tom)
 
-1. Schválit **reklamu B** (nebo dodat vlastní).
-2. Vlastní doména pro Resend? Pokud ne, e-mail vypínáme a větu „pošleme i e-mailem“ mažeme.
-3. Kdo je provozovatel v patičce.
+1. Schválit **reklamu B** (nebo dodat vlastní) a dvojici fondů pro částku (pracovně SPY vs. SPYM).
+2. Vlastní doména pro Resend? Pokud ne, e-mail vypínáme a větu „pošleme i e-mailem“ mažeme – a pak i text tlačítka „Odeslat PDF“.
+3. Kdo je provozovatel (patička, zásady zpracování údajů).
+4. Chybějící texty: nabídka nad tlačítkem PDF, první řádek odhalení po ANO/NE, popisek pole e-mail, chybové hlášky, stav po odeslání, FAQ, zásady, poznámka k SXR8/CSPX.
+5. Řádek se zdrojem TER pod malými kartami v hero (navrhl Claude) – schválit znění.

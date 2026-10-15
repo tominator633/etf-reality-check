@@ -7,12 +7,14 @@ Konverzní landing page pro českého drobného investora z mobilní reklamy: kv
 2. `docs/05-technicka-implementace.md` – JAK (stack, struktura, data, výpočet, API, eventy, testy, plán).
 3. `docs/decisions.md` – rozhodnutí, která už padla. Nová rozhodnutí sem připisuj (datum, co, proč).
 
+Obsah projektu se průběžně mění. Když Tom změní zadání, uprav i `brief.md` a tech-spec (nejen kód a `decisions.md`), ať dokumenty odpovídají stavu.
+
 ## Stack
-Next.js App Router + TS, CSS Modules + `src/shared/styles/tokens.css`, Zod, Neon (`@neondatabase/serverless`, čisté SQL, bez ORM), Route Handler `/api/lead`, Umami, `@react-pdf/renderer`, Vitest, Playwright, Vercel.
+Next.js App Router + TS, CSS Modules + `src/shared/styles/tokens.css`, písma přes `next/font` (`src/shared/lib/fonts.ts`), Zod, Neon (`@neondatabase/serverless`, čisté SQL, bez ORM), `server-only`, Route Handler `/api/lead`, Umami, `@react-pdf/renderer`, Vitest, Playwright, Vercel.
 **Nepoužívat:** Tailwind, UI knihovny, ORM, Zustand/Redux, knihovny pro grafy, animace, ikony a slidery.
 
 ## Tvrdá pravidla
-- **Finanční data nikdy z paměti.** TER, ISIN, burzy, váhy indexů jen z `data/` s URL a datem ověření. Neznámé = `null` + `"unverified"`.
+- **Finanční data nikdy z paměti.** TER, ISIN, burzy, váhy indexů jen z `data/` se zdrojem (`sourceUrl` + `sourceLabel`) a datem. Neznámé = `null` bez zdroje. TER v datech v procentech (`0.03` = 0,03 %).
 - **Žádná ručně psaná čísla.** Částky v Kč počítá `projection.ts`. Čísla z mockupů a poznámek nepřebírej.
 - **Žádné doporučení.** Nikdy „doporučujeme“, „kupte“, „ten si koupíte“. Jen fakta („nejnižší TER“).
 - **Model ≠ fakt.** Výpočty označené jako modelové, fakta se zdrojem a datem.
@@ -35,7 +37,7 @@ Next.js App Router + TS, CSS Modules + `src/shared/styles/tokens.css`, Zod, Neon
 - Nic tajného do repa (`.env*` v `.gitignore`, kromě `.env.example`).
 
 ## Příkazy
-`npm run dev | test | test:e2e | check:data | build:pdf | db:setup`
+`npm run dev | build | test | check:data` (prebuild; `NODE_ENV=production` = přísný režim). Zatím nejsou: `test:e2e`, `build:pdf` (přibudou s Playwrightem a PDF). Tabulka `leads`: `db/schema.sql` jednorázově v Neon SQL Editoru (`db:setup` skript záměrně není – viz `decisions.md`).
 
 ## Když si nejsi jistý
 Rozhodni rozumně, zapiš do `docs/decisions.md` jednou větou (co, proč) a pokračuj. U finančních dat a právních tvrzení (KID, daně) nerozhoduj, nech `null` / placeholder a nahlas to.
