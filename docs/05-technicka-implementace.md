@@ -107,8 +107,9 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 │   │   │   ├── server.ts                     # serverové API (jen pro src/app/api)
 │   │   │   └── index.ts                      # veřejné API: LeadCapture, CONSENT_VERSION
 │   │   └── analytics/
-│   │       ├── lib/{track.ts,utm.ts}
-│   │       └── index.ts                      # veřejné API: track, getUtm
+│   │       ├── lib/{track.ts,utm.ts,umami-config.ts} (+ testy)
+│   │       ├── hooks/use-track-in-view.ts
+│   │       └── index.ts                      # veřejné API: track, trackOnce, getUtm, umamiConfig, useTrackInView
 │   ├── shared/
 │   │   ├── components/ui/                    # button, source-note, disclaimer, badge, details…
 │   │   ├── components/icons/                 # vlastní SVG komponenty
@@ -449,8 +450,11 @@ export async function saveLead(lead: Lead): Promise<"created" | "duplicate"> {
 
 ### 9.1 Nastavení
 
-- Umami skript v `src/app/layout.tsx` přes `next/script` (`afterInteractive`), `data-website-id` z env, `data-domains` = produkční doména.
-- `features/analytics/lib/track.ts`: `track(name, props?)` volá `window.umami?.track`, nikdy nevyhodí chybu, v dev jen `console.debug`. Všechny eventy automaticky doplní `variant`.
+- Umami skript v `src/app/layout.tsx` přes `next/script` (`afterInteractive`): `src` = `NEXT_PUBLIC_UMAMI_SCRIPT_URL` (z tracking kódu v Umami, adresa se nehádá), `data-website-id`, `data-domains` = hostname z `NEXT_PUBLIC_SITE_URL`. Bez kterékoli z těch tří hodnot se skript nevloží (`umamiConfig()`), aby se neposílala data z localhostu.
+- `features/analytics/lib/track.ts`: `track(name, props?)` volá `window.umami?.track`, nikdy nevyhodí chybu, ve vývoji navíc `console.debug`. Všechny eventy automaticky doplní `variant` z `data-variant` na `<main>`. Typy hlídají max. 1 vlastnost navíc. `trackOnce()` = jednou za relaci (`sessionStorage`).
+- `features/analytics/hooks/use-track-in-view.ts`: ≥ 50 % ve viewportu, jednou za relaci, volitelná podmínka.
+- `features/analytics/lib/utm.ts`: `getUtm()` uloží UTM z první URL do `sessionStorage`, lead je posílá s sebou.
+- CSP v `next.config.ts` (varianta „bez nonce“ z dokumentace Next 16): `script-src`/`connect-src` jen `'self'` + origin skriptu Umami.
 
 ### 9.2 Eventy
 
@@ -460,10 +464,10 @@ export async function saveLead(lead: Lead): Promise<"created" | "duplicate"> {
 | `rc_view` | kvíz ≥ 50 % ve viewportu, 1× za relaci | variant |
 | `rc_answer` | odpověď na otázku | answer (`ano`/`ne`), variant |
 | `rc_slider_change` | první pohyb každého jezdce v relaci (debounce 1 s) | slider (`return`/`years`/`monthly`) |
-| `rc_cta_click` | klik na sticky CTA / jiné CTA vedoucí na formulář | location (`sticky`/…) |
-| `rc_form_view` | formulář ≥ 50 % ve viewportu, 1× za relaci | variant |
+| `rc_cta_click` | klik na CTA vedoucí na formulář (zatím „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“) | location (`lead_card`/`sticky`) |
+| `rc_form_view` | karta formuláře ≥ 50 % ve viewportu **po odpovědi v kvízu**, 1× za relaci | variant |
 | `rc_form_focus` | první focus do pole e-mail | variant |
-| `rc_form_submit` | klik na odeslat (před odpovědí serveru) | variant |
+| `rc_form_submit` | každý pokus o odeslání, i neplatný e-mail (před odpovědí serveru) | variant |
 | `rc_lead_success` | až po `200 { ok: true }` | variant |
 | `rc_lead_error` | 4xx/5xx nebo síťová chyba | code |
 | `rc_pdf_download` | klik na stažení taháku | variant |
@@ -523,7 +527,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 ### 11.4 Bezpečnost
 
 - Tajné klíče jen na serveru, `import "server-only"` ve `services/`.
-- Hlavičky v `next.config`: `X-Content-Type-Options`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, `Permissions-Policy`, bez `X-Powered-By` (hotovo); základní CSP povolující Umami přibude v kroku 8.
+- Hlavičky v `next.config`: `X-Content-Type-Options`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, `Permissions-Policy`, bez `X-Powered-By` (hotovo); CSP povolující Umami (hotovo, krok 8).
 - SQL jen parametrizovaně. Žádné osobní údaje v URL ani v analytice.
 
 ### 11.5 SEO a sdílení
@@ -538,6 +542,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 |---|---|---|
 | `DATABASE_URL` | server | ano (Neon integrace ve Vercelu) |
 | `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | klient | ano |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL` | klient (+ CSP v `next.config.ts`) | ano – z tracking kódu v Umami |
 | `NEXT_PUBLIC_SITE_URL` | klient | ano |
 | `EMAIL_ENABLED` | server | ne (default `false`) |
 | `RESEND_API_KEY`, `EMAIL_FROM` | server | jen když `EMAIL_ENABLED=true` |
@@ -591,7 +596,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 | 5 | Hero + otázka + odhalení (páry, karty, jezdce) | MUST | po komponentách | ✅ |
 | 6 | `db/schema.sql`, `save-lead.ts`, `/api/lead`, `lead-capture` + stavy chyb | MUST | `feat(lead): formulář a uložení do Neonu` | ✅ ověřeno proti Neonu lokálně (API i formulář, duplicita) |
 | 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` | stav úspěchu hotový, PDF a `use-lead-status` chybí |
-| 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` | – |
+| 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` | ✅ kód, eventy a CSP; chybí účet Umami (env) |
 | 9 | Varianty hero A/B, middleware/proxy, `ads/` | MUST | `feat(ads): varianty pro reklamy` | částka hero B počítaná (`buildHeroValues`), zbytek – |
 | 10 | Nasazení na Vercel, Neon integrace, smoke test na telefonu | MUST | `chore(deploy): …` | – |
 | 11 | Doplnění ověřených dat (Tom) | MUST | `data: ověřené TER/ISIN k DD. MM. 2026` | ✅ |

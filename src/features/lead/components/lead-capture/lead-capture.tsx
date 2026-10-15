@@ -2,13 +2,18 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { copy } from "@content/copy";
+import { getUtm, track, trackOnce, useTrackInView } from "@/features/analytics";
 import { readQuizAnswer } from "@/shared/lib/quiz-answer-storage";
 import { EMAIL_MAX_LENGTH, emailSchema, type LeadErrorCode } from "@/shared/schemas/lead.schema";
-import { readUtm, submitLead } from "../../lib/submit-lead";
+import { submitLead } from "../../lib/submit-lead";
 import styles from "./lead-capture.module.css";
 
 type LeadCaptureProps = { variant: "a" | "b"; emailEnabled: boolean; privacyHref: string };
 type Step = "cta" | "form" | "success";
+
+// rc_form_view jen po odpovědi v kvízu: karta je na stránce od začátku a na mobilu je vidět
+// hned pod otázkou – bez podmínky by předběhla rc_answer a rozbila funnel v Umami.
+const answeredQuiz = () => readQuizAnswer() !== null;
 
 // Nabídka PDF: tlačítko → formulář s jediným polem (e-mail) → stav úspěchu až po potvrzení serveru.
 // E-mail se validuje stejným schématem na klientu i na serveru (shared/schemas/lead.schema.ts).
@@ -23,9 +28,12 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
   const startedAt = useRef(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
+  const section = useRef<HTMLElement>(null);
   const inputId = useId();
   const errorId = useId();
   const { lead } = copy;
+
+  useTrackInView(section, "rc_form_view", answeredQuiz);
 
   useEffect(() => {
     if (step === "form") inputRef.current?.focus();
@@ -33,6 +41,7 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
   }, [step]);
 
   function open() {
+    track("rc_cta_click", { location: "lead_card" });
     startedAt.current = Date.now();
     setStep("form");
   }
@@ -40,6 +49,7 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submitting) return;
+    track("rc_form_submit"); // každý pokus; rozdíl proti rc_lead_success = chyby validace a serveru
 
     const parsed = emailSchema.safeParse(email);
     if (!parsed.success) {
@@ -56,32 +66,35 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
       email: parsed.data,
       website: honeypot,
       variant,
-      utm: readUtm(window.location.search),
+      utm: getUtm(),
       quiz: answer ? { answer } : null,
       startedAt: startedAt.current,
     });
     setSubmitting(false);
 
     if (result.status === "success") {
+      track("rc_lead_success"); // až po potvrzeném uložení (CLAUDE.md)
       setGuideUrl(result.guideUrl);
       setStep("success");
     } else if (result.code === "invalid_email") {
+      track("rc_lead_error", { code: result.code });
       setFieldError(true);
       inputRef.current?.focus();
     } else {
+      track("rc_lead_error", { code: result.code });
       setFormError(result.code);
     }
   }
 
   if (step === "success") {
     return (
-      <section id="lead" className={styles.card} aria-live="polite">
+      <section ref={section} id="lead" className={styles.card} aria-live="polite">
         <h2 ref={successRef} tabIndex={-1} className={styles.heading}>
           {lead.success.heading}
         </h2>
         <p>{lead.success.text}</p>
         {guideUrl && (
-          <a className={styles.button} href={guideUrl} download>
+          <a className={styles.button} href={guideUrl} download onClick={() => track("rc_pdf_download")}>
             {lead.success.download}
           </a>
         )}
@@ -90,7 +103,7 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
   }
 
   return (
-    <section id="lead" className={styles.card}>
+    <section ref={section} id="lead" className={styles.card}>
       <p className={styles.offer}>{lead.offer}</p>
 
       {step === "cta" ? (
@@ -120,6 +133,7 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
               setEmail(event.target.value);
               if (fieldError) setFieldError(false);
             }}
+            onFocus={() => trackOnce("rc_form_focus", "rc_form_focus")}
             aria-invalid={fieldError}
             aria-describedby={fieldError ? errorId : undefined}
           />

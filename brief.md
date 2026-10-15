@@ -176,7 +176,7 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 | `rc_answer` | odpověď na otázku | answer, variant |
 | `rc_slider_change` | první pohyb každého jezdce (debounce 1 s) | slider |
 | `rc_cta_click` | sticky CTA / jiné CTA na formulář | location |
-| `rc_form_view` | formulář ≥ 50 % ve viewportu, 1× | variant |
+| `rc_form_view` | formulář ≥ 50 % ve viewportu po odpovědi, 1× | variant |
 | `rc_form_focus` | první focus do e-mailu | variant |
 | `rc_form_submit` | klik na odeslat | variant |
 | `rc_lead_success` | odpověď 200 `{ok:true}` | variant |

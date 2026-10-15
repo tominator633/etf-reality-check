@@ -42,14 +42,3 @@ export async function submitLead(
     clearTimeout(timer);
   }
 }
-
-/** UTM z URL stránky (jen čtení; sanitizuje a validuje server). */
-export function readUtm(search: string): LeadPayload["utm"] {
-  const params = new URLSearchParams(search);
-  return {
-    source: params.get("utm_source"),
-    medium: params.get("utm_medium"),
-    campaign: params.get("utm_campaign"),
-    content: params.get("utm_content"),
-  };
-}

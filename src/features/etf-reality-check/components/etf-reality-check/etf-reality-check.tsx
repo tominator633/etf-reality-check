@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { copy } from "@content/copy";
+import { track, trackOnce, useTrackInView } from "@/features/analytics";
 import { formatCzk } from "@/shared/lib/format";
 import { storeQuizAnswer } from "@/shared/lib/quiz-answer-storage";
 import { clampInput, defaultInput, projectAll, type ProjectionInput } from "../../lib/projection";
@@ -15,12 +16,37 @@ import styles from "./etf-reality-check.module.css";
 
 type EtfRealityCheckProps = { view: RealityCheckView };
 
+// Názvy jezdců v analytice (tech-spec 9.2); hodnota jezdce se neposílá.
+const SLIDER_NAMES = { grossReturn: "return", years: "years", monthly: "monthly" } as const;
+const SLIDER_DEBOUNCE_MS = 1000;
+
 // Kontejner kvízu: drží odpověď a jezdce. Před odpovědí malé karty amerických fondů nad otázkou,
 // po odpovědi zmizí a odhalení se odkryje pod otázkou (tech-spec 6.1).
 export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
   const [answer, setAnswer] = useState<Answer | null>(null);
   const [input, setInput] = useState<ProjectionInput>(defaultInput);
   const revealHeading = useRef<HTMLParagraphElement>(null);
+  const section = useRef<HTMLElement>(null);
+  const sliderTimers = useRef(new Map<keyof ProjectionInput, ReturnType<typeof setTimeout>>());
+
+  useTrackInView(section, "rc_view");
+
+  useEffect(() => {
+    const timers = sliderTimers.current;
+    return () => timers.forEach((timer) => clearTimeout(timer));
+  }, []);
+
+  // rc_slider_change: první pohyb každého jezdce za relaci, až se jezdec na 1 s zastaví.
+  function trackSlider(change: Partial<ProjectionInput>) {
+    for (const key of Object.keys(change) as (keyof ProjectionInput)[]) {
+      clearTimeout(sliderTimers.current.get(key));
+      const slider = SLIDER_NAMES[key];
+      sliderTimers.current.set(
+        key,
+        setTimeout(() => trackOnce(`rc_slider_change:${slider}`, "rc_slider_change", { slider }), SLIDER_DEBOUNCE_MS),
+      );
+    }
+  }
 
   const funds = useMemo(() => allFunds(view), [view]);
   const projection = useMemo(
@@ -48,13 +74,14 @@ export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
   }, [answer]);
 
   return (
-    <section className={styles.realityCheck}>
+    <section ref={section} className={styles.realityCheck}>
       {!answer && <UsFundPreview funds={view.usFunds} verifiedAt={view.verifiedAt} />}
       <QuizStep
         answer={answer}
         onAnswer={(chosen) => {
           setAnswer(chosen);
           storeQuizAnswer(chosen); // pro lead (features spolu nesdílí stav)
+          track("rc_answer", { answer: chosen });
         }}
       />
       {answer && (
@@ -63,7 +90,10 @@ export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
           <FundPairGrid groups={view.groups} feeCosts={feeCosts} lowestTerIds={view.lowestTerIds} />
           <ProjectionSliders
             input={input}
-            onChange={(change) => setInput((current) => clampInput({ ...current, ...change }))}
+            onChange={(change) => {
+              setInput((current) => clampInput({ ...current, ...change }));
+              trackSlider(change);
+            }}
             summary={summary}
           />
         </div>

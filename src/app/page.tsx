@@ -12,7 +12,7 @@ export default function Home() {
   const variant = heroVariants[defaultHeroVariant];
 
   return (
-    <main className={styles.page}>
+    <main className={styles.page} data-variant={variant.id}>
       <Hero h1={variant.h1(heroValues)} subtitle={variant.subtitle(heroValues)} />
       <EtfRealityCheck view={view} />
       <LeadCapture

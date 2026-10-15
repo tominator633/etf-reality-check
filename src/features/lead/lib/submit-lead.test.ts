@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { readUtm, submitLead, type LeadPayload } from "./submit-lead";
+import { submitLead, type LeadPayload } from "./submit-lead";
 
 const payload: LeadPayload = {
   email: "jan@example.cz",
@@ -46,16 +46,5 @@ describe("submitLead", () => {
         new Promise<Response>((_resolve, reject) => init?.signal?.addEventListener("abort", () => reject(new Error("aborted")))),
     );
     expect(await submitLead(payload, { fetchImpl: hanging, timeoutMs: 10 })).toEqual({ status: "error", code: "server_error" });
-  });
-});
-
-describe("readUtm", () => {
-  it("přečte UTM z URL, chybějící = null", () => {
-    expect(readUtm("?utm_source=meta&utm_content=ad_a")).toEqual({
-      source: "meta",
-      medium: null,
-      campaign: null,
-      content: "ad_a",
-    });
   });
 });
