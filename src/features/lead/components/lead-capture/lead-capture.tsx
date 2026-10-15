@@ -5,6 +5,8 @@ import { copy } from "@content/copy";
 import { getUtm, track, trackOnce, useTrackInView } from "@/features/analytics";
 import { readQuizAnswer } from "@/shared/lib/quiz-answer-storage";
 import { EMAIL_MAX_LENGTH, emailSchema, type LeadErrorCode } from "@/shared/schemas/lead.schema";
+import { GUIDE_URL } from "../../lib/guide";
+import { readLeadStep, storeFormOpen, storeLeadSent } from "../../lib/lead-state";
 import { submitLead } from "../../lib/submit-lead";
 import styles from "./lead-capture.module.css";
 
@@ -16,6 +18,7 @@ type Step = "cta" | "form" | "success";
 const answeredQuiz = () => readQuizAnswer() !== null;
 
 // Nabídka PDF: tlačítko → formulář s jediným polem (e-mail) → stav úspěchu až po potvrzení serveru.
+// Otevřený formulář (sessionStorage) a odeslání (localStorage) se po reloadu obnoví (lib/lead-state.ts).
 // E-mail se validuje stejným schématem na klientu i na serveru (shared/schemas/lead.schema.ts).
 export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureProps) {
   const [step, setStep] = useState<Step>("cta");
@@ -29,13 +32,29 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
   const inputRef = useRef<HTMLInputElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
   const section = useRef<HTMLElement>(null);
+  const restoredStep = useRef(false); // krok obnovený z úložiště: bez fokusu (neposouvat stránku)
   const inputId = useId();
   const errorId = useId();
   const { lead } = copy;
 
   useTrackInView(section, "rc_form_view", answeredQuiz);
 
+  // Obnovení po reloadu, až po hydrataci (server o úložišti prohlížeče neví).
   useEffect(() => {
+    const stored = readLeadStep();
+    if (stored === "cta") return;
+    restoredStep.current = true;
+    if (stored === "form") startedAt.current = Date.now();
+    if (stored === "success") setGuideUrl(GUIDE_URL);
+    setStep(stored);
+  }, []);
+
+  useEffect(() => {
+    if (step === "cta") return;
+    if (restoredStep.current) {
+      restoredStep.current = false;
+      return;
+    }
     if (step === "form") inputRef.current?.focus();
     if (step === "success") successRef.current?.focus();
   }, [step]);
@@ -43,6 +62,7 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
   function open() {
     track("rc_cta_click", { location: "lead_card" });
     startedAt.current = Date.now();
+    storeFormOpen();
     setStep("form");
   }
 
@@ -74,6 +94,7 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
 
     if (result.status === "success") {
       track("rc_lead_success"); // až po potvrzeném uložení (CLAUDE.md)
+      storeLeadSent();
       setGuideUrl(result.guideUrl);
       setStep("success");
     } else if (result.code === "invalid_email") {

@@ -1,23 +1,17 @@
-// Odpověď kvízu pro lead (tech-spec 7.2 `quiz.answer`). Features spolu nesdílí stav (tech-spec 3.1),
-// kvíz ji proto uloží do sessionStorage a formulář si ji přečte při odeslání. Bez úložiště
-// (soukromé okno, zákaz) se lead odešle bez odpovědi.
+import { readStored, writeStored } from "./browser-storage";
+
+// Odpověď kvízu (sessionStorage). Používá ji kvíz (obnovení po reloadu) i formulář (tech-spec 7.2
+// `quiz.answer`) – features spolu nesdílí stav (tech-spec 3.1). Bez úložiště se odpověď neobnoví
+// a lead se odešle bez ní.
 
 const KEY = "rc_quiz_answer";
 export type QuizAnswer = "ano" | "ne";
 
 export function storeQuizAnswer(answer: QuizAnswer): void {
-  try {
-    sessionStorage.setItem(KEY, answer);
-  } catch {
-    // úložiště nedostupné – nevadí
-  }
+  writeStored("session", KEY, answer);
 }
 
 export function readQuizAnswer(): QuizAnswer | null {
-  try {
-    const value = sessionStorage.getItem(KEY);
-    return value === "ano" || value === "ne" ? value : null;
-  } catch {
-    return null;
-  }
+  const value = readStored("session", KEY);
+  return value === "ano" || value === "ne" ? value : null;
 }

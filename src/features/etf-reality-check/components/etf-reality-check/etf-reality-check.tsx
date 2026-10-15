@@ -4,8 +4,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { copy } from "@content/copy";
 import { track, trackOnce, useTrackInView } from "@/features/analytics";
 import { formatCzk } from "@/shared/lib/format";
-import { storeQuizAnswer } from "@/shared/lib/quiz-answer-storage";
+import { readQuizAnswer, storeQuizAnswer } from "@/shared/lib/quiz-answer-storage";
+import { restoreScroll, startScrollRetention } from "@/shared/lib/scroll-retention";
 import { clampInput, defaultInput, projectAll, type ProjectionInput } from "../../lib/projection";
+import { readProjectionInput, storeProjectionInput } from "../../lib/slider-storage";
 import { allFunds, type RealityCheckView } from "../../lib/view-model";
 import { AnswerReveal } from "../answer-reveal/answer-reveal";
 import { FundPairGrid } from "../fund-pair-grid/fund-pair-grid";
@@ -21,7 +23,8 @@ const SLIDER_NAMES = { grossReturn: "return", years: "years", monthly: "monthly"
 const SLIDER_DEBOUNCE_MS = 1000;
 
 // Kontejner kvízu: drží odpověď a jezdce. Před odpovědí malé karty amerických fondů nad otázkou,
-// po odpovědi zmizí a odhalení se odkryje pod otázkou (tech-spec 6.1).
+// po odpovědi zmizí a odhalení se odkryje pod otázkou (tech-spec 6.1). Odpověď i jezdce se
+// ukládají do sessionStorage a po reloadu obnoví (bez posunu stránky, fokusu a eventů).
 export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
   const [answer, setAnswer] = useState<Answer | null>(null);
   const [input, setInput] = useState<ProjectionInput>(defaultInput);
@@ -29,7 +32,31 @@ export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
   const section = useRef<HTMLElement>(null);
   const sliderTimers = useRef(new Map<keyof ProjectionInput, ReturnType<typeof setTimeout>>());
 
+  // true = odpověď se právě obnovila z úložiště, ne kliknutím (neposouvat, nefokusovat).
+  const restoredAnswer = useRef(false);
+  const [restored, setRestored] = useState(false);
+
   useTrackInView(section, "rc_view");
+
+  // Obnovení po reloadu. Až po hydrataci: server o úložišti prohlížeče neví.
+  useEffect(() => {
+    const stopScrollRetention = startScrollRetention();
+    const storedInput = readProjectionInput();
+    if (storedInput) setInput(storedInput);
+    const storedAnswer = readQuizAnswer();
+    if (storedAnswer) {
+      restoredAnswer.current = true;
+      setAnswer(storedAnswer);
+    }
+    setRestored(true);
+    return stopScrollRetention;
+  }, []);
+
+  // Scroll až po vykreslení obnoveného stavu (v jednom renderu i s formulářem, který se obnovuje
+  // ve stejném commitu), jinak by stránka byla ještě krátká.
+  useEffect(() => {
+    if (restored) restoreScroll();
+  }, [restored]);
 
   useEffect(() => {
     const timers = sliderTimers.current;
@@ -68,6 +95,10 @@ export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
 
   useEffect(() => {
     if (!answer) return;
+    if (restoredAnswer.current) {
+      restoredAnswer.current = false;
+      return;
+    }
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.getElementById("reveal-start")?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
     revealHeading.current?.focus({ preventScroll: true });
@@ -91,7 +122,9 @@ export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
           <ProjectionSliders
             input={input}
             onChange={(change) => {
-              setInput((current) => clampInput({ ...current, ...change }));
+              const next = clampInput({ ...input, ...change });
+              setInput(next);
+              storeProjectionInput(next);
               trackSlider(change);
             }}
             summary={summary}

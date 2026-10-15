@@ -101,8 +101,7 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 │   │   │   └── index.ts                      # veřejné API: Hero, EtfRealityCheck, buildRealityCheckView, buildHeroValues
 │   │   ├── lead/
 │   │   │   ├── components/{lead-capture,sticky-cta}/   # lead-capture: CTA → formulář → stav úspěchu
-│   │   │   ├── hooks/use-lead-status.ts      # „už odesláno“ v localStorage (try/catch) – krok 7
-│   │   │   ├── lib/{submit-lead.ts,consent.ts,guide.ts}
+│   │   │   ├── lib/{submit-lead.ts,lead-state.ts,consent.ts,guide.ts}   # lead-state: odesláno / formulář otevřený
 │   │   │   ├── services/{save-lead.ts,rate-limit.ts}   # import "server-only"
 │   │   │   ├── server.ts                     # serverové API (jen pro src/app/api)
 │   │   │   └── index.ts                      # veřejné API: LeadCapture, CONSENT_VERSION
@@ -297,6 +296,7 @@ type State = {
 - Klientská komponenta jen tady (a ve formuláři/sticky CTA). Hero text je server-rendered.
 - Odhalení se **odkryje pod otázkou** (ne místo ní). Po odpovědi plynulý scroll k odhalení (respektovat `prefers-reduced-motion`).
 - Změna odpovědi po odhalení není potřeba; tlačítka po odpovědi zůstanou zablokovaná se zvýrazněnou volbou.
+- **Stav po reloadu (Tom):** odpověď a jezdce v `sessionStorage` (`shared/lib/quiz-answer-storage.ts`, `lib/slider-storage.ts` – při čtení `clampInput`), obnova až po hydrataci, bez scrollu k odhalení, fokusu a eventů. Pozice scrollu se ukládá při `pagehide` a nastaví se po vykreslení obnoveného stavu (`shared/lib/scroll-retention.ts`, `history.scrollRestoration = "manual"`).
 
 ### 6.2 Hero + otázka
 
@@ -417,7 +417,7 @@ export async function saveLead(lead: Lead): Promise<"created" | "duplicate"> {
 ### 7.4 Co návštěvník dostane po odeslání
 
 - Formulář se nahradí `lead-success`: potvrzení, tlačítko **„Stáhnout tahák (PDF)“** (`rc_pdf_download`), sticky CTA zmizí.
-- `use-lead-status` si v `localStorage` (try/catch) pamatuje „odesláno“, aby se po reloadu ukázal stav úspěchu s odkazem. Bez úložiště stránka funguje dál.
+- `lib/lead-state.ts` si v `localStorage` pamatuje „odesláno“ (po reloadu i další návštěvě stav úspěchu s odkazem) a v `sessionStorage` „formulář otevřený“. Rozepsaný e-mail se neukládá. Bez úložiště stránka funguje dál (`shared/lib/browser-storage.ts`).
 - Věta „Kopii jsme poslali na …“ jen, když e-mail opravdu odešel.
 - E-mail je sekundární. Resend bez ověřené domény doručuje jen vlastníkovi účtu. Bez domény: `EMAIL_ENABLED=false` a v README jako známé omezení.
 - Gating je měkký: PDF leží v `public/`. Pro lead magnet standardní; v README jednou větou.
@@ -595,7 +595,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 | 4 | `content/copy.ts` a `hero-variants.ts` z `brief.md` (chybějící texty jako `[[CHYBÍ TEXT]]`) | MUST | `feat(content): texty stránky` | ✅ (texty se průběžně mění) |
 | 5 | Hero + otázka + odhalení (páry, karty, jezdce) | MUST | po komponentách | ✅ |
 | 6 | `db/schema.sql`, `save-lead.ts`, `/api/lead`, `lead-capture` + stavy chyb | MUST | `feat(lead): formulář a uložení do Neonu` | ✅ ověřeno proti Neonu lokálně (API i formulář, duplicita) |
-| 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` | stav úspěchu hotový, PDF a `use-lead-status` chybí |
+| 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` | stav úspěchu i jeho obnova po reloadu hotové, PDF chybí |
 | 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` | ✅ (Umami Cloud napojený na produkci) |
 | 9 | Varianty hero A/B, middleware/proxy, `ads/` | MUST | `feat(ads): varianty pro reklamy` | částka hero B počítaná (`buildHeroValues`), zbytek – |
 | 10 | Nasazení na Vercel, Neon integrace, smoke test na telefonu | MUST | `chore(deploy): …` | – |
