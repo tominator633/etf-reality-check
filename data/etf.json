@@ -1,0 +1,727 @@
+{
+  "datasetVersion": "2026-10-15.1",
+  "funds": [
+    {
+      "id": "voo",
+      "name": "Vanguard S&P 500 ETF",
+      "issuer": "Vanguard",
+      "domicile": "US",
+      "regime": "US-registered",
+      "isin": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "index": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "ter": {
+        "value": null,
+        "unit": "%",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "aum": {
+        "value": null,
+        "unit": "bn USD",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "distribution": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "baseCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "hedged": false,
+      "kidAvailableForEURetail": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "relatedFundIds": [
+        "vuaa"
+      ],
+      "role": "quiz-pair"
+    },
+    {
+      "id": "ivv",
+      "name": "iShares Core S&P 500 ETF",
+      "issuer": "iShares",
+      "domicile": "US",
+      "regime": "US-registered",
+      "isin": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "index": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "ter": {
+        "value": null,
+        "unit": "%",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "aum": {
+        "value": null,
+        "unit": "bn USD",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "distribution": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "baseCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "hedged": false,
+      "kidAvailableForEURetail": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "relatedFundIds": [
+        "cspx"
+      ],
+      "role": "quiz-pair"
+    },
+    {
+      "id": "spym",
+      "name": "State Street SPDR Portfolio S&P 500 ETF",
+      "issuer": "State Street",
+      "domicile": "US",
+      "regime": "US-registered",
+      "isin": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "index": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "ter": {
+        "value": null,
+        "unit": "%",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "aum": {
+        "value": null,
+        "unit": "bn USD",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "distribution": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "baseCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "hedged": false,
+      "kidAvailableForEURetail": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "relatedFundIds": [
+        "spyl"
+      ],
+      "role": "quiz-pair"
+    },
+    {
+      "id": "spy",
+      "name": "SPDR S&P 500 ETF Trust",
+      "issuer": "State Street",
+      "domicile": "US",
+      "regime": "US-registered",
+      "isin": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "index": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "ter": {
+        "value": null,
+        "unit": "%",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "aum": {
+        "value": null,
+        "unit": "bn USD",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "distribution": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "baseCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "hedged": false,
+      "kidAvailableForEURetail": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "relatedFundIds": [
+        "spy5"
+      ],
+      "role": "quiz-pair"
+    },
+    {
+      "id": "vuaa",
+      "name": "Vanguard S&P 500 UCITS ETF (USD) Accumulating",
+      "issuer": "Vanguard",
+      "domicile": "IE",
+      "regime": "UCITS",
+      "isin": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "index": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "ter": {
+        "value": null,
+        "unit": "%",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "aum": {
+        "value": null,
+        "unit": "bn USD",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "distribution": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "baseCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "hedged": false,
+      "kidAvailableForEURetail": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "relatedFundIds": [
+        "voo"
+      ],
+      "role": "quiz-pair"
+    },
+    {
+      "id": "cspx",
+      "name": "iShares Core S&P 500 UCITS ETF",
+      "issuer": "iShares",
+      "domicile": "IE",
+      "regime": "UCITS",
+      "isin": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "index": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "ter": {
+        "value": null,
+        "unit": "%",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "aum": {
+        "value": null,
+        "unit": "bn USD",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "distribution": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "baseCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "hedged": false,
+      "kidAvailableForEURetail": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "relatedFundIds": [
+        "ivv"
+      ],
+      "role": "quiz-pair"
+    },
+    {
+      "id": "spyl",
+      "name": "SPDR S&P 500 UCITS ETF (Acc)",
+      "issuer": "State Street",
+      "domicile": "IE",
+      "regime": "UCITS",
+      "isin": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "index": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "ter": {
+        "value": null,
+        "unit": "%",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "aum": {
+        "value": null,
+        "unit": "bn USD",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "distribution": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "baseCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "hedged": false,
+      "kidAvailableForEURetail": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "relatedFundIds": [
+        "spym"
+      ],
+      "role": "quiz-pair"
+    },
+    {
+      "id": "spy5",
+      "name": "SPDR S&P 500 UCITS ETF (Dist)",
+      "issuer": "State Street",
+      "domicile": "IE",
+      "regime": "UCITS",
+      "isin": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "index": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "ter": {
+        "value": null,
+        "unit": "%",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "aum": {
+        "value": null,
+        "unit": "bn USD",
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "distribution": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "baseCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "hedged": false,
+      "kidAvailableForEURetail": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "relatedFundIds": [
+        "spy"
+      ],
+      "role": "quiz-pair"
+    }
+  ],
+  "listings": [
+    {
+      "fundId": "voo",
+      "ticker": "VOO",
+      "exchange": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "tradingCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      }
+    },
+    {
+      "fundId": "ivv",
+      "ticker": "IVV",
+      "exchange": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "tradingCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      }
+    },
+    {
+      "fundId": "spym",
+      "ticker": "SPYM",
+      "exchange": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "tradingCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      }
+    },
+    {
+      "fundId": "spy",
+      "ticker": "SPY",
+      "exchange": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "tradingCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      }
+    },
+    {
+      "fundId": "vuaa",
+      "ticker": "VUAA",
+      "exchange": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "tradingCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      }
+    },
+    {
+      "fundId": "cspx",
+      "ticker": "CSPX",
+      "exchange": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "tradingCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      }
+    },
+    {
+      "fundId": "spyl",
+      "ticker": "SPYL",
+      "exchange": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "tradingCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      }
+    },
+    {
+      "fundId": "spy5",
+      "ticker": "SPY5",
+      "exchange": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      },
+      "tradingCurrency": {
+        "value": null,
+        "status": "unverified",
+        "type": "fact",
+        "source": null,
+        "asOf": null,
+        "verifiedAt": null
+      }
+    }
+  ]
+}
