@@ -12,11 +12,11 @@ export const copy = {
   },
 
   quiz: {
-    // brief kap. 4
-    question: "VOO, IVV, SPYM a SPY sledují stejný S&P 500. Můžete si je koupit u českého brokera?",
+    // Tom 15. 10. 2026 (zkráceno proti brief kap. 4, tickery a index říká podnadpis hero)
+    question: "Můžete si je koupit v Česku?",
     answers: { ano: "ANO", ne: "NE" },
-    // tech-spec 6.2
-    hint: "Zdarma, bez registrace · 1 otázka",
+    // Tom 15. 10. 2026 (tech-spec 6.2 bez „· 1 otázka“)
+    hint: "Zdarma, bez registrace",
   },
 
   reveal: {

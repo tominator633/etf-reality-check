@@ -3,8 +3,8 @@ import { copy } from "./copy";
 import { heroVariants } from "./hero-variants";
 
 // Pojistka pravidla „žádná ručně psaná čísla“: v textech nesmí být číslice,
-// kromě výslovně povolených výrazů (název indexu, počet otázek kvízu).
-const ALLOWED = ["S&P 500", "1 otázka"];
+// kromě výslovně povolených výrazů (název indexu).
+const ALLOWED = ["S&P 500"];
 const SAMPLE = "§";
 // Argument šablony: jako řetězec vrací SAMPLE, jako objekt má SAMPLE v každé vlastnosti.
 const sampleArgument = new Proxy(
