@@ -252,12 +252,40 @@ h1 {
 }
 .cta svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .source { color: var(--color-ink-muted); font-size: 22px; margin-top: -12px; }
+/* Karta fondu – stejná v obou reklamách a jako na stránce (pozadí dvojice, ticker v tmavé verzi) */
+.card {
+  display: grid;
+  gap: 12px;
+  padding: 22px 30px;
+  border: 2px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  background: var(--pair-bg);
+}
+.pair1 { --pair-bg: var(--color-pair-1); --pair-ink: var(--color-pair-1-ink); }
+.pair2 { --pair-bg: var(--color-pair-2); --pair-ink: var(--color-pair-2-ink); }
+.pair3 { --pair-bg: var(--color-pair-3); --pair-ink: var(--color-pair-3-ink); }
+/* Ticker = tmavá verze pozadí dvojice, stejné tokeny jako karty na stránce */
+.ticker {
+  color: var(--pair-ink);
+  font-family: var(--font-heading);
+  font-size: 68px;
+  font-weight: var(--font-weight-black);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-tight);
+}
+.meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 28px; }
+.index { color: var(--color-ink-muted); font-weight: var(--font-weight-bold); }
+.ter { color: var(--color-ink); }
+.ter strong { color: var(--color-loss); font-weight: var(--font-weight-black); }
 
-h1 { margin-top: 8px; }
+h1 { gap: 24px; margin-top: 8px; }
 .lead { font-size: 104px; font-weight: var(--font-weight-bold); }
-.ticker { font-size: 300px; font-weight: var(--font-weight-black); color: var(--color-pair-1-ink); line-height: 0.9; }
+/* Místo slova „VOO“ karta VOO – stejná jako v reklamě A a na stránce, jen větší */
+h1 .card { justify-self: start; width: 640px; gap: 20px; padding: 32px 44px; font-family: var(--font-sans); letter-spacing: normal; line-height: var(--line-height-snug); }
+h1 .ticker { font-size: 150px; }
+h1 .meta { font-size: 40px; }
 /* Tlačítka ANO / NE ve stylu kvízu na stránce (žlutá plocha, tmavý obrys), vlajky drobně vedle */
-.answers { display: grid; grid-template-columns: 1fr 1fr 220px; align-items: center; gap: 24px; margin-top: 24px; }
+.answers { display: grid; grid-template-columns: 1fr 1fr 220px; align-items: center; gap: 24px; margin-top: 16px; }
 .answer {
   display: grid;
   place-items: center;
@@ -291,7 +319,10 @@ h1 { margin-top: 8px; }
 <p class="brand">ETF Reality Check</p>
 <h1 aria-label="Koupíte si VOO v Česku?">
   <span class="line"><span class="lead w1">Koupíte si</span></span>
-  <span class="line"><span class="ticker">VOO</span></span>
+  <span class="card pair1">
+      <p class="ticker">VOO</p>
+      <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,03 %</strong></span></p>
+    </span>
   <span class="line"><span class="lead w2">v Česku?</span></span>
 </h1>
 <div class="answers" aria-hidden="true">

@@ -22,10 +22,22 @@ const NBSP = " ";
 const dataset = datasetSchema.parse(JSON.parse(read("data/etf.json")));
 const verifiedAt = formatDate(dataset.verifiedAt);
 
+// Barva dvojice podle evropského dvojčete, v pořadí jako na stránce (VOO→VUAA = 1, IVV→CSPX = 2,
+// SPYM a SPY→SPYL = 3), takže karta má stejné pozadí a ticker jako na landing page.
+const twinOf = (id: string) => dataset.funds.find((candidate) => candidate.id === id)?.relatedFundIds[0] ?? null;
+const twinOrder = [...new Set(AD_A_FUND_IDS.map(twinOf))];
+
 function fund(id: string) {
   const found = dataset.funds.find((candidate) => candidate.id === id);
   if (!found?.ter.value || !found.index.value) throw new Error(`Reklama: fond ${id} nemá ověřené TER nebo index`);
-  return { ticker: found.listing.ticker.value ?? id.toUpperCase(), index: found.index.value, ter: formatTer(found.ter.value) };
+  const tone = twinOrder.indexOf(twinOf(id)) + 1;
+  if (tone < 1 || tone > 3) throw new Error(`Reklama: fond ${id} nemá barvu dvojice`);
+  return {
+    ticker: found.listing.ticker.value ?? id.toUpperCase(),
+    index: found.index.value,
+    ter: formatTer(found.ter.value),
+    tone,
+  };
 }
 
 const escape = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
@@ -138,7 +150,40 @@ h1 {
 }
 .cta svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .source { color: var(--color-ink-muted); font-size: 22px; margin-top: -12px; }
+/* Karta fondu – stejná v obou reklamách a jako na stránce (pozadí dvojice, ticker v tmavé verzi) */
+.card {
+  display: grid;
+  gap: 12px;
+  padding: 22px 30px;
+  border: 2px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  background: var(--pair-bg);
+}
+.pair1 { --pair-bg: var(--color-pair-1); --pair-ink: var(--color-pair-1-ink); }
+.pair2 { --pair-bg: var(--color-pair-2); --pair-ink: var(--color-pair-2-ink); }
+.pair3 { --pair-bg: var(--color-pair-3); --pair-ink: var(--color-pair-3-ink); }
+/* Ticker = tmavá verze pozadí dvojice, stejné tokeny jako karty na stránce */
+.ticker {
+  color: var(--pair-ink);
+  font-family: var(--font-heading);
+  font-size: 68px;
+  font-weight: var(--font-weight-black);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-tight);
+}
+.meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 28px; }
+.index { color: var(--color-ink-muted); font-weight: var(--font-weight-bold); }
+.ter { color: var(--color-ink); }
+.ter strong { color: var(--color-loss); font-weight: var(--font-weight-black); }
 `;
+
+/** Karta fondu: ticker, index, TER (z data/etf.json). */
+function fundCard(item: ReturnType<typeof fund>, tag = "li"): string {
+  return `<${tag} class="card pair${item.tone}">
+      <p class="ticker">${escape(item.ticker)}</p>
+      <p class="meta"><span class="index">${escape(nbsp(item.index))}</span><span class="ter">TER <strong>${item.ter}</strong></span></p>
+    </${tag}>`;
+}
 
 function page(title: string, css: string, body: string): string {
   return `<!doctype html>
@@ -169,31 +214,6 @@ h1 { margin-top: -12px; }
 .big { font-size: 184px; font-weight: var(--font-weight-black); }
 .small { font-size: 92px; font-weight: var(--font-weight-bold); }
 .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; list-style: none; }
-.card {
-  display: grid;
-  gap: 12px;
-  padding: 22px 30px;
-  border: 2px solid var(--color-card-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-pair-1);
-}
-.card:nth-child(2) { background: var(--color-pair-2); }
-.card:nth-child(n + 3) { background: var(--color-pair-3); }
-/* Ticker = tmavá verze pozadí dvojice, stejné tokeny jako karty na stránce */
-.ticker {
-  color: var(--color-pair-1-ink);
-  font-family: var(--font-heading);
-  font-size: 68px;
-  font-weight: var(--font-weight-black);
-  line-height: 1;
-  letter-spacing: var(--letter-spacing-tight);
-}
-.card:nth-child(2) .ticker { color: var(--color-pair-2-ink); }
-.card:nth-child(n + 3) .ticker { color: var(--color-pair-3-ink); }
-.meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 28px; }
-.index { color: var(--color-ink-muted); font-weight: var(--font-weight-bold); }
-.ter { color: var(--color-ink); }
-.ter strong { color: var(--color-loss); font-weight: var(--font-weight-black); }
 .claim { display: grid; gap: 4px; font-size: 38px; line-height: var(--line-height-snug); }
 .claim strong { font-weight: var(--font-weight-black); }
 .fact { color: var(--color-fact); }
@@ -209,14 +229,7 @@ h1 { margin-top: -12px; }
 }
 `;
 
-const adACards = adAFunds
-  .map(
-    (item) => `<li class="card">
-      <p class="ticker">${escape(item.ticker)}</p>
-      <p class="meta"><span class="index">${escape(nbsp(item.index))}</span><span class="ter">TER <strong>${item.ter}</strong></span></p>
-    </li>`,
-  )
-  .join("");
+const adACards = adAFunds.map((item) => fundCard(item)).join("");
 
 const adA = page(
   "Reklama A – Není ETF jako ETF",
@@ -245,11 +258,14 @@ const adA = page(
 const adBFund = fund(AD_B_FUND_ID);
 
 const adBCss = `
-h1 { margin-top: 8px; }
+h1 { gap: 24px; margin-top: 8px; }
 .lead { font-size: 104px; font-weight: var(--font-weight-bold); }
-.ticker { font-size: 300px; font-weight: var(--font-weight-black); color: var(--color-pair-1-ink); line-height: 0.9; }
+/* Místo slova „VOO“ karta VOO – stejná jako v reklamě A a na stránce, jen větší */
+h1 .card { justify-self: start; width: 640px; gap: 20px; padding: 32px 44px; font-family: var(--font-sans); letter-spacing: normal; line-height: var(--line-height-snug); }
+h1 .ticker { font-size: 150px; }
+h1 .meta { font-size: 40px; }
 /* Tlačítka ANO / NE ve stylu kvízu na stránce (žlutá plocha, tmavý obrys), vlajky drobně vedle */
-.answers { display: grid; grid-template-columns: 1fr 1fr 220px; align-items: center; gap: 24px; margin-top: 24px; }
+.answers { display: grid; grid-template-columns: 1fr 1fr 220px; align-items: center; gap: 24px; margin-top: 16px; }
 .answer {
   display: grid;
   place-items: center;
@@ -284,7 +300,7 @@ const adB = page(
   adBCss,
   `<h1 aria-label="Koupíte si ${escape(adBFund.ticker)} v Česku?">
   <span class="line"><span class="lead w1">Koupíte${NBSP}si</span></span>
-  <span class="line"><span class="ticker">${escape(adBFund.ticker)}</span></span>
+  ${fundCard(adBFund, "span")}
   <span class="line"><span class="lead w2">v${NBSP}Česku?</span></span>
 </h1>
 <div class="answers" aria-hidden="true">

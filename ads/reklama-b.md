@@ -14,17 +14,17 @@ Kreativa: [`reklama-b.png`](reklama-b.png) (zdroj [`reklama-b.html`](reklama-b.h
 
 - **Nadpis Meta:** Koupíte si VOO v Česku?
 - **Hlavní text Meta:** VOO je populární americké ETF na index S&P 500. Koupíte si ho jako drobný investor v Česku? Odpovězte ANO, nebo NE a hned uvidíte, jak to je, jaké má evropské dvojče a kolik vás stojí poplatky.
-- **Text v kreativě:** ETF REALITY CHECK · Koupíte si VOO v Česku? · ANO / NE · Odpověď vás možná překvapí. · OVĚŘTE SI ODPOVĚĎ → · TER podle dokumentů správců, ověřeno {datum z `verifiedAt`}. Nejde o investiční doporučení.
+- **Text v kreativě:** ETF REALITY CHECK · Koupíte si [karta VOO: S&P 500, TER {z dat}] v Česku? · ANO / NE · Odpověď vás možná překvapí. · OVĚŘTE SI ODPOVĚĎ → · TER podle dokumentů správců, ověřeno {datum z `verifiedAt`}. Nejde o investiční doporučení.
 
 ## Vizuál
 
-Design landing page: bílé pozadí, velká otázka (Outfit; „Koupíte si“ petrolejově, „VOO“ v tmavé indigové jako ticker VOO na stránce, „v Česku?“ fialově), dvě velká žlutá tlačítka ANO a NE s tmavým obrysem jako v kvízu, vedle drobně „dvojčata vlajek“ USA a EU, pod tím háček a tmavé CTA (tmavé, aby se nepletlo s tlačítky odpovědí). V kreativě nejsou čísla v Kč ani TER.
+Design landing page: bílé pozadí, velká otázka (Outfit; „Koupíte si“ petrolejově, „v Česku?“ fialově), mezi nimi místo slova „VOO“ karta VOO – stejná jako v reklamě A a na stránce (světle modré pozadí dvojice VOO↔VUAA, ticker v tmavé indigové, S&P 500, TER), jen větší, dvě velká žlutá tlačítka ANO a NE s tmavým obrysem jako v kvízu, vedle drobně „dvojčata vlajek“ USA a EU, pod tím háček a tmavé CTA (tmavé, aby se nepletlo s tlačítky odpovědí). V kreativě nejsou částky v Kč; TER VOO je z dat.
 
 ## Odkud je každé tvrzení
 
 | Tvrzení | Zdroj | Kde ho doloží stránka |
 |---|---|---|
-| Ticker VOO | `data/etf.json` → `listing.ticker` | malé karty nad otázkou, srovnání |
+| Karta VOO: ticker, index, TER | `data/etf.json` → `listing.ticker`, `index`, `ter` (prospekt VOO); barva dvojice podle `relatedFundIds` | malé karty nad otázkou, srovnání |
 | VOO sleduje S&P 500 (hlavní text) | `data/etf.json` → `index` (prospekt VOO) | podnadpis hero, karty |
 | „Koupíte si VOO v Česku?“ | otázka, ne tvrzení; odpověď dokládá odhalení se zdrojem ke KID | odhalení po odpovědi |
 | „Odpověď vás možná překvapí.“ | záměrně bez tvrzení o ostatních. „Většina lidí odpoví špatně“ až s daty z `rc_answer` (Tom 16. 10.) | – |

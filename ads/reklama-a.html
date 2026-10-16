@@ -252,37 +252,37 @@ h1 {
 }
 .cta svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .source { color: var(--color-ink-muted); font-size: 22px; margin-top: -12px; }
-
-.flags { position: absolute; top: 250px; right: 56px; width: 270px; }
-h1 { margin-top: -12px; }
-.big { font-size: 184px; font-weight: var(--font-weight-black); }
-.small { font-size: 92px; font-weight: var(--font-weight-bold); }
-.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; list-style: none; }
+/* Karta fondu – stejná v obou reklamách a jako na stránce (pozadí dvojice, ticker v tmavé verzi) */
 .card {
   display: grid;
   gap: 12px;
   padding: 22px 30px;
   border: 2px solid var(--color-card-border);
   border-radius: var(--radius-lg);
-  background: var(--color-pair-1);
+  background: var(--pair-bg);
 }
-.card:nth-child(2) { background: var(--color-pair-2); }
-.card:nth-child(n + 3) { background: var(--color-pair-3); }
+.pair1 { --pair-bg: var(--color-pair-1); --pair-ink: var(--color-pair-1-ink); }
+.pair2 { --pair-bg: var(--color-pair-2); --pair-ink: var(--color-pair-2-ink); }
+.pair3 { --pair-bg: var(--color-pair-3); --pair-ink: var(--color-pair-3-ink); }
 /* Ticker = tmavá verze pozadí dvojice, stejné tokeny jako karty na stránce */
 .ticker {
-  color: var(--color-pair-1-ink);
+  color: var(--pair-ink);
   font-family: var(--font-heading);
   font-size: 68px;
   font-weight: var(--font-weight-black);
   line-height: 1;
   letter-spacing: var(--letter-spacing-tight);
 }
-.card:nth-child(2) .ticker { color: var(--color-pair-2-ink); }
-.card:nth-child(n + 3) .ticker { color: var(--color-pair-3-ink); }
 .meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 28px; }
 .index { color: var(--color-ink-muted); font-weight: var(--font-weight-bold); }
 .ter { color: var(--color-ink); }
 .ter strong { color: var(--color-loss); font-weight: var(--font-weight-black); }
+
+.flags { position: absolute; top: 250px; right: 56px; width: 270px; }
+h1 { margin-top: -12px; }
+.big { font-size: 184px; font-weight: var(--font-weight-black); }
+.small { font-size: 92px; font-weight: var(--font-weight-bold); }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; list-style: none; }
 .claim { display: grid; gap: 4px; font-size: 38px; line-height: var(--line-height-snug); }
 .claim strong { font-weight: var(--font-weight-black); }
 .fact { color: var(--color-fact); }
@@ -315,16 +315,16 @@ h1 { margin-top: -12px; }
   <span class="line"><span class="big w1">NENÍ</span><span class="small w2">ETF</span></span>
   <span class="line"><span class="small w3">JAKO</span><span class="big w4">ETF</span></span>
 </h1>
-<ul class="cards"><li class="card">
+<ul class="cards"><li class="card pair1">
       <p class="ticker">VOO</p>
       <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,03 %</strong></span></p>
-    </li><li class="card">
+    </li><li class="card pair2">
       <p class="ticker">IVV</p>
       <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,03 %</strong></span></p>
-    </li><li class="card">
+    </li><li class="card pair3">
       <p class="ticker">SPYM</p>
       <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,02 %</strong></span></p>
-    </li><li class="card">
+    </li><li class="card pair3">
       <p class="ticker">SPY</p>
       <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,0945 %</strong></span></p>
     </li></ul>

@@ -140,7 +140,7 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 |---|---|---|
 | Úhel | srovnání (4 fondy, poplatky) | výzva (jedna otázka) |
 | Pro koho | kdo rád porovnává čísla | kdo chce rychlou odpověď |
-| Vizuál | 4 karty VOO · IVV · SPYM · SPY (ticker, S&P 500, TER) a vlajky USA/EU | velká otázka, dvě tlačítka ANO a NE ve stylu kvízu, vedle drobně vlajky USA a EU |
+| Vizuál | 4 karty VOO · IVV · SPYM · SPY (ticker, S&P 500, TER) a vlajky USA/EU | velká otázka „Koupíte si [karta VOO] v Česku?“ (stejná karta jako v A a na stránce), dvě tlačítka ANO a NE ve stylu kvízu, vedle drobně vlajky USA a EU |
 | Text | NENÍ ETF JAKO ETF. Stejný index S&P 500. Jiný ticker. Jiný poplatek. Které si koupíte v Česku? Otestujte se jednou otázkou → | Koupíte si VOO v Česku? ANO / NE. Odpověď vás možná překvapí. Ověřte si odpověď → |
 | Patička | TER podle dokumentů správců, ověřeno {datum} | totéž + „Nejde o investiční doporučení.“ |
 | Navazuje na | nadpis a karty v hero | otázku a tlačítka ANO / NE kvízu |
