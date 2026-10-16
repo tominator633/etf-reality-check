@@ -211,6 +211,7 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 - **Barevně odlišená klíčová slova:** fakta (tickery, index, vložené částky) indigo, ztráta na poplatcích červeně, nejvýhodnější evropské dvojče zeleně – vždy jako zvýrazněný text, ne jen barva.
 - **Odznaky na kartách:** americké „V ČR obvykle nekoupíte“ (červený), evropské s nejnižším TER „✓ nejnižší TER“ (zelený, karta se zeleným rámečkem).
 - **CTA:** žlutá plocha #FFC349 s tmavým textem a obrysem.
+- **Tmavé karty:** otázka kvízu v navy kartě (jemná mřížka, odlesk), nabídka PDF ve fialové kartě (odlesk); bílý text, žlutý fokus a fajfky.
 - **Písma:** nadpisy Outfit, text Plus Jakarta Sans (obojí `next/font`, latin-ext). Základní text 18 px, drobné poznámky min. 16 px.
 - **Animace:** `motion` jen pro interakce (odhalení, karty, odpověď, formulář); nezpomalují načtení (měřeno Lighthouse).
 - Hero + otázka + tlačítka ANO/NE se musí vejít **above the fold na 360 × 640 px**.

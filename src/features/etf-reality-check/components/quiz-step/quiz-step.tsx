@@ -26,33 +26,35 @@ const RESULT_MOTION = {
 // zeleně správně (NE), červeně špatně (ANO), vždy i se symbolem a textem pro čtečky (tech-spec 11.2).
 export function QuizStep({ answer, onAnswer, animateResult }: QuizStepProps) {
   return (
-    <fieldset className={styles.quiz}>
-      <legend className={styles.question}>{copy.quiz.question}</legend>
-      <div className={styles.buttons}>
-        {ANSWERS.map((option) => {
-          const chosen = answer === option;
-          const result = option === CORRECT_ANSWER ? copy.quiz.result.correct : copy.quiz.result.wrong;
-          const resultClass = option === CORRECT_ANSWER ? styles.correct : styles.wrong;
-          const resultMotion = option === CORRECT_ANSWER ? RESULT_MOTION.correct : RESULT_MOTION.wrong;
+    <div className={styles.card}>
+      <fieldset className={styles.quiz}>
+        <legend className={styles.question}>{copy.quiz.question}</legend>
+        <div className={styles.buttons}>
+          {ANSWERS.map((option) => {
+            const chosen = answer === option;
+            const result = option === CORRECT_ANSWER ? copy.quiz.result.correct : copy.quiz.result.wrong;
+            const resultClass = option === CORRECT_ANSWER ? styles.correct : styles.wrong;
+            const resultMotion = option === CORRECT_ANSWER ? RESULT_MOTION.correct : RESULT_MOTION.wrong;
 
-          return (
-            <m.button
-              key={option}
-              type="button"
-              className={`${styles.button} ${chosen ? resultClass : ""}`}
-              aria-pressed={chosen}
-              disabled={answer !== null}
-              onClick={() => onAnswer(option)}
-              {...(answer === null ? press : {})}
-              animate={chosen && animateResult ? resultMotion : undefined}
-            >
-              {chosen && <span aria-hidden="true">{result.symbol} </span>}
-              {copy.quiz.answers[option]}
-              {chosen && <span className="visually-hidden"> – {result.label}</span>}
-            </m.button>
-          );
-        })}
-      </div>
-    </fieldset>
+            return (
+              <m.button
+                key={option}
+                type="button"
+                className={`${styles.button} ${chosen ? resultClass : ""}`}
+                aria-pressed={chosen}
+                disabled={answer !== null}
+                onClick={() => onAnswer(option)}
+                {...(answer === null ? press : {})}
+                animate={chosen && animateResult ? resultMotion : undefined}
+              >
+                {chosen && <span aria-hidden="true">{result.symbol} </span>}
+                {copy.quiz.answers[option]}
+                {chosen && <span className="visually-hidden"> – {result.label}</span>}
+              </m.button>
+            );
+          })}
+        </div>
+      </fieldset>
+    </div>
   );
 }

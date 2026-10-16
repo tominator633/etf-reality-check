@@ -42,6 +42,19 @@
   --color-pair-2: #fff4e5; /* meruňková */
   --color-pair-3: #f5edfc; /* levandulová */
 
+  /* Tmavé karty (otázka kvízu, nabídka PDF): bílý text, žlutý fokus a fajfky */
+  --color-quiz-bg: #0b1f4d; /* navy */
+  --color-quiz-glow: #16306e; /* světlejší navy pro odlesk */
+  --color-quiz-grid: rgb(255 255 255 / 0.06); /* jemná architektonická mřížka */
+  --size-quiz-grid: 1.5rem;
+  --color-lead-bg: var(--palette-purple);
+  --color-lead-glow: #6b1aa6; /* světlejší fialová pro odlesk */
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted-quiz: #c7d2fe;
+  --color-on-dark-muted-lead: #e9d5ff;
+  --color-on-dark-accent: var(--palette-yellow); /* fajfky, fokus na tmavém */
+  --color-on-dark-error: #ffd5cf; /* chyba na fialové (červená by zanikla) */
+
   /* Akcent: CTA (žlutá plocha s tmavým textem a obrysem) */
   --color-accent: var(--color-fact);
   --color-accent-fill: var(--palette-yellow);

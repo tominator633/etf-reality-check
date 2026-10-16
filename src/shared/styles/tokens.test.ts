@@ -47,6 +47,17 @@ const TEXT_PAIRS: [foreground: string, background: string][] = [
   ["color-us-card-ink", "color-us-card-bg"],
   ["color-us-card-ink-muted", "color-us-card-bg"],
   ["color-error", "color-bg"],
+  ["color-on-dark", "color-quiz-bg"],
+  ["color-on-dark", "color-quiz-glow"],
+  ["color-on-dark-muted-quiz", "color-quiz-bg"],
+  ["color-on-dark-muted-quiz", "color-quiz-glow"],
+  ["color-on-dark", "color-lead-bg"],
+  ["color-on-dark", "color-lead-glow"],
+  ["color-on-dark-muted-lead", "color-lead-bg"],
+  ["color-on-dark-muted-lead", "color-lead-glow"],
+  ["color-on-dark-accent", "color-lead-bg"],
+  ["color-on-dark-error", "color-lead-bg"],
+  ["color-on-dark-error", "color-lead-glow"],
   ["color-ink", "color-pair-1"],
   ["color-ink-muted", "color-pair-1"],
   ["color-fact", "color-pair-1"],
@@ -71,6 +82,9 @@ const TEXT_PAIRS: [foreground: string, background: string][] = [
 ];
 
 const UI_PAIRS: [foreground: string, background: string][] = [
+  ["color-on-dark-accent", "color-quiz-bg"],
+  ["color-on-dark", "color-answer-correct"],
+  ["color-on-dark", "color-answer-wrong"],
   ["color-border", "color-bg"],
   ["color-focus", "color-bg"],
   ["color-focus", "color-surface-muted"],

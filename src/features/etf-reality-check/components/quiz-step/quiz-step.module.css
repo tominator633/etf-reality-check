@@ -1,3 +1,20 @@
+/* Tmavá karta s jemnou mřížkou a odleskem (navy) */
+.card {
+  --color-focus: var(--color-on-dark-accent);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-quiz-bg);
+  background-image:
+    radial-gradient(circle at 100% 0%, var(--color-quiz-glow), transparent 60%),
+    linear-gradient(var(--color-quiz-grid) var(--border-width), transparent var(--border-width)),
+    linear-gradient(90deg, var(--color-quiz-grid) var(--border-width), transparent var(--border-width));
+  background-size:
+    100% 100%,
+    var(--size-quiz-grid) var(--size-quiz-grid),
+    var(--size-quiz-grid) var(--size-quiz-grid);
+  color: var(--color-on-dark);
+}
+
 .quiz {
   display: grid;
   gap: var(--space-3);
@@ -8,9 +25,10 @@
 
 .question {
   padding: 0;
-  margin-bottom: var(--space-3);
+  color: var(--color-on-dark);
+  margin-bottom: var(--space-2);
   font-family: var(--font-heading);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   letter-spacing: var(--letter-spacing-tight);
   font-weight: var(--font-weight-heading);
   line-height: var(--line-height-snug);
@@ -46,14 +64,24 @@
 }
 
 .button.correct {
-  border-color: var(--color-answer-correct);
+  border-color: var(--color-on-dark); /* hrana na navy */
   background: var(--color-answer-correct);
   color: var(--color-on-answer);
 }
 
 .button.wrong {
-  border-color: var(--color-answer-wrong);
+  border-color: var(--color-on-dark);
   background: var(--color-answer-wrong);
   color: var(--color-on-answer);
 }
 
+@media (min-width: 40rem) {
+  .card {
+    padding: var(--space-6);
+  }
+
+  .question {
+    margin-bottom: var(--space-3);
+    font-size: var(--font-size-xl);
+  }
+}
