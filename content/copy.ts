@@ -2,13 +2,17 @@
 // (kapitola u každého). Čísla se sem nepíšou: částky a hodnoty jezdců dosazuje volající
 // už naformátované přes `shared/lib/format.ts` (z `projection.ts` a `data/`).
 // Chybějící text = viditelný placeholder `[[CHYBÍ TEXT: …]]`.
+// Texty označené „Claude 16. 10.“ doplnil Claude podle kontextu (Tom: „doplnit smysluplně“) – k revizi.
+// Právní údaje (provozovatel, právní základ a doba zpracování) záměrně zůstávají placeholdery.
 
 export const missingText = (what: string) => `[[CHYBÍ TEXT: ${what}]]`;
 
 export const copy = {
   meta: {
     title: "ETF Reality Check",
-    description: missingText("popis stránky pro vyhledávače a sdílení"),
+    // Claude 16. 10.
+    description:
+      "Radí vám americká videa koupit VOO nebo SPY? Jednou otázkou zjistíte, jestli je v Česku koupíte, jaká mají evropská dvojčata a o kolik vás modelově připraví poplatky.",
   },
 
   quiz: {
@@ -23,10 +27,10 @@ export const copy = {
   },
 
   reveal: {
-    // brief kap. 4: „stejné pro obě odpovědi, liší se jen první řádek“ – první řádky v briefu chybí
+    // brief kap. 4: „stejné pro obě odpovědi, liší se jen první řádek“ – doplnil Claude 16. 10.
     firstLine: {
-      ano: missingText("první řádek odhalení po odpovědi ANO (nesprávně)"),
-      ne: missingText("první řádek odhalení po odpovědi NE (správně)"),
+      ano: "Tady je háček.",
+      ne: "Přesně tak.",
     },
     body: "Většinou ne. Americká ETF nemají dokument KID, který pravidla EU vyžadují, takže je drobný investor z EU obvykle nekoupí. Každé z nich má ale evropské dvojče na stejný index. A poplatky se liší.",
   },
@@ -71,13 +75,22 @@ export const copy = {
   },
 
   lead: {
-    // Tom 15. 10. 2026: dvoukrokový formulář – nejdřív tlačítko, po kliknutí pole e-mail
-    offer: missingText("text nad tlačítkem: co návštěvník v PDF získá"),
+    // Tom 15. 10. 2026: dvoukrokový formulář – nejdřív tlačítko, po kliknutí pole e-mail.
+    // Nabídka doslova z brief kap. 7 (most + 3 body).
+    offer: {
+      heading: "Tohle byl jen S&P\u00a0500. Co když chcete víc než Ameriku?",
+      intro: "Evropská dvojčata dalších populárních ETF a jak z nich poskládat celé portfolio najdete v taháku:",
+      benefits: [
+        "evropská dvojčata populárních NYSE ETF, nejen na S&P\u00a0500",
+        "jak poskládat celý svět ze dvou až tří fondů",
+        "na co si dát pozor u českého brokera a u daní",
+      ],
+    },
     cta: "CHCI KOMPLETNÍ SROVNÁNÍ V PDF",
-    emailLabel: missingText("viditelný popisek pole e-mail"),
+    emailLabel: "Váš e-mail", // Claude 16. 10.
     emailPlaceholder: "vas@email.cz",
     submit: "Odeslat PDF",
-    // brief kap. 7
+    // brief kap. 7 – zobrazí se jen, když PDF existuje (features/lead/lib/guide.ts)
     downloadNote: "Tahák stáhnete hned po odeslání.",
     // brief kap. 7: zobrazit JEN při EMAIL_ENABLED=true
     emailAlsoNote: "pošleme vám ho i e-mailem",
@@ -87,14 +100,17 @@ export const copy = {
     // tech-spec 7.1 a 7.2
     submitting: "Odesílám…",
     errors: {
-      invalidEmail: missingText("chyba u pole: neplatný e-mail"),
+      invalidEmail: "Zkontrolujte prosím e-mail, musí mít tvar jmeno@domena.cz.", // Claude 16. 10.
       rateLimited: "Zkuste to prosím za chvíli.",
-      serverError: missingText("chybová hláška při chybě serveru nebo sítě"),
+      serverError: "E-mail se nepodařilo odeslat. Zkuste to prosím znovu, adresa vám v poli zůstala.", // Claude 16. 10.
       retry: "Zkusit znovu",
     },
     success: {
-      heading: missingText("nadpis stavu po odeslání"),
-      text: missingText("text stavu po odeslání"),
+      // Claude 16. 10.: dva texty podle toho, jestli PDF existuje (GUIDE_AVAILABLE) – nic neslibujeme navíc
+      heading: "Hotovo, e-mail máme.",
+      textReady: "Tahák „Z amerického videa do českého portfolia“ si můžete stáhnout hned.",
+      textPending:
+        "Tahák „Z amerického videa do českého portfolia“ dokončujeme. Jakmile bude hotový, stáhnete ho přímo tady na stránce.",
       // brief kap. 7
       download: "Stáhnout tahák (PDF)",
       // tech-spec 7.4: jen když e-mail opravdu odešel
@@ -105,29 +121,77 @@ export const copy = {
   // brief kap. 3, tech-spec 10
   stickyCta: "Získat tahák zdarma",
 
+  // Claude 16. 10.: témata z brief kap. 3 (TER, KID/UCITS, ACC/DIST, měnové riziko). Jen obecná fakta,
+  // bez čísel a bez doporučení; tvrzení o KID opřené o PRIIPs (zdroj v datech u amerických fondů).
   faq: {
-    heading: missingText("nadpis sekce Pojmy a FAQ"),
-    // brief kap. 3: TER, KID/UCITS, ACC/DIST, měnové riziko
+    heading: "Pojmy, které americká videa nevysvětlí",
     items: [
-      { question: missingText("FAQ: otázka o TER"), answer: missingText("FAQ: odpověď o TER") },
-      { question: missingText("FAQ: otázka o KID a UCITS"), answer: missingText("FAQ: odpověď o KID a UCITS") },
-      { question: missingText("FAQ: otázka o ACC a DIST"), answer: missingText("FAQ: odpověď o ACC a DIST") },
       {
-        question: missingText("FAQ: otázka o měnovém riziku"),
-        answer: missingText("FAQ: odpověď o měnovém riziku"),
+        question: "Co je TER?",
+        answer:
+          "Celková roční nákladovost fondu (Total Expense Ratio) v procentech. Platí se průběžně z majetku fondu, takže ji na účtu neuvidíte jako samostatnou platbu – projeví se nižším výnosem. Proto ji na kartách přepočítáváme na koruny.",
+      },
+      {
+        question: "Co je KID a UCITS?",
+        answer:
+          "KID je dokument se základními informacemi, který podle nařízení EU o PRIIPs musí mít investiční produkt nabízený drobným investorům v EU. UCITS je evropský rámec pro fondy – evropská dvojčata na této stránce jsou UCITS fondy s KID. Americká ETF KID obvykle nevydávají, proto je český broker drobnému investorovi obvykle nenabídne.",
+      },
+      {
+        question: "Co znamená akumulační a distribuční fond?",
+        answer:
+          "Akumulační (akum.) fond výnosy z dividend automaticky reinvestuje, distribuční je vyplácí. Evropská dvojčata na této stránce jsou akumulační, americké fondy dividendy vyplácejí čtvrtletně. Jak se to promítne do vašich daní, záleží na vaší situaci – nejde o daňové poradenství.",
+      },
+      {
+        question: "Co je měnové riziko?",
+        answer:
+          "Fondy na této stránce drží americké akcie, jejichž hodnota je v dolarech. Když koruna vůči dolaru posílí, hodnota investice v korunách klesne, i když akcie stojí na místě – a naopak. Měna, ve které fond na burze kupujete (třeba euro), na tom nic nemění, ovlivní jen náklady na směnu.",
       },
     ],
   },
 
+  // Claude 16. 10.
   sources: {
-    heading: missingText("nadpis sekce Zdroje a metodika"),
-    methodologyLink: missingText("text odkazu na /metodika"),
-    disclaimer: missingText("upozornění: nejde o investiční ani daňové poradenství (finální znění)"),
+    heading: "Zdroje a metodika",
+    data: "TER, ISIN, burzy a dostupnost fondů pocházejí ze stránek a dokumentů správců (Vanguard, iShares, State Street) a z nařízení PRIIPs. Datum ověření je u každé hodnoty na kartě.",
+    methodology:
+      "Částky jsou modelový výpočet: pravidelný měsíční vklad na konci měsíce, roční výnos převedený na efektivní měsíční sazbu a TER odečtený od výnosu. Ztráta na poplatcích je rozdíl mezi hodnotou bez TER a s TER, zahrnuje tedy i ušlé zhodnocení. Výpočet nezahrnuje poplatky brokera, směnu měn ani daně.",
+    disclaimer:
+      "Stránka slouží ke vzdělávání. Nejde o investiční ani daňové poradenství ani o doporučení koupit konkrétní fond. Výnosy z minulosti ani modelové výpočty nezaručují budoucí výsledky.",
   },
 
+  // Claude 16. 10.: fakta o tom, co web skutečně dělá (db/schema.sql, analytics). Právní volby zůstávají na Tomovi.
   privacy: {
-    title: missingText("nadpis stránky zásad zpracování osobních údajů"),
-    body: missingText("zásady zpracování osobních údajů: správce, účel, právní základ, doba uložení, práva, kontakt"),
+    title: "Zásady zpracování osobních údajů",
+    sections: [
+      {
+        heading: "Kdo údaje zpracovává",
+        text: missingText("správce osobních údajů: jméno nebo firma, IČO, adresa, kontaktní e-mail"),
+      },
+      {
+        heading: "Jaké údaje",
+        text: "E-mail, který zadáte do formuláře. K němu ukládáme variantu stránky, parametry reklamy, ze které jste přišli (UTM), vaši odpověď v kvízu, čas odeslání a verzi těchto zásad. IP adresu ani údaje o prohlížeči neukládáme.",
+      },
+      {
+        heading: "Proč",
+        text: missingText("účely zpracování (zpřístupnění taháku, případně zasílání dalších e-mailů) a právní základ"),
+      },
+      {
+        heading: "Jak dlouho",
+        text: missingText("doba uložení údajů"),
+      },
+      {
+        heading: "Kde jsou uložené",
+        text: "V databázi Neon (Postgres), kterou web používá jen pro tento účel. Web běží na službě Vercel.",
+      },
+      {
+        heading: "Měření návštěvnosti",
+        text: "Používáme Umami bez cookies. Měří počty návštěv a kroků na stránce (třeba odpověď v kvízu), ne konkrétní osoby. E-mail do měření nikdy neposíláme.",
+      },
+      {
+        heading: "Vaše práva",
+        text: "Máte právo na přístup ke svým údajům, jejich opravu, výmaz, omezení zpracování a přenositelnost a právo vznést námitku. Stížnost můžete podat u Úřadu pro ochranu osobních údajů.",
+      },
+    ],
   },
 
   footer: {

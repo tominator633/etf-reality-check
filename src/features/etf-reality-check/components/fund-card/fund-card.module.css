@@ -11,12 +11,15 @@
 
 .compact {
   gap: 0;
-  padding: var(--space-2);
+  padding: var(--space-2) var(--space-1);
   border-radius: var(--radius-sm);
+  overflow-wrap: normal;
+  text-align: center;
 }
 
 .compact .ticker {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
+  white-space: nowrap;
 }
 
 .compactValue {

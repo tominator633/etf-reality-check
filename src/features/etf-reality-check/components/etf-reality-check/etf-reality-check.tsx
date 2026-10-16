@@ -1,9 +1,12 @@
 "use client";
 
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { copy } from "@content/copy";
 import { track, trackOnce, useTrackInView } from "@/features/analytics";
 import { formatCzk } from "@/shared/lib/format";
+import { fadeUp, MotionProvider, stagger } from "@/shared/lib/motion";
 import { readQuizAnswer, storeQuizAnswer } from "@/shared/lib/quiz-answer-storage";
 import { restoreScroll, startScrollRetention } from "@/shared/lib/scroll-retention";
 import { clampInput, defaultInput, projectAll, type ProjectionInput } from "../../lib/projection";
@@ -39,6 +42,8 @@ export function EtfRealityCheck({ view, afterReveal }: EtfRealityCheckProps) {
   // true = odpověď se právě obnovila z úložiště, ne kliknutím (neposouvat, nefokusovat).
   const restoredAnswer = useRef(false);
   const [restored, setRestored] = useState(false);
+  // Odkud odpověď přišla: po obnovení z úložiště se odhalení neanimuje (stránka má vypadat stejně).
+  const [answeredByClick, setAnsweredByClick] = useState(false);
 
   useTrackInView(section, "rc_view");
 
@@ -109,33 +114,58 @@ export function EtfRealityCheck({ view, afterReveal }: EtfRealityCheckProps) {
   }, [answer]);
 
   return (
-    <section ref={section} className={styles.realityCheck}>
-      {!answer && <UsFundPreview funds={view.usFunds} verifiedAt={view.verifiedAt} />}
-      <QuizStep
-        answer={answer}
-        onAnswer={(chosen) => {
-          setAnswer(chosen);
-          storeQuizAnswer(chosen); // pro lead (features spolu nesdílí stav)
-          track("rc_answer", { answer: chosen });
-        }}
-      />
-      {answer && (
-        <div id="reveal-start" className={styles.reveal}>
-          <AnswerReveal answer={answer} kidSource={view.kidSource} headingRef={revealHeading} />
-          <FundPairGrid groups={view.groups} feeCosts={feeCosts} lowestTerIds={view.lowestTerIds} />
-          <ProjectionSliders
-            input={input}
-            onChange={(change) => {
-              const next = clampInput({ ...input, ...change });
-              setInput(next);
-              storeProjectionInput(next);
-              trackSlider(change);
-            }}
-            summary={summary}
-          />
-          {afterReveal}
-        </div>
-      )}
-    </section>
+    <MotionProvider>
+      <section ref={section} className={styles.realityCheck}>
+        <AnimatePresence initial={false} mode="popLayout">
+          {!answer && (
+            <m.div key="preview" exit={{ opacity: 0, y: -12, transition: { duration: 0.2 } }}>
+              <UsFundPreview funds={view.usFunds} verifiedAt={view.verifiedAt} />
+            </m.div>
+          )}
+        </AnimatePresence>
+        <QuizStep
+          answer={answer}
+          animateResult={answeredByClick}
+          onAnswer={(chosen) => {
+            setAnsweredByClick(true);
+            setAnswer(chosen);
+            storeQuizAnswer(chosen); // pro lead (features spolu nesdílí stav)
+            track("rc_answer", { answer: chosen });
+          }}
+        />
+        {answer && (
+          <m.div
+            id="reveal-start"
+            className={styles.reveal}
+            variants={stagger(0.15, 0.15)}
+            initial={answeredByClick ? "hidden" : false}
+            animate="show"
+          >
+            <m.div variants={fadeUp}>
+              <AnswerReveal answer={answer} kidSource={view.kidSource} headingRef={revealHeading} />
+            </m.div>
+            <FundPairGrid
+              groups={view.groups}
+              feeCosts={feeCosts}
+              lowestTerIds={view.lowestTerIds}
+              countUp={answeredByClick}
+            />
+            <m.div variants={fadeUp}>
+              <ProjectionSliders
+              input={input}
+              onChange={(change) => {
+                const next = clampInput({ ...input, ...change });
+                setInput(next);
+                storeProjectionInput(next);
+                trackSlider(change);
+              }}
+              summary={summary}
+            />
+            </m.div>
+            <m.div variants={fadeUp}>{afterReveal}</m.div>
+          </m.div>
+        )}
+      </section>
+    </MotionProvider>
   );
 }

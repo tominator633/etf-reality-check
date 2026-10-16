@@ -207,7 +207,8 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 
 - **Paleta:** `#FFC349` (žlutá – plocha tlačítek s tmavým textem a obrysem), `#57008E` (fialová – H1 v hero, částky poplatků, jezdce, fokus), `#5FACD3` (dekorace), `#97DDE9` (zatím nepoužitá). Tmavý modrošedý inkoust.
 - **Pozadí:** bílé s gradientem – výrazná žlutá nahoře za hero, dole jemná fialová.
-- **Písma:** nadpisy Bakbak One, text IBM Plex Sans Condensed (obojí `next/font`, latin-ext).
+- **Písma:** nadpisy Outfit, text Plus Jakarta Sans (obojí `next/font`, latin-ext; Tom 16. 10. 2026).
+- **Animace (Tom 16. 10. 2026):** `motion` jen pro interakce (odhalení, karty, odpověď, formulář); nezpomalují načtení (měřeno Lighthouse).
 - Zelená pro odznak „nejnižší TER“ a pro správnou odpověď, červená pro špatnou – vždy se symbolem/textem, ne jen barvou.
 - Americké karty zašedlé, ale čitelné (kontrast AA i u šedé!).
 - Hero + otázka + tlačítka ANO/NE se musí vejít **above the fold na 360 × 640 px**.

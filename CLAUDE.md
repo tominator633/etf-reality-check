@@ -10,8 +10,8 @@ Konverzní landing page pro českého drobného investora z mobilní reklamy: kv
 Obsah projektu se průběžně mění. Když Tom změní zadání, uprav i `brief.md` a tech-spec (nejen kód a `decisions.md`), ať dokumenty odpovídají stavu.
 
 ## Stack
-Next.js App Router + TS, CSS Modules + `src/shared/styles/tokens.css`, písma přes `next/font` (`src/shared/lib/fonts.ts`), Zod, Neon (`@neondatabase/serverless`, čisté SQL, bez ORM), `server-only`, Route Handler `/api/lead`, Umami, `@react-pdf/renderer`, Vitest, Playwright, Vercel.
-**Nepoužívat:** Tailwind, UI knihovny, ORM, Zustand/Redux, knihovny pro grafy, animace, ikony a slidery.
+Next.js App Router + TS, CSS Modules + `src/shared/styles/tokens.css`, písma přes `next/font` (`src/shared/lib/fonts.ts`), animace `motion` (jen klientské interakce, `src/shared/lib/motion.tsx`), Zod, Neon (`@neondatabase/serverless`, čisté SQL, bez ORM), `server-only`, Route Handler `/api/lead`, Umami, `@react-pdf/renderer`, Vitest, Playwright, Vercel.
+**Nepoužívat:** Tailwind, UI knihovny, ORM, Zustand/Redux, knihovny pro grafy, ikony a slidery. Animace jen přes `motion` (Tom 16. 10.): žádné animace obsahu vykresleného serverem (LCP), jen opacity/transform (CLS), respektovat `prefers-reduced-motion`, nic důležitého nesmí čekat na dokončení animace.
 
 ## Tvrdá pravidla
 - **Finanční data nikdy z paměti.** TER, ISIN, burzy, váhy indexů jen z `data/` se zdrojem (`sourceUrl` + `sourceLabel`) a datem. Neznámé = `null` bez zdroje. TER v datech v procentech (`0.03` = 0,03 %).

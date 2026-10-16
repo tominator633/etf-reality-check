@@ -1,24 +1,23 @@
-import { Bakbak_One, IBM_Plex_Sans_Condensed } from "next/font/google";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 
 // next/font stáhne písma při buildu a servíruje je z vlastní domény (žádný požadavek na Google
-// z prohlížeče). latin-ext kvůli české diakritice.
+// z prohlížeče). latin-ext kvůli české diakritice. Obě písma jsou variabilní: jeden soubor
+// pokryje všechny řezy, které tokeny používají.
 
-/** Text: jen řezy, které tokeny používají (400–700). */
-export const plexSansCondensed = IBM_Plex_Sans_Condensed({
+/** Text: Plus Jakarta Sans (variabilní 200–800), bez kurzívy. */
+export const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
   style: ["normal"],
   display: "swap",
-  variable: "--font-plex-sans-condensed",
+  variable: "--font-plus-jakarta-sans",
 });
 
-/** Nadpisy: Bakbak One má jediný řez 400. */
-export const bakbakOne = Bakbak_One({
+/** Nadpisy: Outfit (variabilní 100–900). */
+export const outfit = Outfit({
   subsets: ["latin", "latin-ext"],
-  weight: "400",
   display: "swap",
-  variable: "--font-bakbak-one",
+  variable: "--font-outfit",
 });
 
 /** Třídy s CSS proměnnými obou písem pro <html>. */
-export const fontVariables = `${plexSansCondensed.variable} ${bakbakOne.variable}`;
+export const fontVariables = `${plusJakartaSans.variable} ${outfit.variable}`;

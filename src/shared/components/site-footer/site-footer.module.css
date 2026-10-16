@@ -1,0 +1,26 @@
+.footer {
+  display: grid;
+  gap: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--border-width) solid var(--color-border-subtle);
+  color: var(--color-ink-muted);
+}
+
+.sources {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.heading {
+  color: var(--color-ink);
+  font-size: var(--font-size-lg);
+}
+
+.disclaimer {
+  font-weight: var(--font-weight-bold);
+}
+
+.legal {
+  display: grid;
+  gap: var(--space-1);
+}

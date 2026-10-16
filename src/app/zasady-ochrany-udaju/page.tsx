@@ -5,13 +5,18 @@ import styles from "../page.module.css";
 
 export const metadata: Metadata = { title: copy.privacy.title, robots: { index: false } };
 
-// Kostra stránky, na kterou odkazuje formulář (tech-spec 7.1). Obsah dodá Tom.
+// Zásady zpracování osobních údajů (tech-spec 7.1). Fakta o tom, co web dělá, jsou vyplněná;
+// správce, účely, právní základ a doba uložení jsou placeholdery pro Toma.
 export default function PrivacyPage() {
   return (
     <main className={styles.page}>
       <h1>{copy.privacy.title}</h1>
-      <p>{copy.privacy.body}</p>
-      <p>{copy.footer.operator}</p>
+      {copy.privacy.sections.map((section) => (
+        <section key={section.heading}>
+          <h2>{section.heading}</h2>
+          <p>{section.text}</p>
+        </section>
+      ))}
       <p>
         {copy.lead.consentVersionLabel} {CONSENT_VERSION}
       </p>

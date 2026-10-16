@@ -1,10 +1,19 @@
+import * as m from "motion/react-m";
 import { copy } from "@content/copy";
 import { formatCzk, formatDate, formatTer } from "@/shared/lib/format";
+import { useAnimatedNumber } from "@/shared/lib/use-animated-number";
 import type { FundView } from "../../lib/view-model";
 import styles from "./fund-card.module.css";
 
 type FundCardProps =
-  | { variant?: "full"; fund: FundView; feeCost: number | null; lowestTer: boolean }
+  | {
+      variant?: "full";
+      fund: FundView;
+      feeCost: number | null;
+      lowestTer: boolean;
+      /** Počáteční hodnota počítadla částky (0 = načíst od nuly při odhalení); bez = rovnou výsledek. */
+      countFrom?: number;
+    }
   | { variant: "compact"; fund: FundView };
 
 // Plná karta: ticker, správce, ACC/DIST (u UCITS), TER se zdrojem a jedno velké číslo „přijdete o X Kč“.
@@ -26,7 +35,7 @@ export function FundCard(props: FundCardProps) {
     );
   }
 
-  const { feeCost, lowestTer } = props;
+  const { feeCost, lowestTer, countFrom } = props;
 
   return (
     <article className={`${styles.card} ${typeClass}`}>
@@ -36,10 +45,15 @@ export function FundCard(props: FundCardProps) {
         {fund.type === "UCITS" && fund.distribution && ` · ${copy.fundCard.distribution[fund.distribution]}`}
       </p>
       {lowestTer && (
-        <p className={styles.badge}>
+        <m.p
+          className={styles.badge}
+          initial={countFrom === undefined ? false : { opacity: 0, scale: 0.6 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.7, type: "spring", stiffness: 400, damping: 18 }}
+        >
           <span aria-hidden="true">✓ </span>
           {copy.fundCard.lowestTerBadge}
-        </p>
+        </m.p>
       )}
       <p className={styles.ter}>
         {copy.fundCard.terLabel} {ter}
@@ -64,10 +78,16 @@ export function FundCard(props: FundCardProps) {
           unverified
         ) : (
           <>
-            {feeText.before} <strong className={styles.amount}>{formatCzk(feeCost)}</strong> {feeText.after}
+            {feeText.before} <FeeAmount value={feeCost} from={countFrom} /> {feeText.after}
           </>
         )}
       </p>
     </article>
   );
+}
+
+/** Částka „přijdete o …“: při odhalení naběhne od nuly, při posunu jezdce plynule přejde. */
+function FeeAmount({ value, from }: { value: number; from?: number }) {
+  const shown = useAnimatedNumber(value, { from: from ?? value });
+  return <strong className={styles.amount}>{formatCzk(shown)}</strong>;
 }

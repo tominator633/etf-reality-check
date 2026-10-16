@@ -47,7 +47,8 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 | Hosting | Vercel, tarif Hobby | Požadavek zadání |
 
 - Verze balíčků aktuální stabilní, zapsané v `package.json` (žádné `latest`). Další knihovny jen s důvodem v `docs/decisions.md`.
-- **Nepoužíváme:** Tailwind, shadcn/MUI ani jiné UI knihovny, ORM, Zustand/Redux, knihovny pro grafy, animace, ikony a slidery (jezdce = nativní `<input type="range">` s vlastním stylem).
+- **Nepoužíváme:** Tailwind, shadcn/MUI ani jiné UI knihovny, ORM, Zustand/Redux, knihovny pro grafy, ikony a slidery (jezdce = nativní `<input type="range">` s vlastním stylem).
+- **Animace: `motion` (dříve framer-motion), Tom 16. 10. 2026.** `LazyMotion` + `domAnimation` + komponenty z `motion/react-m` (`src/shared/lib/motion.tsx`). Animuje se jen to, co vzniká po interakci (zmizení malých karet, odhalení, karty, odznak, odpověď, výměna CTA → formulář → úspěch); obsah ze serveru ne. Jen opacity/transform, `reducedMotion="user"`, výměny `popLayout` (nic nečeká na animaci). Počítadlo částek vlastní (`use-animated-number.ts`).
 - **Proč ne Vercel Web Analytics:** na Hobby nepodporuje vlastní eventy. Umami Cloud Hobby: 1 web, 100 tis. eventů měsíčně, funnely a UTM. Každá vlastnost eventu se počítá jako další event → drž je nízko.
 - **Vercel Hobby** je pro nekomerční projekty. Pro ukázku stačí; v README jednou větou: ostrá kampaň by běžela na Pro.
 
@@ -60,7 +61,7 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 - Každá komponenta má vlastní `<nazev>.module.css` a používá jen `var(--…)`. Natvrdo zapsaná barva nebo px mimo tokeny = chyba při review.
 - Mobile-first: základ 360 px, rozšíření `@media (min-width: 640px)` a `(min-width: 1024px)`.
 - Vizuální směr: `brief.md` kap. 13 – paleta od Toma (`#FFC349` žlutá plocha CTA, `#57008E` fialová pro H1, částky a jezdce, `#5FACD3` dekorace), bílé pozadí s gradientem (žlutá nahoře, fialová dole), zelená/červená jen se symbolem. Role barev plynou z kontrastu (žlutá ani světle modrá nesmí být text).
-- Písma přes `next/font/google` v `src/shared/lib/fonts.ts`: **Bakbak One** (nadpisy, jediný řez 400) a **IBM Plex Sans Condensed** (text, řezy 400–700), subset latin + latin-ext. CSS proměnné na `<html>`, tokeny `--font-heading` a `--font-sans`.
+- Písma přes `next/font/google` v `src/shared/lib/fonts.ts`: **Outfit** (nadpisy) a **Plus Jakarta Sans** (text), obě variabilní, subset latin + latin-ext (Tom 16. 10. 2026, nahrazují Bakbak One a IBM Plex Sans Condensed). CSS proměnné na `<html>`, tokeny `--font-heading` a `--font-sans`.
 - Kontrasty textových dvojic hlídá `src/shared/styles/tokens.test.ts` (čte `tokens.css`, umí `var(--…)`) – při změně palety stačí `npm run test`.
 - Čísla: `font-variant-numeric: tabular-nums`.
 - Jezdce: vlastní styl `<input type="range">` (track + thumb přes tokeny), thumb min. 44 × 44 px dotyková plocha.
@@ -602,7 +603,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 | 9 | Varianty hero A/B, middleware/proxy, `ads/` | MUST | `feat(ads): varianty pro reklamy` | částka hero B počítaná (`buildHeroValues`), zbytek – |
 | 10 | Nasazení na Vercel, Neon integrace, smoke test na telefonu | MUST | `chore(deploy): …` | – |
 | 11 | Doplnění ověřených dat (Tom) | MUST | `data: ověřené TER/ISIN k DD. MM. 2026` | ✅ |
-| 12 | Sticky CTA, FAQ, `/metodika`, zásady ochrany údajů | SHOULD | | zásady jako kostra |
+| 12 | Sticky CTA, FAQ, `/metodika`, zásady ochrany údajů | SHOULD | | FAQ a zdroje/metodika na stránce (místo `/metodika`), zásady bez právních údajů; sticky CTA – |
 | 13 | E2E testy, Lighthouse ladění | SHOULD | | – |
 | 14 | E-mail přes Resend (jen s doménou) | COULD | | – |
 

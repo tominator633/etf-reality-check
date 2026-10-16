@@ -8,7 +8,9 @@ Landing page pro českého drobného investora: jedna otázka ukáže, že ameri
 
 ## Technické řešení
 
-**Stack:** Next.js 16 (App Router, TypeScript), CSS Modules + design tokeny, Zod, Neon Postgres (čisté SQL bez ORM), Umami, Vitest, Vercel.
+**Stack:** Next.js 16 (App Router, TypeScript), CSS Modules + design tokeny, `next/font` (Outfit, Plus Jakarta Sans), `motion` (animace interakcí), Zod, Neon Postgres (čisté SQL bez ORM), Umami, Vitest, Vercel.
+
+**Animace bez zpomalení:** animuje se jen obsah, který vzniká po kliknutí (odhalení, karty, počítadlo částek, formulář). Nadpis ze serveru ne, aby se nezdrželo první vykreslení. Jen průhlednost a posun (CLS 0), `prefers-reduced-motion` je respektován a nic důležitého na animaci nečeká. Lighthouse (mobil, lokální produkční build) s animacemi i bez nich: výkon 94, CLS 0, TBT do 100 ms.
 
 **Architektura**
 - `src/features/` – `etf-reality-check` (kvíz, páry, výpočet), `lead` (formulář, API), `analytics` (eventy). Features se navzájem nevolají, komunikují přes `sessionStorage`. Stránku skládá `src/app/`.
