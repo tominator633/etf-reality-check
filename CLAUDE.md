@@ -37,7 +37,7 @@ Next.js App Router + TS, CSS Modules + `src/shared/styles/tokens.css`, písma p�
 - Nic tajného do repa (`.env*` v `.gitignore`, kromě `.env.example`).
 
 ## Příkazy
-`npm run dev | build | test | check:data` (prebuild; `NODE_ENV=production` = přísný režim). Zatím nejsou: `test:e2e`, `build:pdf` (přibudou s Playwrightem a PDF). Tabulka `leads`: `db/schema.sql` jednorázově v Neon SQL Editoru (`db:setup` skript záměrně není – viz `decisions.md`).
+`npm run dev | build | test | check:data | build:ads` (prebuild; `NODE_ENV=production` = přísný režim). Zatím nejsou: `test:e2e`, `build:pdf` (přibudou s Playwrightem a PDF). Tabulka `leads`: `db/schema.sql` jednorázově v Neon SQL Editoru (`db:setup` skript záměrně není – viz `decisions.md`).
 
 ## Když si nejsi jistý
 Rozhodni rozumně, zapiš do `docs/decisions.md` jednou větou (co, proč) a pokračuj. U finančních dat a právních tvrzení (KID, daně) nerozhoduj, nech `null` / placeholder a nahlas to.

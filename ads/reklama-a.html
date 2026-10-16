@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Reklama A – Není ETF jako ETF</title>
+<!-- Jen pro vykreslení kreativy (PNG); stránka sama písma servíruje přes next/font. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=block&subset=latin-ext">
+<style>
+/*
+ * Design (Tom, 16. 10. 2026): čistě bílé pozadí, vzdušné sekce, karty s tenkým rámečkem,
+ * výrazná hierarchie nadpisů a barevně odlišená klíčová slova (fakta indigo, ztráta červená,
+ * nejvýhodnější evropské dvojče zelená). Paleta Toma: #FFC349 (CTA), #57008E.
+ *
+ * Jediné místo pro barvy, typografii, mezery, rádiusy, stíny a délky přechodů.
+ * Komponenty používají jen var(--…). Textové kombinace barev mají kontrast
+ * aspoň 4,5 : 1 (WCAG AA), kontroluje je tokens.test.ts – při změně palety
+ * spusťte `npm run test`.
+ */
+
+:root {
+  /* Paleta (Tom) */
+  --palette-yellow: #ffc349; /* jen plocha s tmavým textem – jako text na bílé má 1,6 : 1 */
+  --palette-purple: #57008e; /* text i plocha (11,7 : 1 na bílé) */
+  --palette-sky: #5facd3; /* jen dekorace – jako text na bílé má 2,5 : 1 */
+
+  /* Podklad a inkoust */
+  --color-bg: #ffffff; /* čistě bílé pozadí celé stránky */
+  --color-surface: #ffffff; /* karty, formulář */
+  --color-surface-muted: #f6f7f9; /* americké karty, jemně odlišené plochy */
+  --color-ink: #161a33; /* hlavní text (tmavě modrošedý) */
+  --color-ink-muted: #4a5072; /* vedlejší text, popisky */
+  --color-border: #7c82a0; /* okraje polí (≥ 3 : 1 vůči podkladu) */
+  --color-border-subtle: #e3e7ef; /* dekorativní oddělovače, stopa jezdce */
+  --color-card-border: #dfe3ea; /* 1px rámeček karet (dekorativní, karty nejsou ovládací prvek) */
+
+  /* Barevně odlišená klíčová slova */
+  --color-fact: #3730a3; /* neutrální fakta: tickery, index, vložené a hrubé částky (9,9 : 1) */
+  --color-loss: #b42318; /* ztráta na poplatcích (6,6 : 1) */
+  --color-gain: #166534; /* nejvýhodnější evropské dvojče (7,1 : 1) */
+
+  /* Hero nadpis: každé slovo jinou barvou (NENÍ / ETF / JAKO / ETF). Bez zelené (= správná
+     odpověď) a bez červené (= ztráta). */
+  --color-hero-word-1: #0e7490; /* petrolejová – odlišná od navy karty s otázkou */
+  --color-hero-word-2: var(--palette-purple);
+  --color-hero-word-3: #1d4ed8; /* královská modrá */
+  --color-hero-word-4: #b45309; /* jantarová, ladí se žlutým CTA */
+
+  /* Vlajky v hero (dekorativní SVG „dvojčata vlajek“, ne text) */
+  --color-flag-us-red: #b22234;
+  --color-flag-us-blue: #3c3b6e;
+  --color-flag-eu-blue: #003399;
+  --color-flag-eu-yellow: #ffcc00;
+  --color-flag-white: #ffffff;
+  --size-hero-visual: clamp(5.5rem, 27vw, 15rem);
+  --shadow-flag: drop-shadow(0 0.375rem 0.75rem rgb(22 26 51 / 0.18));
+  --duration-flag-float: 6s;
+  --distance-flag-float: -0.25rem;
+
+  /* Proužek poplatku na kartě a šipka mezi páry */
+  --size-fee-bar: 0.375rem;
+  --color-fee-bar-track: var(--color-card-border);
+  --duration-fee-bar: 600ms;
+  --size-pair-arrow: 1.75rem;
+
+  /* Světlé pozadí dvojic fondů (US ↔ UCITS), každá dvojice jiné; bez zelené a červené */
+  --color-pair-1: #eef2ff; /* světle modrá */
+  --color-pair-2: #fff4e5; /* meruňková */
+  --color-pair-3: #f5edfc; /* levandulová */
+
+  /* Tmavé karty (otázka kvízu, nabídka PDF): bílý text, žlutý fokus a fajfky */
+  --color-quiz-bg: #0b1f4d; /* navy */
+  --color-quiz-glow: #16306e; /* světlejší navy pro odlesk */
+  --color-quiz-grid: rgb(255 255 255 / 0.06); /* jemná architektonická mřížka */
+  --size-quiz-grid: 1.5rem;
+  --color-lead-bg: var(--palette-purple);
+  --color-lead-glow: #6b1aa6; /* světlejší fialová pro odlesk */
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted-quiz: #c7d2fe;
+  --color-on-dark-muted-lead: #e9d5ff;
+  --color-on-dark-accent: var(--palette-yellow); /* fajfky, fokus na tmavém */
+  --color-on-dark-error: #ffd5cf; /* chyba na fialové (červená by zanikla) */
+
+  /* Akcent: CTA (žlutá plocha s tmavým textem a obrysem) */
+  --color-accent: var(--color-fact);
+  --color-accent-fill: var(--palette-yellow);
+  --color-on-accent-fill: #161a33;
+  --color-accent-fill-hover: #f5b12e;
+  --color-accent-fill-border: var(--color-ink);
+
+  /* Zvolená odpověď kvízu: zelená = správně (NE), červená = špatně (ANO) */
+  --color-answer-correct: #15803d;
+  --color-answer-wrong: var(--color-error);
+  --color-on-answer: #ffffff;
+
+  /* Odznaky: „nejnižší TER“ (zelená) a „V ČR obvykle nekoupíte“ (červená) – vždy s textem */
+  --color-badge-bg: #dcfce7;
+  --color-badge-ink: #14532d;
+  --color-badge-warn-bg: #fdecea;
+  --color-badge-warn-ink: #9f1d14;
+
+  /* Americké karty – jemně zašedlé, ale čitelné */
+  --color-us-card-bg: var(--color-surface-muted);
+  --color-us-card-ink: #3a3f5c;
+  --color-us-card-ink-muted: #4a5072;
+
+  /* Stavy */
+  --color-error: #b42318;
+  --color-focus: var(--palette-purple);
+
+  /* Typografie – Plus Jakarta Sans (text) a Outfit (nadpisy) přes next/font (shared/lib/fonts.ts) */
+  --font-sans: var(--font-plus-jakarta-sans), system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-numeric: var(--font-sans);
+  --font-heading: var(--font-outfit), var(--font-sans);
+  --font-weight-heading: 700;
+
+  --font-size-sm: 1rem; /* 16 px – drobné poznámky, minimum */
+  --font-size-md: 1.125rem; /* 18 px – základní text */
+  --font-size-lg: 1.375rem; /* 22 px */
+  --font-size-xl: 1.75rem; /* 28 px */
+  --font-size-2xl: 2.25rem; /* 36 px */
+  --font-size-3xl: 3rem; /* 48 px */
+  --font-size-body: var(--font-size-md);
+
+  /* Hero: velká slova (NENÍ, ETF) a malá (ETF, JAKO) v poměru 2 : 1 */
+  --font-size-hero-big: clamp(3.5rem, 17vw, 7.5rem);
+  --font-size-hero-small: calc(var(--font-size-hero-big) / 2);
+
+  /* Variabilní písma: Plus Jakarta Sans 200–800, Outfit 100–900 */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+  --font-weight-black: 800;
+
+  --line-height-hero: 0.95;
+  --line-height-tight: 1.15;
+  --line-height-snug: 1.3;
+  --line-height-body: 1.6;
+
+  --letter-spacing-caps: 0.02em;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-label: 0.08em;
+
+  /* Mezery */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  --page-gutter: var(--space-5);
+  --content-max-width: 48rem;
+  --section-gap: var(--space-8);
+
+  /* Dotykové plochy */
+  --touch-target: 3.25rem; /* 52 px */
+
+  /* Jezdce (input type="range") */
+  --slider-track-height: 0.375rem;
+  --slider-thumb-size: 1.75rem; /* vizuálně 28 px, dotyková plocha = výška inputu (--touch-target) */
+  --color-slider-track: var(--color-border-subtle);
+  --color-slider-fill: var(--color-fact);
+
+  /* Rádiusy – ostřejší, architektonické */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-pill: 999rem;
+
+  /* Okraje */
+  --border-width: 0.0625rem; /* 1 px */
+  --border-width-strong: 0.125rem; /* 2 px */
+  --focus-ring-width: 0.1875rem; /* 3 px */
+  --focus-ring-offset: 0.125rem; /* 2 px */
+
+  /* Stíny – jen jemné, hlavně při najetí */
+  --shadow-card: 0 0.0625rem 0.125rem rgb(22 26 51 / 0.04);
+  --shadow-card-hover: 0 0.5rem 1.5rem rgb(22 26 51 / 0.1);
+  --shadow-sticky: 0 -0.25rem 1rem rgb(22 26 51 / 0.12);
+  --lift-card-hover: -0.125rem; /* posun karty nahoru při najetí */
+
+  /* Délky přechodů */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:root {
+  --font-plus-jakarta-sans: "Plus Jakarta Sans";
+  --font-outfit: "Outfit";
+  --ad-pad: 88px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1350px; }
+body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 72px var(--ad-pad) 64px;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+.brand {
+  color: var(--color-ink-muted);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+.flags { position: absolute; top: 250px; right: 56px; width: 270px; overflow: visible; }
+.flag { filter: var(--shadow-flag); }
+.white { fill: var(--color-flag-white); }
+.us-red { fill: var(--color-flag-us-red); }
+.us-blue { fill: var(--color-flag-us-blue); }
+.eu-blue { fill: var(--color-flag-eu-blue); }
+.eu-yellow { fill: var(--color-flag-eu-yellow); }
+.frame { fill: none; stroke: var(--color-flag-white); stroke-width: 1.5; }
+h1 {
+  display: grid;
+  margin-top: -12px;
+  font-family: var(--font-heading);
+  line-height: var(--line-height-hero);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.line { display: flex; align-items: baseline; gap: 28px; }
+.big { font-size: 184px; font-weight: var(--font-weight-black); }
+.small { font-size: 92px; font-weight: var(--font-weight-bold); }
+.w1 { color: var(--color-hero-word-1); }
+.w2 { color: var(--color-hero-word-2); }
+.w3 { color: var(--color-hero-word-3); }
+.w4 { color: var(--color-hero-word-4); }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; list-style: none; }
+.card {
+  display: grid;
+  gap: 12px;
+  padding: 22px 30px;
+  border: 2px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-pair-1);
+}
+.card:nth-child(2) { background: var(--color-pair-2); }
+.card:nth-child(n + 3) { background: var(--color-pair-3); }
+.ticker {
+  color: var(--color-fact);
+  font-family: var(--font-heading);
+  font-size: 68px;
+  font-weight: var(--font-weight-black);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-tight);
+}
+.meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 28px; }
+.index { color: var(--color-ink-muted); font-weight: var(--font-weight-bold); }
+.ter { color: var(--color-ink); }
+.ter strong { color: var(--color-loss); font-weight: var(--font-weight-black); }
+.claim { display: grid; gap: 4px; font-size: 38px; line-height: var(--line-height-snug); }
+.claim strong { font-weight: var(--font-weight-black); }
+.fact { color: var(--color-fact); }
+.loss { color: var(--color-loss); }
+.question {
+  display: grid;
+  gap: 24px;
+  margin-top: auto;
+  padding: 36px 44px 40px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-quiz-bg);
+  background-image:
+    radial-gradient(circle at 100% 0%, var(--color-quiz-glow), transparent 60%),
+    linear-gradient(var(--color-quiz-grid) 2px, transparent 2px),
+    linear-gradient(90deg, var(--color-quiz-grid) 2px, transparent 2px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+  color: var(--color-on-dark);
+}
+.question h2 {
+  font-family: var(--font-heading);
+  font-size: 56px;
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 32px;
+  border: 4px solid var(--color-accent-fill-border);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-fill);
+  color: var(--color-on-accent-fill);
+  font-size: 34px;
+  font-weight: var(--font-weight-black);
+  letter-spacing: var(--letter-spacing-caps);
+  text-transform: uppercase;
+}
+.cta svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.source { color: var(--color-ink-muted); font-size: 22px; margin-top: -12px; }
+</style>
+</head>
+<body>
+<p class="brand">ETF Reality Check</p>
+<svg class="flags" viewBox="0 0 120 106" aria-hidden="true">
+  <g class="flag" transform="rotate(-8 42 32)">
+    <rect class="white" x="6" y="8" width="72" height="48" rx="3"/><rect class="us-red" x="6" y="8" width="72" height="6.857142857142857"/><rect class="us-red" x="6" y="21.714285714285715" width="72" height="6.857142857142857"/><rect class="us-red" x="6" y="35.42857142857143" width="72" height="6.857142857142857"/><rect class="us-red" x="6" y="49.14285714285714" width="72" height="6.857142857142857"/>
+    <rect class="us-blue" x="6" y="8" width="30.24" height="27.428571428571427"/><circle class="white" cx="11" cy="12.5" r="1.4"/><circle class="white" cx="21.119999999999997" cy="12.5" r="1.4"/><circle class="white" cx="31.24" cy="12.5" r="1.4"/><circle class="white" cx="11" cy="21.714285714285715" r="1.4"/><circle class="white" cx="21.119999999999997" cy="21.714285714285715" r="1.4"/><circle class="white" cx="31.24" cy="21.714285714285715" r="1.4"/><circle class="white" cx="11" cy="30.928571428571427" r="1.4"/><circle class="white" cx="21.119999999999997" cy="30.928571428571427" r="1.4"/><circle class="white" cx="31.24" cy="30.928571428571427" r="1.4"/>
+    <rect class="frame" x="6" y="8" width="72" height="48" rx="3"/>
+  </g>
+  <g class="flag" transform="rotate(6 77 75)">
+    <rect class="eu-blue" x="40" y="50" width="74" height="50" rx="3"/><path class="eu-yellow" d="M77.00,57.40L77.64,59.12L79.47,59.20L78.04,60.34L78.53,62.10L77.00,61.09L75.47,62.10L75.96,60.34L74.53,59.20L76.36,59.12Z"/><path class="eu-yellow" d="M84.50,59.41L85.14,61.13L86.97,61.21L85.54,62.35L86.03,64.11L84.50,63.10L82.97,64.11L83.46,62.35L82.03,61.21L83.86,61.13Z"/><path class="eu-yellow" d="M89.99,64.90L90.63,66.62L92.46,66.70L91.03,67.84L91.52,69.60L89.99,68.59L88.46,69.60L88.95,67.84L87.52,66.70L89.35,66.62Z"/><path class="eu-yellow" d="M92.00,72.40L92.64,74.12L94.47,74.20L93.04,75.34L93.53,77.10L92.00,76.09L90.47,77.10L90.96,75.34L89.53,74.20L91.36,74.12Z"/><path class="eu-yellow" d="M89.99,79.90L90.63,81.62L92.46,81.70L91.03,82.84L91.52,84.60L89.99,83.59L88.46,84.60L88.95,82.84L87.52,81.70L89.35,81.62Z"/><path class="eu-yellow" d="M84.50,85.39L85.14,87.11L86.97,87.19L85.54,88.33L86.03,90.09L84.50,89.08L82.97,90.09L83.46,88.33L82.03,87.19L83.86,87.11Z"/><path class="eu-yellow" d="M77.00,87.40L77.64,89.12L79.47,89.20L78.04,90.34L78.53,92.10L77.00,91.09L75.47,92.10L75.96,90.34L74.53,89.20L76.36,89.12Z"/><path class="eu-yellow" d="M69.50,85.39L70.14,87.11L71.97,87.19L70.54,88.33L71.03,90.09L69.50,89.08L67.97,90.09L68.46,88.33L67.03,87.19L68.86,87.11Z"/><path class="eu-yellow" d="M64.01,79.90L64.65,81.62L66.48,81.70L65.05,82.84L65.54,84.60L64.01,83.59L62.48,84.60L62.97,82.84L61.54,81.70L63.37,81.62Z"/><path class="eu-yellow" d="M62.00,72.40L62.64,74.12L64.47,74.20L63.04,75.34L63.53,77.10L62.00,76.09L60.47,77.10L60.96,75.34L59.53,74.20L61.36,74.12Z"/><path class="eu-yellow" d="M64.01,64.90L64.65,66.62L66.48,66.70L65.05,67.84L65.54,69.60L64.01,68.59L62.48,69.60L62.97,67.84L61.54,66.70L63.37,66.62Z"/><path class="eu-yellow" d="M69.50,59.41L70.14,61.13L71.97,61.21L70.54,62.35L71.03,64.11L69.50,63.10L67.97,64.11L68.46,62.35L67.03,61.21L68.86,61.13Z"/>
+    <rect class="frame" x="40" y="50" width="74" height="50" rx="3"/>
+  </g>
+</svg>
+<h1 aria-label="Není ETF jako ETF">
+  <span class="line"><span class="big w1">NENÍ</span><span class="small w2">ETF</span></span>
+  <span class="line"><span class="small w3">JAKO</span><span class="big w4">ETF</span></span>
+</h1>
+<ul class="cards"><li class="card">
+      <p class="ticker">VOO</p>
+      <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,03 %</strong></span></p>
+    </li><li class="card">
+      <p class="ticker">IVV</p>
+      <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,03 %</strong></span></p>
+    </li><li class="card">
+      <p class="ticker">SPYM</p>
+      <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,02 %</strong></span></p>
+    </li><li class="card">
+      <p class="ticker">SPY</p>
+      <p class="meta"><span class="index">S&amp;P 500</span><span class="ter">TER <strong>0,0945 %</strong></span></p>
+    </li></ul>
+<p class="claim">
+  <span>Stejný index <strong class="fact">S&amp;P 500</strong>.</span>
+  <span>Jiný ticker. Jiný <strong class="loss">poplatek</strong>.</span>
+</p>
+<section class="question">
+  <h2>Které si koupíte v&nbsp;Česku?</h2>
+  <p class="cta">Otestujte se jednou otázkou <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p>
+</section>
+<p class="source">TER podle dokumentů správců, ověřeno 15. 10. 2026.</p>
+</body>
+</html>
