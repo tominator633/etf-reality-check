@@ -35,7 +35,7 @@ Americká videa radí „kup VOO“. **ETF Reality Check** jednou otázkou uká�
 | 1 | **Hero** = H1 z reklamy + podnadpis na 3 řádky + 4 malé karty amerických fondů (ticker + TER, zdroj TER v řádku pod nimi) | Message match: člověk vidí totéž, na co klikl v reklamě. Po odpovědi malé karty zmizí (fondy jsou pak ve velkých kartách v levém sloupci). |
 | 2 | **Otázka 1** (ANO / NE) přímo pod hero | První klik je odpověď, ne „zjistit více“. Mikro-závazek s nulovým tlakem. Zvolená odpověď se obarví: NE zeleně ✓ (správně), ANO červeně ✗ (špatně). |
 | 3 | **Odhalení**: vysvětlení + páry NYSE ↔ UCITS + 3 jezdce | Hlavní hodnota zdarma: „můj“ fond, jeho evropské dvojče a poplatky v Kč. |
-| 4 | **LeadCapture**: text nabídky + tlačítko „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ → po kliknutí jediné pole e-mail | Hned po hodnotě, kdy si návštěvník klade otázku „a co dál?“. Dvoukrokový formulář (rozhodl Tom, kap. 7). |
+| 4 | **LeadCapture**: text nabídky + tlačítko „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ → po kliknutí jediné pole e-mail | Hned po hodnotě, kdy si návštěvník klade otázku „a co dál?“. Dvoukrokový formulář (rozhodl Tom, kap. 7). **Zobrazí se jen spolu se srovnáním** (po odpovědi, pod jezdci), nikdy bez něj. |
 | 5 | **Pojmy a FAQ** (rozbalovací): TER, KID/UCITS, ACC/DIST, měnové riziko | Pro ty, kdo potřebují kontext, ostatní nebrzdí. |
 | 6 | **Zdroje, metodika, upozornění, patička** | Důvěra, dohledatelnost, GDPR. |
 

@@ -14,11 +14,16 @@ export default function Home() {
   return (
     <main className={styles.page} data-variant={variant.id}>
       <Hero h1={variant.h1(heroValues)} subtitle={variant.subtitle(heroValues)} />
-      <EtfRealityCheck view={view} />
-      <LeadCapture
-        variant={defaultHeroVariant}
-        emailEnabled={process.env.EMAIL_ENABLED === "true"}
-        privacyHref="/zasady-ochrany-udaju"
+      {/* Formulář je součástí odhalení: bez srovnání se nezobrazí (Tom). */}
+      <EtfRealityCheck
+        view={view}
+        afterReveal={
+          <LeadCapture
+            variant={defaultHeroVariant}
+            emailEnabled={process.env.EMAIL_ENABLED === "true"}
+            privacyHref="/zasady-ochrany-udaju"
+          />
+        }
       />
     </main>
   );

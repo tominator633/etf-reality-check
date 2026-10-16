@@ -13,48 +13,35 @@ import styles from "./lead-capture.module.css";
 type LeadCaptureProps = { variant: "a" | "b"; emailEnabled: boolean; privacyHref: string };
 type Step = "cta" | "form" | "success";
 
-// rc_form_view jen po odpovědi v kvízu: karta je na stránce od začátku a na mobilu je vidět
-// hned pod otázkou – bez podmínky by předběhla rc_answer a rozbila funnel v Umami.
-const answeredQuiz = () => readQuizAnswer() !== null;
-
 // Nabídka PDF: tlačítko → formulář s jediným polem (e-mail) → stav úspěchu až po potvrzení serveru.
 // Otevřený formulář (sessionStorage) a odeslání (localStorage) se po reloadu obnoví (lib/lead-state.ts).
+// Karta se vykresluje jen uvnitř odhalení kvízu (skládá src/app/page.tsx), tedy vždy až po odpovědi
+// a jen na klientu – uložený stav proto jde přečíst rovnou při prvním vykreslení (bez hydratace).
 // E-mail se validuje stejným schématem na klientu i na serveru (shared/schemas/lead.schema.ts).
 export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureProps) {
-  const [step, setStep] = useState<Step>("cta");
+  const [step, setStep] = useState<Step>(readLeadStep);
   const [email, setEmail] = useState("");
   const [honeypot, setHoneypot] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [fieldError, setFieldError] = useState(false);
   const [formError, setFormError] = useState<Exclude<LeadErrorCode, "invalid_email"> | null>(null);
-  const [guideUrl, setGuideUrl] = useState<string | null>(null);
-  const startedAt = useRef(0);
+  const [guideUrl, setGuideUrl] = useState<string | null>(() => (step === "success" ? GUIDE_URL : null));
+  const startedAt = useRef(step === "form" ? Date.now() : 0);
   const inputRef = useRef<HTMLInputElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
   const section = useRef<HTMLElement>(null);
-  const restoredStep = useRef(false); // krok obnovený z úložiště: bez fokusu (neposouvat stránku)
+  // Fokus se přesouvá jen po akci uživatele (otevření formuláře, úspěšné odeslání), nikdy po obnovení
+  // z úložiště – to by posunulo stránku. Odolné i vůči dvojímu spuštění efektů ve Strict Mode.
+  const focusAfterAction = useRef(false);
   const inputId = useId();
   const errorId = useId();
   const { lead } = copy;
 
-  useTrackInView(section, "rc_form_view", answeredQuiz);
-
-  // Obnovení po reloadu, až po hydrataci (server o úložišti prohlížeče neví).
-  useEffect(() => {
-    const stored = readLeadStep();
-    if (stored === "cta") return;
-    restoredStep.current = true;
-    if (stored === "form") startedAt.current = Date.now();
-    if (stored === "success") setGuideUrl(GUIDE_URL);
-    setStep(stored);
-  }, []);
+  useTrackInView(section, "rc_form_view");
 
   useEffect(() => {
-    if (step === "cta") return;
-    if (restoredStep.current) {
-      restoredStep.current = false;
-      return;
-    }
+    if (!focusAfterAction.current) return;
+    focusAfterAction.current = false;
     if (step === "form") inputRef.current?.focus();
     if (step === "success") successRef.current?.focus();
   }, [step]);
@@ -63,6 +50,7 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
     track("rc_cta_click", { location: "lead_card" });
     startedAt.current = Date.now();
     storeFormOpen();
+    focusAfterAction.current = true;
     setStep("form");
   }
 
@@ -95,6 +83,7 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
     if (result.status === "success") {
       track("rc_lead_success"); // až po potvrzeném uložení (CLAUDE.md)
       storeLeadSent();
+      focusAfterAction.current = true;
       setGuideUrl(result.guideUrl);
       setStep("success");
     } else if (result.code === "invalid_email") {

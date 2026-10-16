@@ -319,9 +319,9 @@ type State = {
 
 Zrušena 15. 10. 2026 (viz `docs/decisions.md`). Téma „World není celý svět“ je jen v taháku.
 
-### 6.5 Formulář je vždy v DOM
+### 6.5 Formulář jen spolu se srovnáním
 
-`lead-capture` je na stránce od začátku (pod kvízem), i když návštěvník ještě neodpověděl. Je dvoukrokový: text nabídky (zatím `[[CHYBÍ TEXT]]`) a tlačítko „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“, po kliknutí formulář (7.1). Důvod: sticky CTA a přímý scroll musí mít kam vést i bez odpovědi, a A/B hypotéza č. 2 (formulář nad jezdci vs. pod nimi) se řeší jen přesunem v `src/app/` nebo v kontejneru.
+`lead-capture` se zobrazí **až po odpovědi, na konci odhalení pod jezdci** – nikdy bez srovnání (Tom, 16. 10. 2026). Skládání dělá `src/app/page.tsx`: předá `<LeadCapture/>` kontejneru `EtfRealityCheck` jako prop `afterReveal`, takže features nesdílí stav ani se navzájem neimportují. Formulář se tím nikdy nevykresluje na serveru a uložený stav (otevřený / odesláno) čte rovnou při prvním vykreslení. Je dvoukrokový: text nabídky (zatím `[[CHYBÍ TEXT]]`) a tlačítko „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“, po kliknutí formulář (7.1). Fokus se přesouvá jen po akci uživatele. Důvod: sticky CTA a přímý scroll musí mít kam vést i bez odpovědi, a A/B hypotéza č. 2 (formulář nad jezdci vs. pod nimi) se řeší jen přesunem v `src/app/` nebo v kontejneru.
 
 ---
 

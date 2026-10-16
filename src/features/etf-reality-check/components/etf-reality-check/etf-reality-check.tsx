@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { copy } from "@content/copy";
 import { track, trackOnce, useTrackInView } from "@/features/analytics";
 import { formatCzk } from "@/shared/lib/format";
@@ -16,7 +16,11 @@ import { QuizStep, type Answer } from "../quiz-step/quiz-step";
 import { UsFundPreview } from "../us-fund-preview/us-fund-preview";
 import styles from "./etf-reality-check.module.css";
 
-type EtfRealityCheckProps = { view: RealityCheckView };
+type EtfRealityCheckProps = {
+  view: RealityCheckView;
+  /** Obsah na konci odhalení (formulář) – zobrazí se jen spolu se srovnáním, nikdy bez něj. */
+  afterReveal?: ReactNode;
+};
 
 // Názvy jezdců v analytice (tech-spec 9.2); hodnota jezdce se neposílá.
 const SLIDER_NAMES = { grossReturn: "return", years: "years", monthly: "monthly" } as const;
@@ -25,7 +29,7 @@ const SLIDER_DEBOUNCE_MS = 1000;
 // Kontejner kvízu: drží odpověď a jezdce. Před odpovědí malé karty amerických fondů nad otázkou,
 // po odpovědi zmizí a odhalení se odkryje pod otázkou (tech-spec 6.1). Odpověď i jezdce se
 // ukládají do sessionStorage a po reloadu obnoví (bez posunu stránky, fokusu a eventů).
-export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
+export function EtfRealityCheck({ view, afterReveal }: EtfRealityCheckProps) {
   const [answer, setAnswer] = useState<Answer | null>(null);
   const [input, setInput] = useState<ProjectionInput>(defaultInput);
   const revealHeading = useRef<HTMLParagraphElement>(null);
@@ -129,6 +133,7 @@ export function EtfRealityCheck({ view }: EtfRealityCheckProps) {
             }}
             summary={summary}
           />
+          {afterReveal}
         </div>
       )}
     </section>
