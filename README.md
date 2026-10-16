@@ -4,6 +4,8 @@ Landing page pro českého drobného investora: jedna otázka ukáže, že ameri
 
 **Produkce:** https://etf-reality-check.vercel.app
 
+**Analytika:** [veřejný přehled v Umami](https://cloud.umami.is/share/zzy7GghEW0w8JHsg) – návštěvy produkční stránky, zdroje provozu (UTM z reklam) a události `rc_` (odpověď v kvízu, jezdce, formulář, odeslání). Jen pro čtení, Umami nepoužívá cookies. Návštěvy s `utm_source=claude_test` jsou testovací.
+
 ## Technické řešení
 
 **Stack:** Next.js 16 (App Router, TypeScript), CSS Modules + design tokeny, Zod, Neon Postgres (čisté SQL bez ORM), Umami, Vitest, Vercel.
@@ -22,7 +24,7 @@ Landing page pro českého drobného investora: jedna otázka ukáže, že ameri
 - Server přijímá jen JSON do 4 kB. Má rate limit na IP, honeypot a ochranu proti příliš rychlému odeslání. Duplicitní e-mail vrací stejnou odpověď jako nový.
 - Úspěch se ukáže jen po potvrzeném uložení. SQL jde jen přes tagged template, tabulka má navíc CHECK omezení (`db/schema.sql`).
 
-**Měření:** Umami (bez cookies), eventy s prefixem `rc_`. Funnel: zobrazení → odpověď → formulář → odeslání → lead.
+**Měření:** Umami (bez cookies, [veřejný přehled](https://cloud.umami.is/share/zzy7GghEW0w8JHsg)), eventy s prefixem `rc_`. Funnel: zobrazení → odpověď → formulář → odeslání → lead.
 
 **Bezpečnost a přístupnost**
 - Hlavičky: CSP (povoluje jen vlastní doménu a Umami), `nosniff`, `X-Frame-Options`, `Permissions-Policy`.
