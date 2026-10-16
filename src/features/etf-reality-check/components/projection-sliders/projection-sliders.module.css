@@ -19,6 +19,17 @@
   gap: var(--space-3);
 }
 
+.labelRow label {
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+}
+
+.hint {
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-snug);
+}
+
 .value {
   font-weight: var(--font-weight-black);
   font-variant-numeric: tabular-nums;

@@ -73,9 +73,11 @@ SPYL je dvojčetem SPYM i SPY: v mřížce je **jedna** karta SPYL vedle obou am
 
 | Jezdec | Výchozí | Rozsah | Krok |
 |---|---|---|---|
-| Modelový výnos **před TER** | 6 % | 2–10 % | 0,5 % |
-| Doba | 20 let | 1–40 let | 1 rok |
-| Měsíčně | 3 000 Kč | 500–20 000 Kč | 500 Kč |
+| Kolik budete investovat měsíčně – „Pravidelný vklad, který pošlete do fondu každý měsíc.“ | 3 000 Kč | 500–20 000 Kč | 500 Kč |
+| Jak dlouho budete investovat – „Počet let, po které budete každý měsíc přikupovat.“ | 20 let | 1–40 let | 1 rok |
+| Očekávaný roční výnos fondu (modelový, **před TER**) – „Předpoklad, o kolik fond ročně vyroste, než se odečtou jeho poplatky (TER). Není to záruka.“ | 6 % | 2–10 % | 0,5 % |
+
+Popisky jezdců jsou otázky s jednou vysvětlující větou pod nimi, pořadí kolik → jak dlouho → s jakým výnosem (Tom 16. 10. 2026).
 
 **Vzorec** (shodný s tech-spec 5.2): měsíční vklad na konci měsíce, roční sazba převedená na efektivní měsíční.
 - `i = (1 + r)^(1/12) − 1`, `n = roky × 12`, `FV(r) = M × ((1 + i)^n − 1) / i`

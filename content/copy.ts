@@ -77,10 +77,20 @@ export const copy = {
   },
 
   sliders: {
-    // brief kap. 5 (popisky jezdců); hodnoty a jednotky přes format.ts
-    grossReturn: "Modelový výnos před TER",
-    years: "Doba",
-    monthly: "Měsíčně",
+    // brief kap. 5 (Tom 16. 10.: popisky srozumitelně – otázka + jedna věta, co hodnota znamená);
+    // hodnoty a jednotky přes format.ts
+    monthly: {
+      label: "Kolik budete investovat měsíčně",
+      hint: "Pravidelný vklad, který pošlete do fondu každý měsíc.",
+    },
+    years: {
+      label: "Jak dlouho budete investovat",
+      hint: "Počet let, po které budete každý měsíc přikupovat.",
+    },
+    grossReturn: {
+      label: "Očekávaný roční výnos fondu",
+      hint: "Předpoklad, o kolik fond ročně vyroste, než se odečtou jeho poplatky (TER). Není to záruka.",
+    },
     // brief kap. 4 (Tom 16. 10.: rozdělit na řádky, vysvětlit, co částky znamenají) – hodnoty dosadí
     // volající jako naformátované řetězce (včetně „Kč“)
     summary: (values: {
