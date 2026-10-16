@@ -1,6 +1,7 @@
 import type { HeroWord } from "@content/hero-variants";
 import { RichText } from "@/shared/components/rich-text/rich-text";
 import type { RichText as RichTextValue } from "@/shared/lib/rich-text";
+import { FlagTwins } from "../flag-twins/flag-twins";
 import styles from "./hero.module.css";
 
 type HeroProps = { h1: string; h1Words?: HeroWord[][]; subtitle: RichTextValue[] };
@@ -16,6 +17,9 @@ export function Hero({ h1, h1Words, subtitle }: HeroProps) {
 
   return (
     <header className={styles.hero}>
+      <div className={styles.visual}>
+        <FlagTwins />
+      </div>
       <h1 className={styles.title}>
         {h1Words
           ? h1Words.map((line, lineIndex) => (

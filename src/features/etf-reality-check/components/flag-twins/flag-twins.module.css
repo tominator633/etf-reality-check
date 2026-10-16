@@ -1,0 +1,56 @@
+.flags {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.card {
+  filter: var(--shadow-flag);
+}
+
+/* Jemné vznášení (jen transform, compositor); při prefers-reduced-motion ho vypne globals.css */
+.float {
+  animation: float var(--duration-flag-float) ease-in-out infinite;
+}
+
+.floatReverse {
+  animation: float var(--duration-flag-float) ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(var(--distance-flag-float));
+  }
+}
+
+.white {
+  fill: var(--color-flag-white);
+}
+
+.usRed {
+  fill: var(--color-flag-us-red);
+}
+
+.usBlue {
+  fill: var(--color-flag-us-blue);
+}
+
+.euBlue {
+  fill: var(--color-flag-eu-blue);
+}
+
+.euYellow {
+  fill: var(--color-flag-eu-yellow);
+}
+
+.frame {
+  fill: none;
+  stroke: var(--color-flag-white);
+  stroke-width: 1.5;
+}

@@ -37,6 +37,17 @@
   --color-hero-word-3: #1d4ed8; /* královská modrá */
   --color-hero-word-4: #b45309; /* jantarová, ladí se žlutým CTA */
 
+  /* Vlajky v hero (dekorativní SVG „dvojčata vlajek“, ne text) */
+  --color-flag-us-red: #b22234;
+  --color-flag-us-blue: #3c3b6e;
+  --color-flag-eu-blue: #003399;
+  --color-flag-eu-yellow: #ffcc00;
+  --color-flag-white: #ffffff;
+  --size-hero-visual: clamp(5.5rem, 27vw, 15rem);
+  --shadow-flag: drop-shadow(0 0.375rem 0.75rem rgb(22 26 51 / 0.18));
+  --duration-flag-float: 6s;
+  --distance-flag-float: -0.25rem;
+
   /* Světlé pozadí dvojic fondů (US ↔ UCITS), každá dvojice jiné; bez zelené a červené */
   --color-pair-1: #eef2ff; /* světle modrá */
   --color-pair-2: #fff4e5; /* meruňková */

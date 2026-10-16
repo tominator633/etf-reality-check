@@ -1,6 +1,16 @@
 .hero {
+  position: relative;
   display: grid;
   gap: var(--space-4);
+}
+
+/* Vlajky vpravo vedle nadpisu – mimo tok dokumentu, takže neposouvají obsah (CLS, first screen) */
+.visual {
+  position: absolute;
+  top: var(--space-2);
+  right: calc(var(--space-2) * -1);
+  width: var(--size-hero-visual);
+  pointer-events: none;
 }
 
 .title {
