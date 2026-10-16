@@ -19,6 +19,41 @@ spuštěním reklamy chybí PDF tahák, odesílání e-mailu a právní údaje v
 zpracování (viz [Co chybí](#co-chybí)).
 Očekávaná konverze: odhad 4 % (rozpětí 2–5 %).
 
+## Struktura stránky a pořadí sekcí
+
+Pořadí sleduje princip „nejdřív hodnota, pak žádost“: návštěvník musí dostat
+užitečnou odpověď dřív, než po něm chceme e-mail.
+
+| # | Sekce | Úkol | Proč právě tady |
+|---|---|---|---|
+| 1 | Hero „Není ETF jako ETF“ + kvíz ANO / NE | Zaujmout za 2–3 sekundy a navázat na reklamu | Opakuje slib obou reklam. Otázka je nejmenší možný první krok: jedno kliknutí místo čtení. Vejde se na první obrazovku 360 × 640. |
+| 2 | Odhalení odpovědi | Dát první hodnotu: „obvykle je nekoupíte, ale mají evropská dvojčata“ | Odpověď přichází hned po kliknutí, se zdrojem (PRIIPs). Překvapení buduje důvěru a chuť pokračovat. |
+| 3 | Páry fondů USA → EU + kalkulačka | Ukázat řešení a osobní dopad v korunách | Po „co nekoupím“ přirozeně následuje „co místo toho“. Jezdce mění obecnou informaci na číslo pro konkrétního člověka. |
+| 4 | Nabídka PDF + tlačítko | Ukázat, co dalšího získá | Přichází v momentě, kdy návštěvník už má odpověď na jeden index a logicky se ptá „a co zbytek portfolia?“. |
+| 5 | Formulář (jen e-mail) | Získat kontakt | Otevře se až po kliknutí na nabídku, takže ho vidí jen ten, kdo projevil zájem. Jedno pole. |
+| 6 | Potvrzení po odeslání | Potvrdit, co se stane dál | Uzavírá cestu a říká, kdy a jak tahák dostane. |
+
+## Okamžik žádosti o kontakt
+
+O e-mail žádáme až **po odpovědi v kvízu a zobrazení párů fondů s kalkulačkou**,
+ne na první obrazovce.
+
+- **Hodnota je zřejmá předem:** v tu chvíli už návštěvník ví, že americká ETF
+  obvykle nekoupí, zná jejich evropská dvojčata a vidí výpočet poplatků.
+  Dostal skutečnou hodnotu zdarma, takže věří, že i PDF bude užitečné.
+- **Nabídka navazuje na otevřenou otázku:** stránka řeší jen S&P 500, PDF
+  odpovídá na „a co celé portfolio?“ (svět, rozvíjející se trhy, akumulační
+  vs. distribuční, kontrolní seznam před nákupem).
+- **Dvoukrokový formulář:** pole se ukáže až po kliknutí na „CHCI KOMPLETNÍ
+  SROVNÁNÍ V PDF“. Kliknutí na tlačítko je menší závazek než vidět prázdné
+  pole, a kdo klikne, formulář s vyšší pravděpodobností dokončí.
+- **Jen jedno pole (e-mail):** jméno ani telefon nejsou potřeba k doručení
+  taháku a každé pole navíc snižuje konverzi.
+
+Rizikem je, že část lidí odejde po získání odpovědi, aniž by viděla nabídku.
+Proto je to měřené (`rc_answer` → `rc_form_view`) a je to první místo,
+kam se po spuštění podívat.
+
 ## Technické řešení
 
 **Stack:** Next.js 16 (App Router, TypeScript), CSS Modules + design tokeny, `next/font` (Outfit, Plus Jakarta Sans), `motion` (animace interakcí), Zod, Neon Postgres (čisté SQL bez ORM), Umami, Vitest, Vercel.
@@ -392,6 +427,27 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 - **Pravidla pro AI** jsou v [`CLAUDE.md`](CLAUDE.md): finanční data nikdy z paměti (jen `data/etf.json` se zdrojem a datem), žádná ručně psaná čísla, žádná doporučení, model oddělený od faktů, chybějící text jako viditelný placeholder.
 - **Rozhodnutí** se průběžně zapisují do [`docs/decisions.md`](docs/decisions.md) (datum, co, proč); při změně zadání se upravují i `brief.md` a tech-spec.
 - **Co dělal člověk:** finanční data (TER, ISIN, burzy, dostupnost v ČR) ověřil Tom u správců fondů; zadání, texty, design a schvalování rozhodnutí. AI data neověřuje z paměti – co nejde doložit, zůstává `null` nebo placeholder.
+
+**Jak jsem kontroloval výstup**
+- Finanční data jsem ověřil přímo v dokumentech správců (factsheet, KID),
+  nikdy jsem nepřebíral čísla od AI.
+- Výpočty hlídají testy (`projection.test.ts`) a nezávislý přepočet
+  včetně simulace měsíc po měsíci.
+- Návrhy textů a měření jsem porovnával s tím, co je skutečně v kódu.
+- Stránku jsem testoval na produkci, včetně průchodu celým funnelem v Umami.
+
+**Kde se AI spletla**
+- Označila VOO (TER 0,03 %) za nejlevnější fond, přitom SPYM má 0,02 %.
+  Zachyceno ověřením u správce, opraveno v hypotéze 1.
+- Zdůvodnila pořadí A/B hypotéz tím, kolik lidí danou část stránky uvidí.
+  U posledního kroku to neplatí (každý kontakt projde formulářem), opraveno.
+- Navrhla názvy eventů pro měření (`quiz_answer`, `form_start`…), které
+  v kódu neexistovaly. Zachyceno porovnáním s implementací, README přepsáno
+  na skutečné `rc_*` eventy.
+- U hypotézy 2 odhadla potřebný vzorek na „statisíce návštěv“, přepočet
+  dal přibližně 80 000.
+- Navrhla do reklamy tvrzení „Většina lidí odpoví špatně“, které nebylo
+  podložené daty. Nahrazeno „Odpověď vás možná překvapí.“
 
 ## Co chybí
 
