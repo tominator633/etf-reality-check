@@ -4,28 +4,33 @@ import { fileURLToPath } from "node:url";
 import { datasetSchema } from "../data/schema.ts";
 import { formatDate, formatTer } from "../src/shared/lib/format.ts";
 
-// Kreativa reklamy A (brief kap. 9): Meta feed 4 : 5, 1080 × 1350. Vzhled jako landing page
-// (tokens.css, Outfit + Plus Jakarta Sans, hero „NENÍ etf / jako ETF“, vlajky, karty, navy karta
-// s otázkou, žluté CTA). Tickery, index a TER se čtou z data/etf.json – nic se nepíše ručně.
-// `npm run build:ads` → ads/reklama-a.html (zdroj) a ads/reklama-a.png (pro Meta, přes headless Chrome).
+// Kreativy reklam A a B (brief kap. 9): Meta feed 4 : 5, 1080 × 1350. Vzhled jako landing page
+// (tokens.css, Outfit + Plus Jakarta Sans, vlajky jako v hero, karty fondů, tlačítka kvízu, CTA).
+// A = srovnání 4 fondů, B = výzva jednou otázkou. Tickery, index, TER a datum se čtou
+// z data/etf.json – nic se nepíše ručně.
+// `npm run build:ads` → ads/reklama-{a,b}.html (zdroj) a .png (pro Meta, přes headless Chrome).
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const read = (path: string) => readFileSync(`${root}/${path}`, "utf8");
 
-const AD_FUND_IDS = ["voo", "ivv", "spym", "spy"]; // pořadí jako na stránce (tech-spec 4)
+const AD_A_FUND_IDS = ["voo", "ivv", "spym", "spy"]; // pořadí jako na stránce (tech-spec 4)
+const AD_B_FUND_ID = "voo"; // fond v otázce reklamy B (první karta reklamy A i stránky)
 const SIZE = { width: 1080, height: 1350 };
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const NBSP = " ";
 
 const dataset = datasetSchema.parse(JSON.parse(read("data/etf.json")));
-const funds = AD_FUND_IDS.map((id) => {
-  const fund = dataset.funds.find((candidate) => candidate.id === id);
-  if (!fund?.ter.value || !fund.index.value) throw new Error(`Reklama A: fond ${id} nemá ověřené TER nebo index`);
-  return { ticker: fund.listing.ticker.value ?? id.toUpperCase(), index: fund.index.value, ter: formatTer(fund.ter.value) };
-});
-const indexName = funds[0].index.replace(" ", " ");
-if (funds.some((fund) => fund.index !== funds[0].index)) throw new Error("Reklama A: fondy nesledují stejný index");
+const verifiedAt = formatDate(dataset.verifiedAt);
+
+function fund(id: string) {
+  const found = dataset.funds.find((candidate) => candidate.id === id);
+  if (!found?.ter.value || !found.index.value) throw new Error(`Reklama: fond ${id} nemá ověřené TER nebo index`);
+  return { ticker: found.listing.ticker.value ?? id.toUpperCase(), index: found.index.value, ter: formatTer(found.ter.value) };
+}
 
 const escape = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+const nbsp = (text: string) => text.replace(/ /g, NBSP);
+const arrow = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 
 /** Vlajky jako v hero (features/etf-reality-check/components/flag-twins), bez animace. */
 function flagTwins(): string {
@@ -69,17 +74,9 @@ function flagTwins(): string {
 </svg>`;
 }
 
-const cards = funds
-  .map(
-    (fund) => `<li class="card">
-      <p class="ticker">${escape(fund.ticker)}</p>
-      <p class="meta"><span class="index">${escape(fund.index.replace(" ", " "))}</span><span class="ter">TER <strong>${fund.ter}</strong></span></p>
-    </li>`,
-  )
-  .join("");
-
-// Vlastní míry kreativy (pevné plátno 1080 px, ne responzivní stránka) – barvy, písma a rádiusy z tokens.css.
-const css = `
+// Společný základ obou kreativ (pevné plátno 1080 px, ne responzivní stránka) – barvy, písma
+// a rádiusy z tokens.css.
+const baseCss = `
 ${read("src/shared/styles/tokens.css")}
 :root {
   --font-plus-jakarta-sans: "Plus Jakarta Sans";
@@ -106,7 +103,7 @@ body {
   letter-spacing: var(--letter-spacing-label);
   text-transform: uppercase;
 }
-.flags { position: absolute; top: 250px; right: 56px; width: 270px; overflow: visible; }
+.flags { display: block; overflow: visible; }
 .flag { filter: var(--shadow-flag); }
 .white { fill: var(--color-flag-white); }
 .us-red { fill: var(--color-flag-us-red); }
@@ -116,18 +113,61 @@ body {
 .frame { fill: none; stroke: var(--color-flag-white); stroke-width: 1.5; }
 h1 {
   display: grid;
-  margin-top: -12px;
   font-family: var(--font-heading);
   line-height: var(--line-height-hero);
   letter-spacing: var(--letter-spacing-tight);
 }
 .line { display: flex; align-items: baseline; gap: 28px; }
-.big { font-size: 184px; font-weight: var(--font-weight-black); }
-.small { font-size: 92px; font-weight: var(--font-weight-bold); }
 .w1 { color: var(--color-hero-word-1); }
 .w2 { color: var(--color-hero-word-2); }
 .w3 { color: var(--color-hero-word-3); }
 .w4 { color: var(--color-hero-word-4); }
+.cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 32px;
+  border: 4px solid var(--color-accent-fill-border);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-fill);
+  color: var(--color-on-accent-fill);
+  font-size: 34px;
+  font-weight: var(--font-weight-black);
+  letter-spacing: var(--letter-spacing-caps);
+  text-transform: uppercase;
+}
+.cta svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.source { color: var(--color-ink-muted); font-size: 22px; margin-top: -12px; }
+`;
+
+function page(title: string, css: string, body: string): string {
+  return `<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>${escape(title)}</title>
+<!-- Jen pro vykreslení kreativy (PNG); stránka sama písma servíruje přes next/font. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=block&subset=latin-ext">
+<style>${baseCss}${css}</style>
+</head>
+<body>
+<p class="brand">ETF Reality Check</p>
+${body}
+</body>
+</html>
+`;
+}
+
+// ── Reklama A – „Není ETF jako ETF“ (srovnání 4 fondů) ─────────────────────────────────────
+
+const adAFunds = AD_A_FUND_IDS.map(fund);
+if (adAFunds.some((item) => item.index !== adAFunds[0].index)) throw new Error("Reklama A: fondy nesledují stejný index");
+
+const adACss = `
+.flags { position: absolute; top: 250px; right: 56px; width: 270px; }
+h1 { margin-top: -12px; }
+.big { font-size: 184px; font-weight: var(--font-weight-black); }
+.small { font-size: 92px; font-weight: var(--font-weight-bold); }
 .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; list-style: none; }
 .card {
   display: grid;
@@ -159,11 +199,7 @@ h1 {
 .fact { color: var(--color-fact); }
 .loss { color: var(--color-loss); }
 /* Otázka bez karty (Tom 16. 10.): jen text a žluté tlačítko */
-.question {
-  display: grid;
-  gap: 24px;
-  margin-top: auto;
-}
+.question { display: grid; gap: 24px; margin-top: auto; }
 .question h2 {
   font-family: var(--font-heading);
   font-size: 56px;
@@ -171,70 +207,123 @@ h1 {
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
 }
-.cta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 32px;
-  border: 4px solid var(--color-accent-fill-border);
-  border-radius: var(--radius-md);
-  background: var(--color-accent-fill);
-  color: var(--color-on-accent-fill);
-  font-size: 34px;
-  font-weight: var(--font-weight-black);
-  letter-spacing: var(--letter-spacing-caps);
-  text-transform: uppercase;
-}
-.cta svg { width: 44px; height: 44px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-.source { color: var(--color-ink-muted); font-size: 22px; margin-top: -12px; }
 `;
 
-const html = `<!doctype html>
-<html lang="cs">
-<head>
-<meta charset="utf-8">
-<title>Reklama A – Není ETF jako ETF</title>
-<!-- Jen pro vykreslení kreativy (PNG); stránka sama písma servíruje přes next/font. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:wght@200..800&display=block&subset=latin-ext">
-<style>${css}</style>
-</head>
-<body>
-<p class="brand">ETF Reality Check</p>
-${flagTwins()}
+const adACards = adAFunds
+  .map(
+    (item) => `<li class="card">
+      <p class="ticker">${escape(item.ticker)}</p>
+      <p class="meta"><span class="index">${escape(nbsp(item.index))}</span><span class="ter">TER <strong>${item.ter}</strong></span></p>
+    </li>`,
+  )
+  .join("");
+
+const adA = page(
+  "Reklama A – Není ETF jako ETF",
+  adACss,
+  `${flagTwins()}
 <h1 aria-label="Není ETF jako ETF">
   <span class="line"><span class="big w1">NENÍ</span><span class="small w2">ETF</span></span>
   <span class="line"><span class="small w3">JAKO</span><span class="big w4">ETF</span></span>
 </h1>
-<ul class="cards">${cards}</ul>
+<ul class="cards">${adACards}</ul>
 <p class="claim">
-  <span>Stejný index <strong class="fact">${escape(indexName)}</strong>.</span>
+  <span>Stejný index <strong class="fact">${escape(nbsp(adAFunds[0].index))}</strong>.</span>
   <span>Jiný ticker. Jiný <strong class="loss">poplatek</strong>.</span>
 </p>
 <section class="question">
-  <h2>Které si koupíte v&nbsp;Česku?</h2>
-  <p class="cta">Otestujte se jednou otázkou <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p>
+  <h2>Které si koupíte v${NBSP}Česku?</h2>
+  <p class="cta">Otestujte se jednou otázkou ${arrow}</p>
 </section>
-<p class="source">TER podle dokumentů správců, ověřeno ${formatDate(dataset.verifiedAt)}.</p>
-</body>
-</html>
+<p class="source">TER podle dokumentů správců, ověřeno ${verifiedAt}.</p>`,
+);
+
+// ── Reklama B – „Otestujte se“ (výzva jednou otázkou) ──────────────────────────────────────
+// Tom 16. 10.: „Většina lidí odpoví špatně“ jen s daty z rc_answer – zatím nejsou, proto
+// „Odpověď vás možná překvapí.“
+
+const adBFund = fund(AD_B_FUND_ID);
+
+const adBCss = `
+h1 { margin-top: 8px; }
+.lead { font-size: 104px; font-weight: var(--font-weight-bold); }
+.ticker { font-size: 300px; font-weight: var(--font-weight-black); color: var(--color-pair-1-ink); line-height: 0.9; }
+/* Tlačítka ANO / NE ve stylu kvízu na stránce (žlutá plocha, tmavý obrys), vlajky drobně vedle */
+.answers { display: grid; grid-template-columns: 1fr 1fr 220px; align-items: center; gap: 24px; margin-top: 24px; }
+.answer {
+  display: grid;
+  place-items: center;
+  height: 168px;
+  border: 4px solid var(--color-accent-fill-border);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-fill);
+  color: var(--color-on-accent-fill);
+  font-size: 72px;
+  font-weight: var(--font-weight-black);
+  letter-spacing: var(--letter-spacing-caps);
+}
+.answers .flags { width: 220px; }
+.hook {
+  font-family: var(--font-heading);
+  font-size: 56px;
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.bottom { display: grid; gap: 28px; margin-top: auto; }
+/* CTA tmavé, aby se nepletlo se žlutými tlačítky odpovědí */
+.bottom .cta {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+}
 `;
 
-mkdirSync(`${root}/ads`, { recursive: true });
-writeFileSync(`${root}/ads/reklama-a.html`, html);
-console.log("ads/reklama-a.html");
+const adB = page(
+  `Reklama B – Koupíte si ${adBFund.ticker} v Česku?`,
+  adBCss,
+  `<h1 aria-label="Koupíte si ${escape(adBFund.ticker)} v Česku?">
+  <span class="line"><span class="lead w1">Koupíte${NBSP}si</span></span>
+  <span class="line"><span class="ticker">${escape(adBFund.ticker)}</span></span>
+  <span class="line"><span class="lead w2">v${NBSP}Česku?</span></span>
+</h1>
+<div class="answers" aria-hidden="true">
+  <span class="answer">ANO</span>
+  <span class="answer">NE</span>
+  ${flagTwins()}
+</div>
+<section class="bottom">
+  <p class="hook">Odpověď vás možná překvapí.</p>
+  <p class="cta">Ověřte si odpověď ${arrow}</p>
+</section>
+<p class="source">TER podle dokumentů správců, ověřeno ${verifiedAt}. Nejde o investiční doporučení.</p>`,
+);
 
-if (existsSync(CHROME)) {
-  execFileSync(CHROME, [
-    "--headless",
-    "--disable-gpu",
-    "--hide-scrollbars",
-    "--force-device-scale-factor=1",
-    `--window-size=${SIZE.width},${SIZE.height}`,
-    "--virtual-time-budget=5000",
-    `--screenshot=${root}/ads/reklama-a.png`,
-    `file://${root}/ads/reklama-a.html`,
-  ], { stdio: "ignore" });
-  console.log("ads/reklama-a.png");
-} else {
-  console.warn("Google Chrome nenalezen: PNG vytvořte otevřením ads/reklama-a.html v prohlížeči (1080 × 1350).");
+// ── Výstup ─────────────────────────────────────────────────────────────────────────────────
+
+mkdirSync(`${root}/ads`, { recursive: true });
+const chrome = existsSync(CHROME);
+for (const [name, html] of [
+  ["reklama-a", adA],
+  ["reklama-b", adB],
+] as const) {
+  writeFileSync(`${root}/ads/${name}.html`, html);
+  console.log(`ads/${name}.html`);
+  if (!chrome) continue;
+  execFileSync(
+    CHROME,
+    [
+      "--headless",
+      "--disable-gpu",
+      "--hide-scrollbars",
+      "--force-device-scale-factor=1",
+      `--window-size=${SIZE.width},${SIZE.height}`,
+      "--virtual-time-budget=5000",
+      `--screenshot=${root}/ads/${name}.png`,
+      `file://${root}/ads/${name}.html`,
+    ],
+    { stdio: "ignore" },
+  );
+  console.log(`ads/${name}.png`);
 }
+if (!chrome) console.warn("Google Chrome nenalezen: PNG vytvořte otevřením ads/*.html v prohlížeči (1080 × 1350).");

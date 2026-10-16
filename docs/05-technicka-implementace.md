@@ -445,7 +445,7 @@ export async function saveLead(lead: Lead): Promise<"created" | "duplicate"> {
 - Hero B obsahuje částku v Kč: generuje se při buildu z `projection.ts` (výchozí jezdce, dvojice fondů z `content/hero-variants.ts`), nikdy ručně. Neověřený TER → build v produkci selže.
 - `/v/*` má `noindex` a canonical na `/`.
 - UTM se při prvním načtení uloží do `sessionStorage` (try/catch) a posílají se s leadem i eventy.
-- `ads/reklama-a.md`, `ads/reklama-b.md`: obsah podle `brief.md` kap. 9. Konkrétní částky v Kč až z testů s ověřenými TER.
+- `ads/reklama-a.md`, `ads/reklama-b.md` + PNG z `npm run build:ads` (`scripts/build-ads.ts`): obsah podle `brief.md` kap. 9. Stav 16. 10.: přepínání hero podle UTM (tato kapitola) není nasazené, obě reklamy vedou na hero A.
 
 ---
 
@@ -633,7 +633,7 @@ Po každé relaci: `/export` do `ai-log/AAAA-MM-DD-tema.md`.
 1. ~~Ověřené hodnoty~~ – hotovo 15. 10. 2026.
 2. Fondy pro tahák (`guide-only`): celý US trh, World, EM, celý svět.
 3. ~~Paleta a fonty~~ – hotovo (doladění průběžně).
-4. Schválení reklamy B (a dvojice fondů pro částku v hero B, pracovně SPY vs. SPYM).
+4. ~~Schválení reklamy B~~ – Tom dodal reklamu B „Otestujte se“ (16. 10. 2026); hero B s částkou zatím nikde nevede.
 5. Vlastní doména? (rozhoduje o e-mailu přes Resend a o textu tlačítka „Odeslat PDF“.)
 6. Účty: GitHub, Vercel, Neon (`DATABASE_URL`), Umami Cloud – založit a doplnit env.
 7. Kdo je uveden jako provozovatel (patička, zásady ochrany údajů)?

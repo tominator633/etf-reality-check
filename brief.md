@@ -134,19 +134,21 @@ Kvíz má jedinou otázku. Téma „World není celý svět“ a skládání por
 
 ## 9. Reklamy (`ads/reklama-a.md`, `ads/reklama-b.md`)
 
-Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy vedou na tutéž otázku, liší se **motivací** (a tím i hero). Zároveň tak testujeme A/B hypotézu č. 1 (otázka vs. číslo v hero).
+Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy vedou na tutéž otázku, liší se **úhlem** (Tom 16. 10. 2026: B = „otestujte se“ místo původního návrhu „Poplatek v korunách“). Kreativy generuje `npm run build:ads` z `data/etf.json` v designu stránky.
 
-| | **A – „Není ETF jako ETF“** (zvědavost: jde to vůbec koupit?) | **B – „Poplatek v korunách“** (strach z přeplácení) – návrh ke schválení |
+| | **A – „Není ETF jako ETF“** | **B – „Otestujte se“** |
 |---|---|---|
-| Vizuál | 4 karty VOO · IVV · SPYM · SPY | 2 karty vedle sebe (dražší a levnější fond na S&P 500) a velké číslo rozdílu v Kč v barvě akcentu |
-| Text | NENÍ ETF JAKO ETF. Stejný index S&P 500. Jiný ticker. Jiný poplatek. Které si koupíte v Česku? Otestujte se jednou otázkou → | STEJNÝ S&P 500. ROZDÍL X Kč. Při 3 000 Kč měsíčně za 20 let. A ten levnější v Česku obvykle nekoupíte. Spočítejte si to → |
-| H1 na stránce | NENÍ ETF JAKO ETF | STEJNÝ S&P 500, ROZDÍL X Kč |
-| Podnadpis | 3 řádky se stupňovanou velikostí: „VOO, IVV, SPYM a SPY jsou populární americká ETF.“ / „Všechny sledují stejný index S&P 500.“ / „Liší se poplatkem (TER).“ (věty s tečkou, Tom 16. 10.) | Tolik dělá rozdíl v poplatku mezi fondy na stejný index za {doba z výchozích jezdců}. |
+| Úhel | srovnání (4 fondy, poplatky) | výzva (jedna otázka) |
+| Pro koho | kdo rád porovnává čísla | kdo chce rychlou odpověď |
+| Vizuál | 4 karty VOO · IVV · SPYM · SPY (ticker, S&P 500, TER) a vlajky USA/EU | velká otázka, dvě tlačítka ANO a NE ve stylu kvízu, vedle drobně vlajky USA a EU |
+| Text | NENÍ ETF JAKO ETF. Stejný index S&P 500. Jiný ticker. Jiný poplatek. Které si koupíte v Česku? Otestujte se jednou otázkou → | Koupíte si VOO v Česku? ANO / NE. Odpověď vás možná překvapí. Ověřte si odpověď → |
+| Patička | TER podle dokumentů správců, ověřeno {datum} | totéž + „Nejde o investiční doporučení.“ |
+| Navazuje na | nadpis a karty v hero | otázku a tlačítka ANO / NE kvízu |
 | URL | `/?utm_source=meta&utm_medium=paid_social&utm_campaign=etf_reality_check&utm_content=ad_a` | totéž s `utm_content=ad_b` |
 
-- Bez UTM se zobrazí A. Liší se jen hero (H1 a podnadpis), otázka a zbytek stránky jsou stejné.
+- Hero na stránce je pro obě reklamy zatím stejné (A: „NENÍ ETF JAKO ETF“, podnadpis „VOO, IVV, SPYM a SPY jsou populární americká ETF.“ / „Všechny sledují stejný index S&P 500.“ / „Liší se poplatkem (TER).“). Přepínání hero podle UTM není nasazené; `utm_content` odliší reklamy v analytice.
 - Podnadpisy na stránce nekončí otázkou (jediná otázka v hero je otázka kvízu); reklamy svou otázku mají.
-- **B: X a dvojice fondů** se doplní z `projection.ts` po ověření TER. Pracovně SPY vs. SPYM (největší rozdíl mezi americkými fondy, srovnání „stejný trh, stejný typ fondu“). Číslo v hero musí přesně odpovídat výchozímu nastavení jezdců a kartám pod ním.
+- „Většina lidí odpoví špatně“ jen s daty z `rc_answer`; do té doby „Odpověď vás možná překvapí.“ (Tom 16. 10.).
 - Každé tvrzení v reklamě musí stránka doložit.
 - Do souborů reklam patří: text, popis vizuálu, formát, URL, který hero ukazuje, na jakou motivaci cílí a odkud je každé tvrzení.
 
@@ -231,7 +233,7 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 
 ## 16. Otevřené body (Tom)
 
-1. Schválit **reklamu B** (nebo dodat vlastní) a dvojici fondů pro částku (pracovně SPY vs. SPYM).
+1. ~~Schválit reklamu B~~ – Tom dodal vlastní („Otestujte se“), 16. 10. 2026.
 2. Vlastní doména pro Resend? Pokud ne, e-mail vypínáme a větu „pošleme i e-mailem“ mažeme – a pak i text tlačítka „Odeslat PDF“.
 3. Kdo je provozovatel (patička, zásady zpracování údajů).
 4. Chybějící texty: nabídka nad tlačítkem PDF, první řádek odhalení po ANO/NE, popisek pole e-mail, chybové hlášky, stav po odeslání, FAQ, zásady, poznámka k SXR8/CSPX.
