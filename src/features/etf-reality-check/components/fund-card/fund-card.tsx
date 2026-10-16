@@ -16,7 +16,9 @@ type FundCardProps =
     }
   | { variant: "compact"; fund: FundView };
 
-// Plná karta: ticker, správce, ACC/DIST (u UCITS), TER se zdrojem a jedno velké číslo „přijdete o X Kč“.
+// Plná karta: odznak (US „V ČR obvykle nekoupíte“ / UCITS „nejnižší TER“), ticker, správce, ACC/DIST
+// (u UCITS), TER se zdrojem a jedno velké číslo „přijdete o X Kč“ (ztráta = červeně).
+// Nejvýhodnější evropské dvojče (nejnižší TER) je zvýrazněné zeleně.
 // Malá karta (nad otázkou, před odpovědí): jen ticker a TER; zdroj TER je v řádku pod řadou karet.
 export function FundCard(props: FundCardProps) {
   const { fund } = props;
@@ -38,12 +40,8 @@ export function FundCard(props: FundCardProps) {
   const { feeCost, lowestTer, countFrom } = props;
 
   return (
-    <article className={`${styles.card} ${typeClass}`}>
-      <p className={styles.ticker}>{fund.ticker}</p>
-      <p className={styles.issuer}>
-        {fund.issuer}
-        {fund.type === "UCITS" && fund.distribution && ` · ${copy.fundCard.distribution[fund.distribution]}`}
-      </p>
+    <article className={`${styles.card} ${typeClass} ${lowestTer ? styles.best : ""}`}>
+      {fund.type === "US" && <p className={`${styles.badge} ${styles.badgeWarn}`}>{copy.fundCard.usBadge}</p>}
       {lowestTer && (
         <m.p
           className={styles.badge}
@@ -55,6 +53,11 @@ export function FundCard(props: FundCardProps) {
           {copy.fundCard.lowestTerBadge}
         </m.p>
       )}
+      <p className={styles.ticker}>{fund.ticker}</p>
+      <p className={styles.issuer}>
+        {fund.issuer}
+        {fund.type === "UCITS" && fund.distribution && ` · ${copy.fundCard.distribution[fund.distribution]}`}
+      </p>
       <p className={styles.ter}>
         {copy.fundCard.terLabel} {ter}
         {fund.terSource && (

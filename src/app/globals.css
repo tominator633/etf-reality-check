@@ -18,11 +18,10 @@ html {
 
 body {
   min-height: 100dvh;
-  background: var(--gradient-page);
   background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-body);
   line-height: var(--line-height-body);
   -webkit-font-smoothing: antialiased;
 }
@@ -53,6 +52,7 @@ h3 {
   font-family: var(--font-heading);
   line-height: var(--line-height-tight);
   font-weight: var(--font-weight-heading);
+  letter-spacing: var(--letter-spacing-tight);
   text-wrap: balance;
 }
 

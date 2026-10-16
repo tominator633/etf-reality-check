@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { plainText } from "@/shared/lib/rich-text";
 import { copy } from "./copy";
 import { heroVariants } from "./hero-variants";
 
@@ -37,16 +38,27 @@ describe("content", () => {
   it("hero B dosazuje částku i dobu z proměnných", () => {
     const values = { feeDifference: "«ČÁSTKA»", years: "«DOBA»" };
     expect(heroVariants.b.h1(values)).toContain("«ČÁSTKA»");
-    expect(heroVariants.b.subtitle(values).join(" ")).toContain("«DOBA»");
+    expect(heroVariants.b.subtitle(values).map(plainText).join(" ")).toContain("«DOBA»");
   });
 
   it("souhrnná věta pod jezdci dosazuje všechny čtyři hodnoty", () => {
-    const sentence = copy.sliders.summary({ invested: "«V»", grossValue: "«H»", minFeeCost: "«MIN»", maxFeeCost: "«MAX»" });
+    const sentence = plainText(copy.sliders.summary({ invested: "«V»", grossValue: "«H»", minFeeCost: "«MIN»", maxFeeCost: "«MAX»" }));
     for (const token of ["«V»", "«H»", "«MIN»", "«MAX»"]) expect(sentence).toContain(token);
   });
 
   it("žádné doporučení v textech", () => {
     const all = [...strings(copy), ...strings(heroVariants)].join("\n").toLowerCase();
     for (const phrase of ["doporučujeme", "kupte", "ten si koupíte", "zaručen"]) expect(all).not.toContain(phrase);
+  });
+});
+
+describe("hero A – slova nadpisu", () => {
+  it("slova nadpisu dávají dohromady H1 a velikosti jsou asymetrické (velké–malé / malé–velké)", () => {
+    const words = heroVariants.a.h1Words!;
+    expect(words.flat().map((word) => word.text).join(" ")).toBe(heroVariants.a.h1({ feeDifference: "", years: "" }));
+    expect(words.map((line) => line.map((word) => word.size))).toEqual([
+      ["big", "small"],
+      ["small", "big"],
+    ]);
   });
 });

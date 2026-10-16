@@ -10,7 +10,8 @@
   padding: 0;
   margin-bottom: var(--space-3);
   font-family: var(--font-heading);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
+  letter-spacing: var(--letter-spacing-tight);
   font-weight: var(--font-weight-heading);
   line-height: var(--line-height-snug);
 }
@@ -27,8 +28,9 @@
   border-radius: var(--radius-md);
   background: var(--color-accent-fill);
   color: var(--color-on-accent-fill);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-black);
+  letter-spacing: var(--letter-spacing-caps);
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 

@@ -3,7 +3,12 @@
 // Hero B: částku i počet let dosadí volající z `projection.ts` při výchozích jezdcích
 // (`defaultInput`), naformátované přes `shared/lib/format.ts`. Nikdy ručně.
 
+import { fact, loss, type RichText } from "@/shared/lib/rich-text";
+
 export type HeroVariantId = "a" | "b";
+
+/** Slovo nadpisu s velikostí (Tom 16. 10.: asymetrie „NENÍ etf / jako ETF“ = rozdíl v poplatcích). */
+export type HeroWord = { text: string; size: "big" | "small" };
 
 export type HeroValues = {
   /** Rozdíl ztráty na poplatcích mezi `comparedFundIds`, např. výstup `formatCzk()`. */
@@ -17,8 +22,10 @@ export type HeroVariant = {
   utmContent: string;
   motivation: string;
   h1: (values: HeroValues) => string;
-  /** Podnadpis po řádcích; hero dává řádkům stupňovanou velikost (poslední = pointa). */
-  subtitle: (values: HeroValues) => string[];
+  /** Volitelně H1 po řádcích a slovech s velikostí; jinak se vykreslí `h1` jako prostý text. */
+  h1Words?: HeroWord[][];
+  /** Podnadpis po řádcích s barevně odlišenými klíčovými slovy; poslední řádek = pointa. */
+  subtitle: (values: HeroValues) => RichText[];
 };
 
 export const heroVariants: Record<HeroVariantId, HeroVariant> = {
@@ -27,11 +34,21 @@ export const heroVariants: Record<HeroVariantId, HeroVariant> = {
     utmContent: "ad_a",
     motivation: "Není ETF jako ETF – zvědavost: jde to vůbec koupit?",
     h1: () => "NENÍ ETF JAKO ETF",
+    h1Words: [
+      [
+        { text: "NENÍ", size: "big" },
+        { text: "ETF", size: "small" },
+      ],
+      [
+        { text: "JAKO", size: "small" },
+        { text: "ETF", size: "big" },
+      ],
+    ],
     // Tom 15. 10. 2026: tři řádky místo „VOO, IVV, SPYM a SPY sledují stejný S&P 500. Liší se poplatkem.“
     subtitle: () => [
-      "VOO, IVV, SPYM a SPY jsou populární americká ETF",
-      "všechny sledují stejný index S&P\u00a0500",
-      "Liší se poplatkem (TER)",
+      [fact("VOO, IVV, SPYM a SPY"), " jsou populární americká ETF"],
+      ["všechny sledují stejný index ", fact("S&P\u00a0500")],
+      ["Liší se ", loss("poplatkem (TER)")],
     ],
   },
   b: {
@@ -40,7 +57,7 @@ export const heroVariants: Record<HeroVariantId, HeroVariant> = {
     // Návrh ke schválení (brief kap. 16, bod 1).
     motivation: "Poplatek v korunách – strach z přeplácení",
     h1: ({ feeDifference }) => `STEJNÝ S&P\u00a0500, ROZDÍL ${feeDifference}`,
-    subtitle: ({ years }) => [`Tolik dělá rozdíl v poplatku mezi fondy na stejný index za ${years}.`],
+    subtitle: ({ years }) => [["Tolik dělá ", loss("rozdíl v poplatku"), ` mezi fondy na stejný index za ${years}.`]],
   },
 };
 

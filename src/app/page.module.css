@@ -3,12 +3,18 @@
   gap: var(--space-5);
   max-width: var(--content-max-width);
   margin-inline: auto;
-  padding: var(--space-5) var(--page-gutter) var(--space-8);
+  padding: var(--space-4) var(--page-gutter) var(--space-8);
+}
+
+/* Vzdušné sekce: od FAQ dál větší odstup (hero a kvíz drží pohromadě kvůli první obrazovce) */
+.page > :nth-child(n + 3) {
+  margin-top: var(--section-gap);
 }
 
 @media (min-width: 40rem) {
   .page {
-    gap: var(--space-6);
-    padding-top: var(--space-7);
+    gap: var(--space-7);
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-9);
   }
 }

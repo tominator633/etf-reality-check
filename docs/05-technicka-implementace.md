@@ -60,7 +60,7 @@ Tato pravidla mají přednost před vším ostatním v dokumentu:
 - `src/app/globals.css` – reset, `@import` tokenů, základní typografie, `:focus-visible`, `prefers-reduced-motion`.
 - Každá komponenta má vlastní `<nazev>.module.css` a používá jen `var(--…)`. Natvrdo zapsaná barva nebo px mimo tokeny = chyba při review.
 - Mobile-first: základ 360 px, rozšíření `@media (min-width: 640px)` a `(min-width: 1024px)`.
-- Vizuální směr: `brief.md` kap. 13 – paleta od Toma (`#FFC349` žlutá plocha CTA, `#57008E` fialová pro H1, částky a jezdce, `#5FACD3` dekorace), bílé pozadí s gradientem (žlutá nahoře, fialová dole), zelená/červená jen se symbolem. Role barev plynou z kontrastu (žlutá ani světle modrá nesmí být text).
+- Vizuální směr: `brief.md` kap. 13 – čistě bílé pozadí, karty s 1px rámečkem, hero „NENÍ etf / jako ETF“ (čtyři barvy, velikosti 2 : 1), klíčová slova barevně (`--color-fact` indigo, `--color-loss` červená, `--color-gain` zelená) přes `RichText` (`shared/components/rich-text`, data v `content/` jako segmenty). Žlutá `#FFC349` jen jako plocha CTA. Inline styly v JSX se nepoužívají (`--progress` jezdce se nastavuje přes `ref`).
 - Písma přes `next/font/google` v `src/shared/lib/fonts.ts`: **Outfit** (nadpisy) a **Plus Jakarta Sans** (text), obě variabilní, subset latin + latin-ext (Tom 16. 10. 2026, nahrazují Bakbak One a IBM Plex Sans Condensed). CSS proměnné na `<html>`, tokeny `--font-heading` a `--font-sans`.
 - Kontrasty textových dvojic hlídá `src/shared/styles/tokens.test.ts` (čte `tokens.css`, umí `var(--…)`) – při změně palety stačí `npm run test`.
 - Čísla: `font-variant-numeric: tabular-nums`.

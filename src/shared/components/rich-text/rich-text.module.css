@@ -1,0 +1,17 @@
+.fact,
+.loss,
+.gain {
+  font-weight: var(--font-weight-bold);
+}
+
+.fact {
+  color: var(--color-fact);
+}
+
+.loss {
+  color: var(--color-loss);
+}
+
+.gain {
+  color: var(--color-gain);
+}

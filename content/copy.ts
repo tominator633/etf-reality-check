@@ -5,6 +5,8 @@
 // Texty označené „Claude 16. 10.“ doplnil Claude podle kontextu (Tom: „doplnit smysluplně“) – k revizi.
 // Právní údaje (provozovatel, právní základ a doba zpracování) záměrně zůstávají placeholdery.
 
+import { fact, gain, loss } from "@/shared/lib/rich-text";
+
 export const missingText = (what: string) => `[[CHYBÍ TEXT: ${what}]]`;
 
 export const copy = {
@@ -32,12 +34,20 @@ export const copy = {
       ano: "Tady je háček.",
       ne: "Přesně tak.",
     },
-    body: "Většinou ne. Americká ETF nemají dokument KID, který pravidla EU vyžadují, takže je drobný investor z EU obvykle nekoupí. Každé z nich má ale evropské dvojče na stejný index. A poplatky se liší.",
+    body: [
+      "Většinou ne. Americká ETF nemají dokument ",
+      fact("KID"),
+      ", který pravidla EU vyžadují, takže je drobný investor z EU obvykle nekoupí. Každé z nich má ale ",
+      gain("evropské dvojče"),
+      " na stejný index. A ",
+      loss("poplatky se liší"),
+      ".",
+    ],
   },
 
   preview: {
     // řádek pod malými kartami nad otázkou: TER tam nemá místo pro vlastní odkaz na zdroj
-    terSource: (date: string) => `TER podle stránek a dokumentů správců, ověřeno ${date}. Zdroje u karet po odpovědi.`,
+    terSource: (date: string) => `TER podle dokumentů správců, ověřeno ${date}.`,
   },
 
   pairGrid: {
@@ -51,6 +61,8 @@ export const copy = {
     terLabel: "TER",
     distribution: { ACC: "akum.", DIST: "dist." },
     lowestTerBadge: "nejnižší TER",
+    // odznak americké karty (Tom 16. 10. „V ČR nekoupíte“; „obvykle“ kvůli výjimkám, brief kap. 4)
+    usBadge: "V ČR obvykle nekoupíte",
     // „přijdete o {částka} na poplatcích“ – částka se v UI zvýrazní, proto zvlášť
     feeCost: { before: "přijdete o", after: "na poplatcích" },
     // tech-spec 4.4: neověřená hodnota se nikdy nevykreslí jako 0
@@ -67,8 +79,15 @@ export const copy = {
     years: "Doba",
     monthly: "Měsíčně",
     // brief kap. 4 – částky dosadí volající jako naformátované řetězce (včetně „Kč“)
-    summary: (values: { invested: string; grossValue: string; minFeeCost: string; maxFeeCost: string }) =>
-      `Vložíte ${values.invested}. Bez poplatků by to modelově bylo ${values.grossValue}, poplatky z toho uberou ${values.minFeeCost} až ${values.maxFeeCost} podle fondu.`,
+    summary: (values: { invested: string; grossValue: string; minFeeCost: string; maxFeeCost: string }) => [
+      "Vložíte ",
+      fact(values.invested),
+      ". Bez poplatků by to modelově bylo ",
+      fact(values.grossValue),
+      ", poplatky z toho uberou ",
+      loss(`${values.minFeeCost} až ${values.maxFeeCost}`),
+      " podle fondu.",
+    ],
     // brief kap. 5 – povinná věta pod výsledkem
     disclaimer:
       "Modelový výpočet, výnos je předpoklad, ne záruka. Měsíční úročení, TER odečten od výnosu. Bez poplatků brokera, směny měn a daní.",

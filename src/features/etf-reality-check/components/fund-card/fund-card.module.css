@@ -1,18 +1,108 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-2);
   height: 100%;
   min-width: 0;
-  padding: var(--space-3);
+  padding: var(--space-4) var(--space-3);
+  border: var(--border-width) solid var(--color-card-border);
   border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
   overflow-wrap: anywhere;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(var(--lift-card-hover));
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+.us {
+  background: var(--color-us-card-bg);
+  color: var(--color-us-card-ink);
+}
+
+.best {
+  border: var(--border-width-strong) solid var(--color-gain);
+}
+
+.badge {
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-badge-bg);
+  color: var(--color-badge-ink);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+}
+
+.badgeWarn {
+  background: var(--color-badge-warn-bg);
+  color: var(--color-badge-warn-ink);
+}
+
+.ticker {
+  color: var(--color-fact);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.us .ticker {
+  color: var(--color-ink);
+}
+
+.best .ticker {
+  color: var(--color-gain);
+}
+
+.issuer,
+.source {
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-sm);
+}
+
+.us .issuer,
+.us .source {
+  color: var(--color-us-card-ink-muted);
+}
+
+.ter {
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.fee {
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: var(--border-width) solid var(--color-card-border);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-snug);
+}
+
+.amount {
+  display: block;
+  color: var(--color-loss);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-black);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Malá karta nad otázkou (ticker + TER) */
 .compact {
   gap: 0;
   padding: var(--space-2) var(--space-1);
   border-radius: var(--radius-sm);
+  box-shadow: none;
   overflow-wrap: normal;
   text-align: center;
 }
@@ -27,56 +117,12 @@
   white-space: nowrap;
 }
 
-.us {
-  background: var(--color-us-card-bg);
-  color: var(--color-us-card-ink);
-}
+@media (min-width: 40rem) {
+  .card {
+    padding: var(--space-5);
+  }
 
-.ucits {
-  border-top: var(--focus-ring-width) solid var(--color-decor);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card);
-}
-
-.ticker {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-black);
-  line-height: var(--line-height-tight);
-}
-
-.issuer,
-.source {
-  color: var(--color-ink-muted);
-}
-
-.us .issuer,
-.us .source {
-  color: var(--color-us-card-ink-muted);
-}
-
-.badge {
-  align-self: flex-start;
-  padding: 0 var(--space-2);
-  border-radius: var(--radius-sm);
-  background: var(--color-badge-bg);
-  color: var(--color-badge-ink);
-  font-weight: var(--font-weight-bold);
-}
-
-.ter {
-  font-variant-numeric: tabular-nums;
-}
-
-.fee {
-  padding-top: var(--space-2);
-  line-height: var(--line-height-snug);
-}
-
-.amount {
-  display: block;
-  color: var(--color-accent);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-black);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+  .amount {
+    font-size: var(--font-size-xl);
+  }
 }

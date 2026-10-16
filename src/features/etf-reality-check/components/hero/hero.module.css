@@ -1,17 +1,58 @@
 .hero {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .title {
-  color: var(--color-hero-title);
-  font-size: var(--font-size-2xl);
-  letter-spacing: var(--letter-spacing-caps);
+  display: grid;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-hero);
+  letter-spacing: var(--letter-spacing-tight);
+  font-size: var(--font-size-2xl); /* varianta bez slov (hero B) */
+}
+
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-3);
+}
+
+.word {
+  white-space: nowrap;
+}
+
+.big {
+  font-size: var(--font-size-hero-big);
+  font-weight: var(--font-weight-black);
+}
+
+.small {
+  font-size: var(--font-size-hero-small);
+  font-weight: var(--font-weight-bold);
+}
+
+.word1 {
+  color: var(--color-hero-word-1);
+}
+
+.word2 {
+  color: var(--color-hero-word-2);
+}
+
+.word3 {
+  color: var(--color-hero-word-3);
+}
+
+.word4 {
+  color: var(--color-hero-word-4);
 }
 
 .subtitle {
   display: grid;
   gap: var(--space-1);
+  max-width: 36rem;
   line-height: var(--line-height-snug);
 }
 
@@ -22,7 +63,7 @@
 
 .middle {
   color: var(--color-ink);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
 }
 
@@ -32,10 +73,23 @@
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-heading);
   line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 @media (min-width: 40rem) {
+  .hero {
+    gap: var(--space-5);
+  }
+
+  .middle {
+    font-size: var(--font-size-lg);
+  }
+
   .title {
     font-size: var(--font-size-3xl);
+  }
+
+  .punch {
+    font-size: var(--font-size-2xl);
   }
 }

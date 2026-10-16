@@ -1,7 +1,9 @@
-import { useId, type CSSProperties } from "react";
+import { useEffect, useId, useRef } from "react";
 import assumptions from "@data/assumptions.json";
 import { copy } from "@content/copy";
+import { RichText } from "@/shared/components/rich-text/rich-text";
 import { formatCzk, formatRate, formatYears } from "@/shared/lib/format";
+import type { RichText as RichTextValue } from "@/shared/lib/rich-text";
 import type { ProjectionInput } from "../../lib/projection";
 import styles from "./projection-sliders.module.css";
 
@@ -17,7 +19,13 @@ type SliderProps = {
 
 function Slider({ label, value, range, format, onChange }: SliderProps) {
   const id = useId();
+  const input = useRef<HTMLInputElement>(null);
   const progress = ((value - range.min) / (range.max - range.min)) * 100;
+
+  // Výplň stopy (WebKit) přes CSS proměnnou nastavenou mimo JSX – bez inline stylu.
+  useEffect(() => {
+    input.current?.style.setProperty("--progress", `${progress}%`);
+  }, [progress]);
 
   return (
     <div className={styles.slider}>
@@ -28,6 +36,7 @@ function Slider({ label, value, range, format, onChange }: SliderProps) {
         </output>
       </div>
       <input
+        ref={input}
         id={id}
         type="range"
         className={styles.range}
@@ -36,7 +45,6 @@ function Slider({ label, value, range, format, onChange }: SliderProps) {
         step={range.step}
         value={value}
         aria-valuetext={format(value)}
-        style={{ "--progress": `${progress}%` } as CSSProperties}
         onChange={(event) => onChange(Number(event.target.value))}
       />
     </div>
@@ -46,7 +54,7 @@ function Slider({ label, value, range, format, onChange }: SliderProps) {
 type ProjectionSlidersProps = {
   input: ProjectionInput;
   onChange: (input: Partial<ProjectionInput>) => void;
-  summary: string | null;
+  summary: RichTextValue | null;
 };
 
 // 3 nativní jezdce, souhrnná věta (aria-live) a povinná věta o modelovém výpočtu (brief kap. 5).
@@ -75,7 +83,7 @@ export function ProjectionSliders({ input, onChange, summary }: ProjectionSlider
         onChange={(monthly) => onChange({ monthly })}
       />
       <p className={styles.summary} aria-live="polite">
-        {summary}
+        {summary && <RichText value={summary} />}
       </p>
       <p className={styles.disclaimer}>{copy.sliders.disclaimer}</p>
     </div>

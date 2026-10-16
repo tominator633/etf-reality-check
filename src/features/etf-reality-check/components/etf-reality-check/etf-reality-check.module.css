@@ -1,10 +1,18 @@
 .realityCheck {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--space-5);
 }
 
 .reveal {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-7);
+  padding-top: var(--space-7);
+  border-top: var(--border-width) solid var(--color-card-border);
   scroll-margin-top: var(--space-4);
+}
+
+@media (min-width: 40rem) {
+  .realityCheck {
+    gap: var(--space-6);
+  }
 }

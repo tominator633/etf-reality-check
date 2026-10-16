@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <main className={styles.page} data-variant={variant.id}>
-      <Hero h1={variant.h1(heroValues)} subtitle={variant.subtitle(heroValues)} />
+      <Hero h1={variant.h1(heroValues)} h1Words={variant.h1Words} subtitle={variant.subtitle(heroValues)} />
       {/* Formulář je součástí odhalení: bez srovnání se nezobrazí (Tom). */}
       <EtfRealityCheck
         view={view}

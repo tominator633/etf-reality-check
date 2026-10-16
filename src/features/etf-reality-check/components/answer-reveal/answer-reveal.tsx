@@ -1,5 +1,6 @@
 import type { Ref } from "react";
 import { copy } from "@content/copy";
+import { RichText } from "@/shared/components/rich-text/rich-text";
 import { formatDate } from "@/shared/lib/format";
 import type { SourceView } from "../../lib/view-model";
 import type { Answer } from "../quiz-step/quiz-step";
@@ -14,7 +15,9 @@ export function AnswerReveal({ answer, kidSource, headingRef }: AnswerRevealProp
       <p ref={headingRef} tabIndex={-1} className={styles.firstLine}>
         {copy.reveal.firstLine[answer]}
       </p>
-      <p>{copy.reveal.body}</p>
+      <p className={styles.body}>
+        <RichText value={copy.reveal.body} />
+      </p>
       {kidSource && (
         <p className={styles.source}>
           {copy.fundCard.sourcePrefix}{" "}

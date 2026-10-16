@@ -13,4 +13,5 @@
 
 .source {
   color: var(--color-ink-muted);
+  font-size: var(--font-size-sm);
 }

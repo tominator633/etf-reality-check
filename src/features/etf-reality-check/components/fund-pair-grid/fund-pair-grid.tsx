@@ -34,12 +34,14 @@ export function FundPairGrid({ groups, feeCosts, lowestTerIds, countUp }: FundPa
               />
             ))}
           </div>
-          <FundCard
-            fund={group.ucits}
-            feeCost={feeCosts[group.ucits.id] ?? null}
-            lowestTer={lowestTerIds.includes(group.ucits.id)}
-            countFrom={countFrom}
-          />
+          <div className={styles.ucitsCell}>
+            <FundCard
+              fund={group.ucits}
+              feeCost={feeCosts[group.ucits.id] ?? null}
+              lowestTer={lowestTerIds.includes(group.ucits.id)}
+              countFrom={countFrom}
+            />
+          </div>
         </m.div>
       ))}
     </m.div>

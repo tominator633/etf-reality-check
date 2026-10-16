@@ -1,30 +1,54 @@
 .faq {
   display: grid;
-  gap: var(--space-3);
+  gap: 0;
 }
 
 .heading {
-  margin-bottom: var(--space-2);
-  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-5);
+  font-size: var(--font-size-2xl);
 }
 
 .item {
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card);
+  border-top: var(--border-width) solid var(--color-card-border);
+}
+
+.item:last-child {
+  border-bottom: var(--border-width) solid var(--color-card-border);
 }
 
 .question {
   display: flex;
   align-items: center;
   min-height: var(--touch-target);
-  padding: var(--space-3) var(--space-4);
-  font-weight: var(--font-weight-bold);
+  padding: var(--space-4) 0;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-heading);
+  justify-content: space-between;
+  gap: var(--space-4);
   cursor: pointer;
-  list-style-position: inside;
+  list-style: none;
+}
+
+.question::-webkit-details-marker {
+  display: none;
+}
+
+/* Ukazatel rozbalení (dekorativní – stav oznamuje <details> sám) */
+.question::after {
+  content: "+";
+  flex-shrink: 0;
+  color: var(--color-fact);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+}
+
+.item[open] .question::after {
+  content: "−";
 }
 
 .answer {
-  padding: 0 var(--space-4) var(--space-4);
+  padding: 0 0 var(--space-5);
   color: var(--color-ink-muted);
 }

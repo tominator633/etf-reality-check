@@ -203,16 +203,17 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 
 ---
 
-## 13. Vizuál (Tom, 15. 10. 2026)
+## 13. Vizuál (Tom, 16. 10. 2026 – inspirace Sheba Online a Urban Tech Republic)
 
-- **Paleta:** `#FFC349` (žlutá – plocha tlačítek s tmavým textem a obrysem), `#57008E` (fialová – H1 v hero, částky poplatků, jezdce, fokus), `#5FACD3` (dekorace), `#97DDE9` (zatím nepoužitá). Tmavý modrošedý inkoust.
-- **Pozadí:** bílé s gradientem – výrazná žlutá nahoře za hero, dole jemná fialová.
-- **Písma:** nadpisy Outfit, text Plus Jakarta Sans (obojí `next/font`, latin-ext; Tom 16. 10. 2026).
-- **Animace (Tom 16. 10. 2026):** `motion` jen pro interakce (odhalení, karty, odpověď, formulář); nezpomalují načtení (měřeno Lighthouse).
-- Zelená pro odznak „nejnižší TER“ a pro správnou odpověď, červená pro špatnou – vždy se symbolem/textem, ne jen barvou.
-- Americké karty zašedlé, ale čitelné (kontrast AA i u šedé!).
+- **Pozadí:** čistě bílé (`#ffffff`), vzdušné sekce s velkými mezerami, tenké linky jako oddělovače, karty s 1px rámečkem a jemným stínem při najetí.
+- **Hero nadpis:** dva řádky „NENÍ etf / jako ETF“ – velká a malá slova v poměru 2 : 1, každé slovo jinou barvou (navy, fialová #57008E, petrolejová, zelená). Asymetrie symbolizuje rozdíl v poplatcích u fondů na stejný index.
+- **Barevně odlišená klíčová slova:** fakta (tickery, index, vložené částky) indigo, ztráta na poplatcích červeně, nejvýhodnější evropské dvojče zeleně – vždy jako zvýrazněný text, ne jen barva.
+- **Odznaky na kartách:** americké „V ČR obvykle nekoupíte“ (červený), evropské s nejnižším TER „✓ nejnižší TER“ (zelený, karta se zeleným rámečkem).
+- **CTA:** žlutá plocha #FFC349 s tmavým textem a obrysem.
+- **Písma:** nadpisy Outfit, text Plus Jakarta Sans (obojí `next/font`, latin-ext). Základní text 18 px, drobné poznámky min. 16 px.
+- **Animace:** `motion` jen pro interakce (odhalení, karty, odpověď, formulář); nezpomalují načtení (měřeno Lighthouse).
 - Hero + otázka + tlačítka ANO/NE se musí vejít **above the fold na 360 × 640 px**.
-- Tabulární číslice, české formáty (`0,03 %`, `4 557 Kč`), text min. 16 px, žádný glassmorphism ani stock fotky.
+- Tabulární číslice, české formáty (`0,03 %`, `4 557 Kč`), žádný glassmorphism ani stock fotky.
 
 ---
 

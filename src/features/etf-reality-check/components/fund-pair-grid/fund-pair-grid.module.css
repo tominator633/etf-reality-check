@@ -5,8 +5,14 @@
 }
 
 .heading {
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-width) solid var(--color-card-border);
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
 }
 
 .group {
@@ -19,4 +25,23 @@
 .usColumn {
   display: grid;
   gap: var(--space-3);
+}
+
+.ucitsCell {
+  display: grid;
+}
+
+/* UCITS karta vedle víc amerických (SPYL): výška podle obsahu a při scrollu zůstane vedle nich */
+.group:has(.usColumn > :nth-child(2)) .ucitsCell {
+  position: sticky;
+  top: var(--space-4);
+  align-self: start;
+}
+
+@media (min-width: 40rem) {
+  .grid,
+  .group,
+  .usColumn {
+    gap: var(--space-4);
+  }
 }

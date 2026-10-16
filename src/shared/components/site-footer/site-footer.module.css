@@ -1,8 +1,8 @@
 .footer {
   display: grid;
-  gap: var(--space-5);
-  padding-top: var(--space-5);
-  border-top: var(--border-width) solid var(--color-border-subtle);
+  gap: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: var(--border-width) solid var(--color-card-border);
   color: var(--color-ink-muted);
 }
 
@@ -13,14 +13,18 @@
 
 .heading {
   color: var(--color-ink);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
 }
 
 .disclaimer {
+  color: var(--color-ink);
   font-weight: var(--font-weight-bold);
 }
 
 .legal {
   display: grid;
   gap: var(--space-1);
+  padding-top: var(--space-5);
+  border-top: var(--border-width) solid var(--color-card-border);
+  font-size: var(--font-size-sm);
 }

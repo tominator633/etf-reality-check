@@ -1,10 +1,10 @@
 .sliders {
   display: grid;
   gap: var(--space-5);
-  padding: var(--space-4);
+  padding: var(--space-5);
+  border: var(--border-width) solid var(--color-card-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: var(--shadow-card);
 }
 
 .slider {
@@ -77,12 +77,21 @@
 }
 
 .summary {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--color-card-border);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
   line-height: var(--line-height-snug);
   font-variant-numeric: tabular-nums;
 }
 
 .disclaimer {
   color: var(--color-ink-muted);
+  font-size: var(--font-size-sm);
+}
+
+@media (min-width: 40rem) {
+  .sliders {
+    padding: var(--space-6);
+  }
 }

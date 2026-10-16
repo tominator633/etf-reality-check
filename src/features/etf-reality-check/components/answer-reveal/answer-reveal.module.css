@@ -1,14 +1,23 @@
 .reveal {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
+  max-width: 40rem;
 }
 
 .firstLine {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.body {
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-snug);
 }
 
 .source {
   color: var(--color-ink-muted);
+  font-size: var(--font-size-sm);
 }
