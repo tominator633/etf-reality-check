@@ -5,7 +5,10 @@
 // Texty označené „Claude 16. 10.“ doplnil Claude podle kontextu (Tom: „doplnit smysluplně“) – k revizi.
 // Právní údaje (provozovatel, právní základ a doba zpracování) záměrně zůstávají placeholdery.
 
+import type { ContentIconName } from "@/shared/components/icons/content-icon";
 import { fact, gain, loss } from "@/shared/lib/rich-text";
+
+const withIcon = (icon: ContentIconName, text: string) => ({ icon, text });
 
 export const missingText = (what: string) => `[[CHYBÍ TEXT: ${what}]]`;
 
@@ -100,9 +103,9 @@ export const copy = {
       heading: "Tohle byl jen S&P\u00a0500. Co když chcete víc než Ameriku?",
       intro: "Evropská dvojčata dalších populárních ETF a jak z nich poskládat celé portfolio najdete v taháku:",
       benefits: [
-        "evropská dvojčata populárních NYSE ETF, nejen na S&P\u00a0500",
-        "jak poskládat celý svět ze dvou až tří fondů",
-        "na co si dát pozor u českého brokera a u daní",
+        withIcon("document", "evropská dvojčata populárních NYSE ETF, nejen na S&P\u00a0500"),
+        withIcon("globe", "jak poskládat celý svět ze dvou až tří fondů"),
+        withIcon("search", "na co si dát pozor u českého brokera a u daní"),
       ],
     },
     cta: "CHCI KOMPLETNÍ SROVNÁNÍ V PDF",
@@ -143,24 +146,28 @@ export const copy = {
   // Claude 16. 10.: témata z brief kap. 3 (TER, KID/UCITS, ACC/DIST, měnové riziko). Jen obecná fakta,
   // bez čísel a bez doporučení; tvrzení o KID opřené o PRIIPs (zdroj v datech u amerických fondů).
   faq: {
-    heading: "Pojmy, které americká videa nevysvětlí",
+    heading: "Pojmy, které se vyplatí znát", // Tom 16. 10.: obecněji
     items: [
       {
+        icon: "percent" as ContentIconName,
         question: "Co je TER?",
         answer:
           "Celková roční nákladovost fondu (Total Expense Ratio) v procentech. Platí se průběžně z majetku fondu, takže ji na účtu neuvidíte jako samostatnou platbu – projeví se nižším výnosem. Proto ji na kartách přepočítáváme na koruny.",
       },
       {
+        icon: "shield" as ContentIconName,
         question: "Co je KID a UCITS?",
         answer:
           "KID je dokument se základními informacemi, který podle nařízení EU o PRIIPs musí mít investiční produkt nabízený drobným investorům v EU. UCITS je evropský rámec pro fondy – evropská dvojčata na této stránce jsou UCITS fondy s KID. Americká ETF KID obvykle nevydávají, proto je český broker drobnému investorovi obvykle nenabídne.",
       },
       {
+        icon: "loop" as ContentIconName,
         question: "Co znamená akumulační a distribuční fond?",
         answer:
           "Akumulační (akum.) fond výnosy z dividend automaticky reinvestuje, distribuční je vyplácí. Evropská dvojčata na této stránce jsou akumulační, americké fondy dividendy vyplácejí čtvrtletně. Jak se to promítne do vašich daní, záleží na vaší situaci – nejde o daňové poradenství.",
       },
       {
+        icon: "exchange" as ContentIconName,
         question: "Co je měnové riziko?",
         answer:
           "Fondy na této stránce drží americké akcie, jejichž hodnota je v dolarech. Když koruna vůči dolaru posílí, hodnota investice v korunách klesne, i když akcie stojí na místě – a naopak. Měna, ve které fond na burze kupujete (třeba euro), na tom nic nemění, ovlivní jen náklady na směnu.",

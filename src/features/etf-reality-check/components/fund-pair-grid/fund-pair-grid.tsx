@@ -1,5 +1,6 @@
 import * as m from "motion/react-m";
 import { copy } from "@content/copy";
+import { ArrowIcon } from "@/shared/components/icons/arrow-icon";
 import { fadeUp, stagger } from "@/shared/lib/motion";
 import type { GroupView } from "../../lib/view-model";
 import { FundCard } from "../fund-card/fund-card";
@@ -8,6 +9,8 @@ import styles from "./fund-pair-grid.module.css";
 type FundPairGridProps = {
   groups: GroupView[];
   feeCosts: Record<string, number | null>;
+  /** Nejvyšší ztráta na poplatcích ze všech fondů – měřítko proužků na kartách. */
+  maxFeeCost: number | null;
   lowestTerIds: string[];
   /** Částky naběhnou od nuly (jen při odhalení kliknutím, ne po reloadu). */
   countUp: boolean;
@@ -18,8 +21,12 @@ type FundPairGridProps = {
 // Každá dvojice má vlastní světlé pozadí (obě karty), aby bylo vidět, co k čemu patří.
 const PAIR_TONES = [styles.pair1, styles.pair2, styles.pair3];
 
-export function FundPairGrid({ groups, feeCosts, lowestTerIds, countUp }: FundPairGridProps) {
+export function FundPairGrid({ groups, feeCosts, maxFeeCost, lowestTerIds, countUp }: FundPairGridProps) {
   const countFrom = countUp ? 0 : undefined;
+  const share = (id: string) => {
+    const cost = feeCosts[id] ?? null;
+    return cost === null || !maxFeeCost ? null : cost / maxFeeCost;
+  };
   return (
     <m.div className={styles.grid} variants={stagger(0, 0.12)}>
       <p className={styles.heading}>{copy.pairGrid.usHeading}</p>
@@ -32,19 +39,26 @@ export function FundPairGrid({ groups, feeCosts, lowestTerIds, countUp }: FundPa
         >
           <div className={styles.usColumn}>
             {group.us.map((fund) => (
-              <FundCard
-                key={fund.id}
-                fund={fund}
-                feeCost={feeCosts[fund.id] ?? null}
-                lowestTer={false}
-                countFrom={countFrom}
-              />
+              <div key={fund.id} className={styles.usCell}>
+                <FundCard
+                  fund={fund}
+                  feeCost={feeCosts[fund.id] ?? null}
+                  feeShare={share(fund.id)}
+                  lowestTer={false}
+                  countFrom={countFrom}
+                />
+                {/* šipka k evropskému dvojčeti (dekorativní, vztah říkají nadpisy sloupců) */}
+                <span className={styles.pairArrow}>
+                  <ArrowIcon />
+                </span>
+              </div>
             ))}
           </div>
           <div className={styles.ucitsCell}>
             <FundCard
               fund={group.ucits}
               feeCost={feeCosts[group.ucits.id] ?? null}
+              feeShare={share(group.ucits.id)}
               lowestTer={lowestTerIds.includes(group.ucits.id)}
               countFrom={countFrom}
             />

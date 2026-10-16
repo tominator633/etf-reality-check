@@ -147,6 +147,7 @@ export function EtfRealityCheck({ view, afterReveal }: EtfRealityCheckProps) {
             <FundPairGrid
               groups={view.groups}
               feeCosts={feeCosts}
+              maxFeeCost={knownCosts.length ? Math.max(...knownCosts) : null}
               lowestTerIds={view.lowestTerIds}
               countUp={answeredByClick}
             />

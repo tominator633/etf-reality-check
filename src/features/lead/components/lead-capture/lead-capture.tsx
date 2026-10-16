@@ -5,6 +5,8 @@ import * as m from "motion/react-m";
 import { useId, useRef, useState, type FormEvent } from "react";
 import { copy } from "@content/copy";
 import { getUtm, track, trackOnce, useTrackInView } from "@/features/analytics";
+import { ArrowIcon } from "@/shared/components/icons/arrow-icon";
+import { ContentIcon } from "@/shared/components/icons/content-icon";
 import { press, swap } from "@/shared/lib/motion";
 import { readQuizAnswer } from "@/shared/lib/quiz-answer-storage";
 import { EMAIL_MAX_LENGTH, emailSchema, type LeadErrorCode } from "@/shared/schemas/lead.schema";
@@ -136,17 +138,25 @@ export function LeadCapture({ variant, emailEnabled, privacyHref }: LeadCaptureP
             <p className={styles.offer}>{lead.offer.intro}</p>
             <ul className={styles.benefits}>
               {lead.offer.benefits.map((benefit) => (
-                <li key={benefit}>
-                  <span aria-hidden="true">✓ </span>
-                  {benefit}
+                <li key={benefit.text} className={styles.benefit}>
+                  <ContentIcon name={benefit.icon} className={styles.benefitIcon} />
+                  <span>{benefit.text}</span>
                 </li>
               ))}
             </ul>
 
             <AnimatePresence mode="popLayout" initial={false}>
               {step === "cta" ? (
-                <m.button key="cta" type="button" className={styles.button} onClick={open} {...swap} {...press}>
+                <m.button
+                  key="cta"
+                  type="button"
+                  className={`${styles.button} ${styles.ctaButton}`}
+                  onClick={open}
+                  {...swap}
+                  {...press}
+                >
                   {lead.cta}
+                  <ArrowIcon className={styles.ctaArrow} />
                 </m.button>
               ) : (
                 <m.form key="form" className={styles.form} onSubmit={onSubmit} noValidate {...swap}>

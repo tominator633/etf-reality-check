@@ -1,7 +1,8 @@
 .grid {
+  --pair-gap: var(--space-4);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
+  gap: var(--pair-gap);
 }
 
 .heading {
@@ -19,7 +20,7 @@
   display: grid;
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
-  gap: var(--space-3);
+  gap: var(--pair-gap);
 }
 
 .pair1 {
@@ -36,7 +37,31 @@
 
 .usColumn {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--pair-gap);
+}
+
+.usCell {
+  position: relative;
+  display: grid;
+}
+
+/* Kulatá šipka na rozhraní karty a jejího dvojčete */
+.pairArrow {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--pair-gap) / -2);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--size-pair-arrow);
+  height: var(--size-pair-arrow);
+  border: var(--border-width) solid var(--color-card-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  color: var(--color-fact);
+  font-size: var(--font-size-sm);
+  transform: translate(50%, -50%);
 }
 
 .ucitsCell {
@@ -51,9 +76,7 @@
 }
 
 @media (min-width: 40rem) {
-  .grid,
-  .group,
-  .usColumn {
-    gap: var(--space-4);
+  .grid {
+    --pair-gap: var(--space-6);
   }
 }

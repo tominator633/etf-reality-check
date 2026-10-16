@@ -97,6 +97,26 @@
   white-space: nowrap;
 }
 
+/* Proužek ztráty na poplatcích – jen transform (scaleX), bez přepočtu layoutu */
+.bar {
+  display: block;
+  height: var(--size-fee-bar);
+  margin-top: var(--space-2);
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-fee-bar-track);
+}
+
+.barFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-loss);
+  transform: scaleX(var(--fee-share, 0));
+  transform-origin: left center;
+  transition: transform var(--duration-fee-bar) var(--easing-standard);
+}
+
 /* Malá karta nad otázkou (ticker + TER) */
 .compact {
   gap: 0;

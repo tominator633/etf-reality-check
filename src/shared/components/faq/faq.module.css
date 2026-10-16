@@ -30,6 +30,16 @@
   list-style: none;
 }
 
+.icon {
+  flex-shrink: 0;
+  color: var(--color-fact);
+  font-size: var(--font-size-xl);
+}
+
+.questionText {
+  flex: 1;
+}
+
 .question::-webkit-details-marker {
   display: none;
 }

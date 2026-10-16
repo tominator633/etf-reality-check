@@ -48,6 +48,12 @@
   --duration-flag-float: 6s;
   --distance-flag-float: -0.25rem;
 
+  /* Proužek poplatku na kartě a šipka mezi páry */
+  --size-fee-bar: 0.375rem;
+  --color-fee-bar-track: var(--color-card-border);
+  --duration-fee-bar: 600ms;
+  --size-pair-arrow: 1.75rem;
+
   /* Světlé pozadí dvojic fondů (US ↔ UCITS), každá dvojice jiné; bez zelené a červené */
   --color-pair-1: #eef2ff; /* světle modrá */
   --color-pair-2: #fff4e5; /* meruňková */

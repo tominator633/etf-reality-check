@@ -34,9 +34,33 @@
   list-style: none;
 }
 
-.benefits li > span {
+.benefit {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--space-3);
+}
+
+.benefitIcon {
+  margin-top: var(--space-1);
   color: var(--color-on-dark-accent);
-  font-weight: var(--font-weight-black);
+  font-size: var(--font-size-lg);
+}
+
+/* CTA se šipkou: šipka se při najetí posune doprava (jen transform) */
+.ctaButton {
+  gap: var(--space-3);
+}
+
+.ctaArrow {
+  flex-shrink: 0;
+  font-size: var(--font-size-lg);
+  transition: transform var(--duration-base) var(--easing-standard);
+}
+
+.ctaButton:hover .ctaArrow,
+.ctaButton:focus-visible .ctaArrow {
+  transform: translateX(var(--space-1));
 }
 
 .offer {

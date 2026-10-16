@@ -1,4 +1,5 @@
 import * as m from "motion/react-m";
+import { useLayoutEffect, useRef } from "react";
 import { copy } from "@content/copy";
 import { formatCzk, formatDate, formatTer } from "@/shared/lib/format";
 import { useAnimatedNumber } from "@/shared/lib/use-animated-number";
@@ -11,6 +12,8 @@ type FundCardProps =
       fund: FundView;
       feeCost: number | null;
       lowestTer: boolean;
+      /** Podíl ztráty na poplatcích vůči nejdražšímu fondu (0–1) – délka proužku; null = bez proužku. */
+      feeShare?: number | null;
       /** Počáteční hodnota počítadla částky (0 = načíst od nuly při odhalení); bez = rovnou výsledek. */
       countFrom?: number;
     }
@@ -37,7 +40,7 @@ export function FundCard(props: FundCardProps) {
     );
   }
 
-  const { feeCost, lowestTer, countFrom } = props;
+  const { feeCost, lowestTer, countFrom, feeShare = null } = props;
 
   return (
     <article className={`${styles.card} ${typeClass} ${lowestTer ? styles.best : ""}`}>
@@ -82,6 +85,7 @@ export function FundCard(props: FundCardProps) {
         ) : (
           <>
             {feeText.before} <FeeAmount value={feeCost} from={countFrom} /> {feeText.after}
+            {feeShare !== null && <FeeBar share={feeShare} growIn={countFrom !== undefined} />}
           </>
         )}
       </p>
@@ -93,4 +97,32 @@ export function FundCard(props: FundCardProps) {
 function FeeAmount({ value, from }: { value: number; from?: number }) {
   const shown = useAnimatedNumber(value, { from: from ?? value });
   return <strong className={styles.amount}>{formatCzk(shown)}</strong>;
+}
+
+/**
+ * Proužek ztráty na poplatcích (délka = podíl vůči nejdražšímu fondu). Délka jde přes CSS proměnnou
+ * nastavenou mimo JSX (bez inline stylu). Při odhalení naroste od nuly, po obnovení je hned celý.
+ */
+function FeeBar({ share, growIn }: { share: number; growIn: boolean }) {
+  const bar = useRef<HTMLSpanElement>(null);
+  const first = useRef(true);
+
+  useLayoutEffect(() => {
+    const element = bar.current;
+    if (!element) return;
+    const apply = () => element.style.setProperty("--fee-share", share.toFixed(4));
+    if (first.current && growIn) {
+      first.current = false;
+      const frame = requestAnimationFrame(apply); // až po prvním vykreslení, ať přechod začne od nuly
+      return () => cancelAnimationFrame(frame);
+    }
+    first.current = false;
+    apply();
+  }, [share, growIn]);
+
+  return (
+    <span ref={bar} className={styles.bar} aria-hidden="true">
+      <span className={styles.barFill} />
+    </span>
+  );
 }
