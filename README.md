@@ -425,7 +425,7 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 ## Práce s AI
 
 - **Plánování** v claude.ai (koncept, texty, reklamy): [`ai-log/planovani/`](ai-log/planovani/).
-- **Implementace** v Claude Code (kód, testy, nasazení, design, reklamy): [`ai-log/implementace/`](ai-log/implementace/), tři logy po fázích. Zprávy jsou doslova, nástroje jen jako seznam.
+- **Implementace** v Claude Code (kód, testy, nasazení, design, reklamy): [`ai-log/implementace/`](ai-log/implementace/), čtyři logy po fázích. Zprávy jsou doslova, nástroje jen jako seznam.
 - **Pravidla pro AI** jsou v [`CLAUDE.md`](CLAUDE.md): finanční data nikdy z paměti (jen `data/etf.json` se zdrojem a datem), žádná ručně psaná čísla, žádná doporučení, model oddělený od faktů, chybějící text jako viditelný placeholder.
 - **Rozhodnutí** se průběžně zapisují do [`docs/decisions.md`](docs/decisions.md) (datum, co, proč); při změně zadání se upravují i `brief.md` a tech-spec.
 - **Co dělal člověk:** finanční data (TER, ISIN, burzy, dostupnost v ČR) ověřil Tom u správců fondů; zadání, texty, design a schvalování rozhodnutí. AI data neověřuje z paměti – co nejde doložit, zůstává `null` nebo placeholder.
@@ -436,7 +436,10 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 - Výpočty hlídají testy (`projection.test.ts`) a nezávislý přepočet
   včetně simulace měsíc po měsíci.
 - Návrhy textů a měření jsem porovnával s tím, co je skutečně v kódu.
-- Stránku jsem testoval na produkci, včetně průchodu celým funnelem v Umami.
+- Stránku jsem testoval na produkci a průchod funnelem v Umami ověřil od zobrazení
+  po fokus do pole e-mail (`rc_view` → `rc_answer` → `rc_form_view` →
+  `rc_cta_click` → `rc_form_focus`). Odeslání formuláře na produkci zatím
+  neproběhlo (viz Co chybí).
 
 **Kde se AI spletla**
 - Označila VOO (TER 0,03 %) za nejlevnější fond, přitom SPYM má 0,02 %.
@@ -457,7 +460,7 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 - **PDF tahák.** Stránka ho nabízí, ale v této verzi se nevytváří; po odeslání formuláře stránka říká, že ho dokončujeme. Obsah a podklady jsou výše v [Co lead dostane za e-mail](#co-lead-dostane-za-e-mail). Pro strany 2–5 chybí ověřené fondy pro celý americký trh, vyspělý svět, rozvíjející se trhy a celý svět, váhy indexů MSCI a daňová část (jen z aktuálního zákona nebo Finanční správy s datem).
 - **Odesílání e-mailu.** Vypnuté (`EMAIL_ENABLED=false`), chybí vlastní ověřená doména pro Resend.
 - **Právní údaje.** V zásadách zpracování a v patičce jsou viditelné placeholdery: správce osobních údajů a kontakt (jméno nebo firma, IČO, adresa, e-mail), účely a právní základ zpracování, doba uložení. Doplní provozovatel, ne AI.
-- **Ověření na produkci.** Testovací lead v produkční databázi (se snímkem tabulky) a průchod stránkou na skutečném telefonu (iOS Safari, Android Chrome) – zatím jen emulovaná šířka v prohlížeči.
+- **Ověření na produkci.** Odeslání formuláře na produkci a testovací lead v produkční databázi (se snímkem tabulky; v Umami zatím není žádné `rc_form_submit` ani `rc_lead_success`) a průchod stránkou na skutečném telefonu (iOS Safari, Android Chrome) – zatím jen emulovaná šířka v prohlížeči.
 
 **Měření a A/B testy**
 - Přepínání hero podle reklamy (`utm_content`) není nasazené: obě reklamy vedou na hero A. Chybí i náhodné rozdělení 50/50 pro hypotézy výše (uložení varianty v prohlížeči nejspíš vyžaduje souhlas podle ePrivacy).
