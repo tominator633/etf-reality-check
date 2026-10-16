@@ -6,6 +6,19 @@ Landing page pro českého drobného investora: jedna otázka ukáže, že ameri
 
 **Analytika:** [veřejný přehled v Umami](https://cloud.umami.is/share/zzy7GghEW0w8JHsg) – návštěvy produkční stránky, zdroje provozu (UTM z reklam) a události `rc_` (odpověď v kvízu, jezdce, formulář, odeslání). Jen pro čtení, Umami nepoužívá cookies. Návštěvy s `utm_source=claude_test` jsou testovací.
 
+## Shrnutí
+
+Stránka cílí na českého začínajícího investora, který slyšel o amerických ETF
+(VOO, SPY) a neví, že je v EU obvykle nekoupí. Jedna otázka na první obrazovce
+mu to ukáže, odhalení nabídne evropská dvojčata a kalkulačka spočítá, kolik ho
+stojí poplatky. Teprve pak žádáme e-mail výměnou za PDF tahák.
+
+**Připravenost na kampaň:** stránka a měření celé cesty (události funnelu v Umami)
+jsou hotové a nasazené, obě reklamy jsou připravené (kreativy a texty). Před
+spuštěním reklamy chybí PDF tahák, odesílání e-mailu a právní údaje v zásadách
+zpracování (viz [Co chybí](#co-chybí)).
+Očekávaná konverze: odhad 4 % (rozpětí 2–5 %).
+
 ## Technické řešení
 
 **Stack:** Next.js 16 (App Router, TypeScript), CSS Modules + design tokeny, `next/font` (Outfit, Plus Jakarta Sans), `motion` (animace interakcí), Zod, Neon Postgres (čisté SQL bez ORM), Umami, Vitest, Vercel.
@@ -114,6 +127,33 @@ Výměnou za e-mail dostane návštěvník tahák **„Z amerického videa do č
 - Slib v nabídce nad tlačítkem musí PDF splnit. Pokud nabídka slíbí „jak poskládat celý svět ze dvou až tří fondů“, strana 3 to musí opravdu ukázat.
 - Žádné srovnání brokerů (data se rychle mění a nejsou ověřená) a žádné doporučení konkrétního fondu. Jen fakta a ilustrace.
 - Čísla jen z `etf.json` a `projection.ts`. PDF by se generovalo ze stejných dat jako stránka, aby nevznikl rozpor.
+
+## Očekávaná konverze (odhad)
+
+> Odhad, neověřený na reálných návštěvnících. Upřesní se po prvních
+> ~1 000 návštěvách z kampaně podle funnelu v Umami.
+
+**Odhad: 4 % návštěv odešle formulář (realistické rozpětí 2–5 %).**
+
+| Krok funnelu | Událost | Ze 100 návštěv | Předpoklad |
+|---|---|---|---|
+| Příchod z reklamy | pageview | 100 | studený provoz z Meta, mobil |
+| Odpověď v kvízu | `rc_answer` | 50 | jedno kliknutí, nízká bariéra |
+| Zobrazení nabídky PDF | `rc_form_view` | 40 | část lidí po odhalení odejde |
+| Otevření formuláře | `rc_cta_click` | 20 | polovina z těch, kdo nabídku viděli |
+| Fokus do pole e-mail | `rc_form_focus` | 12 | |
+| Pokus o odeslání | `rc_form_submit` | 6 | |
+| Uložený lead | `rc_lead_success` | 4 | 20 % otevřených formulářů |
+
+**Z čeho odhad vychází**
+- Běžné benchmarky lead-gen stránek se pohybují v jednotkách procent,
+  finance spíš ve spodní polovině kvůli nedůvěře při zadávání e-mailu.
+- Studený provoz z mobilní reklamy konvertuje hůř než vyhledávání.
+- Naopak pomáhá: kvíz na první obrazovce (nízká bariéra prvního kroku),
+  hodnota viditelná před formulářem a jediné pole formuláře.
+
+Nejrizikovější krok je otevření formuláře (40 → 20). Na něj se zaměří
+první vyhodnocení funnelu.
 
 ## A/B testování
 
@@ -353,11 +393,26 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 - **Rozhodnutí** se průběžně zapisují do [`docs/decisions.md`](docs/decisions.md) (datum, co, proč); při změně zadání se upravují i `brief.md` a tech-spec.
 - **Co dělal člověk:** finanční data (TER, ISIN, burzy, dostupnost v ČR) ověřil Tom u správců fondů; zadání, texty, design a schvalování rozhodnutí. AI data neověřuje z paměti – co nejde doložit, zůstává `null` nebo placeholder.
 
-## Co chybí a další kroky
+## Co chybí
 
-- Přepínání hero podle reklamy (`utm_content`) a náhodné A/B rozdělení (hypotézy výše).
-- PDF tahák (obsah výše) a e-mail přes ověřenou doménu.
+**Před spuštěním kampaně (blokuje)**
+- **PDF tahák.** Stránka ho nabízí, ale v této verzi se nevytváří; po odeslání formuláře stránka říká, že ho dokončujeme. Obsah a podklady jsou výše v [Co lead dostane za e-mail](#co-lead-dostane-za-e-mail). Pro strany 2–5 chybí ověřené fondy pro celý americký trh, vyspělý svět, rozvíjející se trhy a celý svět, váhy indexů MSCI a daňová část (jen z aktuálního zákona nebo Finanční správy s datem).
+- **Odesílání e-mailu.** Vypnuté (`EMAIL_ENABLED=false`), chybí vlastní ověřená doména pro Resend.
+- **Právní údaje.** V zásadách zpracování a v patičce jsou viditelné placeholdery: správce osobních údajů a kontakt (jméno nebo firma, IČO, adresa, e-mail), účely a právní základ zpracování, doba uložení. Doplní provozovatel, ne AI.
+- **Ověření na produkci.** Testovací lead v produkční databázi (se snímkem tabulky) a průchod stránkou na skutečném telefonu (iOS Safari, Android Chrome) – zatím jen emulovaná šířka v prohlížeči.
+
+**Měření a A/B testy**
+- Přepínání hero podle reklamy (`utm_content`) není nasazené: obě reklamy vedou na hero A. Chybí i náhodné rozdělení 50/50 pro hypotézy výše (uložení varianty v prohlížeči nejspíš vyžaduje souhlas podle ePrivacy).
 - Event `rc_calculator_view` (jmenovatel pro hypotézu 2).
-- Právní údaje v patičce a zásadách: provozovatel, právní základ a doba zpracování (placeholdery).
-- Testovací lead v produkci se snímkem tabulky, test na skutečném telefonu (iOS Safari, Android Chrome), test 5 sekund s lidmi, end-to-end testy (Playwright).
-- Srovnání brokerů záměrně není (data se rychle mění a nejsou ověřená) – patřilo by do dalších e-mailů.
+- Data z `rc_answer`: dokud nejsou, reklama B nesmí tvrdit „Většina lidí odpoví špatně“.
+
+**Kvalita a dokončení**
+- End-to-end testy (Playwright) a test 5 sekund s lidmi (co stránka nabízí).
+- Sticky CTA na mobilu (brief: „mělo by“) – není.
+- Výkon na mobilu: LCP 3,3 s čeká hlavně na webové písmo, Lighthouse navrhuje ubrat ~111 KiB nepoužitého JavaScriptu.
+- Texty, které doplnil Claude (FAQ, metodika, hlavní texty reklam pro Meta), jsou označené k revizi.
+
+**Provoz**
+- Ostrá kampaň by běžela na Vercel Pro (Hobby je pro nekomerční provoz) a s rate limitem sdíleným mezi instancemi (teď jen v paměti jedné instance).
+
+**Záměrně není:** srovnání brokerů (data se rychle mění a nejsou ověřená) – patřilo by do dalších e-mailů.

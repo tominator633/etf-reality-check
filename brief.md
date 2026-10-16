@@ -194,7 +194,7 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 
 ## 12. Očekávaná konverze a A/B hypotézy (podklad pro README)
 
-**Odhad (neověřeno na provozu):** 3–6 % návštěv → lead, pracovní cíl **4–5 %**.
+**Odhad (Tom 16. 10. 2026, neověřeno na provozu):** **4 %** návštěv → lead, realistické rozpětí 2–5 %. Rozpad ze 100 návštěv: 50 `rc_answer` → 40 `rc_form_view` → 20 `rc_cta_click` → 12 `rc_form_focus` → 6 `rc_form_submit` → 4 `rc_lead_success` (README → Očekávaná konverze). Původní odhad níže (3–6 %, cíl 4–5 %) je nahrazený.
 - Pro horní hranici: jediné pole, hodnota zdarma před formulářem, první klik v hero je už interakce, mezi hodnotou a formulářem není žádný další krok.
 - Pro spodní hranici: studený provoz z Meta na mobilu; část lidí si odnese „aha“ z odhalení a odejde bez e-mailu.
 - Rozpad: ~60 % odpoví na otázku → ~65–70 % z nich doscrolluje k formuláři → ~11–14 % z nich odešle. To dává ~4,3–5,9 %. Upravit podle benchmarků, které v README ocitujeme.
