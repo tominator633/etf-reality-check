@@ -18,7 +18,7 @@ Kreativa: [`reklama-a.png`](reklama-a.png) (zdroj [`reklama-a.html`](reklama-a.h
 
 ## Vizuál
 
-Design landing page (Tom 16. 10. 2026; původní tmavý návrh z plánování nahrazen): bílé pozadí, nadpis „NENÍ etf / jako ETF“ ve stejných barvách a poměru velikostí jako hero, „dvojčata vlajek“ (USA vzadu, EU vpředu) jako na stránce, 4 karty fondů s 1px rámečkem a světlými pozadími dvojic, otázka v navy kartě s mřížkou a žluté CTA. Písma Outfit (nadpisy) a Plus Jakarta Sans (text). V kreativě nejsou částky v Kč.
+Design landing page (Tom 16. 10. 2026; původní tmavý návrh z plánování nahrazen): bílé pozadí, nadpis „NENÍ etf / jako ETF“ ve stejných barvách a poměru velikostí jako hero, „dvojčata vlajek“ (USA vzadu, EU vpředu) jako na stránce, 4 karty fondů s 1px rámečkem a světlými pozadími dvojic, tickery v tmavé verzi pozadí své dvojice, otázka jako samotný text (bez karty) a žluté CTA. Písma Outfit (nadpisy) a Plus Jakarta Sans (text). V kreativě nejsou částky v Kč.
 
 ## Odkud je každé tvrzení
 

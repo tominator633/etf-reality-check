@@ -158,19 +158,11 @@ h1 {
 .claim strong { font-weight: var(--font-weight-black); }
 .fact { color: var(--color-fact); }
 .loss { color: var(--color-loss); }
+/* Otázka bez karty (Tom 16. 10.): jen text a žluté tlačítko */
 .question {
   display: grid;
   gap: 24px;
   margin-top: auto;
-  padding: 36px 44px 40px;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-quiz-bg);
-  background-image:
-    radial-gradient(circle at 100% 0%, var(--color-quiz-glow), transparent 60%),
-    linear-gradient(var(--color-quiz-grid) 2px, transparent 2px),
-    linear-gradient(90deg, var(--color-quiz-grid) 2px, transparent 2px);
-  background-size: 100% 100%, 48px 48px, 48px 48px;
-  color: var(--color-on-dark);
 }
 .question h2 {
   font-family: var(--font-heading);
