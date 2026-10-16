@@ -18,7 +18,7 @@ Kreativa: [`reklama-b.png`](reklama-b.png) (zdroj [`reklama-b.html`](reklama-b.h
 
 ## Vizuál
 
-Design landing page: bílé pozadí, velká otázka (Outfit; „Koupíte si“ petrolejově, „v Česku?“ fialově), mezi nimi místo slova „VOO“ karta VOO – stejná jako v reklamě A a na stránce (světle modré pozadí dvojice VOO↔VUAA, ticker v tmavé indigové, S&P 500, TER), jen větší, dvě velká žlutá tlačítka ANO a NE s tmavým obrysem jako v kvízu, vedle drobně „dvojčata vlajek“ USA a EU, pod tím háček a tmavé CTA (tmavé, aby se nepletlo s tlačítky odpovědí). V kreativě nejsou částky v Kč; TER VOO je z dat.
+Design landing page: bílé pozadí, velká otázka (Outfit; „Koupíte si“ petrolejově, „v Česku?“ fialově), mezi nimi místo slova „VOO“ karta VOO – stejná jako v reklamě A a na stránce (světle modré pozadí dvojice VOO↔VUAA, ticker v tmavé indigové, S&P 500, TER) ve stejných proporcích, jen zvětšená; vedle karty „dvojčata vlajek“ USA a EU jako v hero; pod otázkou dvě velká žlutá tlačítka ANO a NE s tmavým obrysem jako v kvízu přes celou šířku, pod tím háček a tmavé CTA (tmavé, aby se nepletlo s tlačítky odpovědí). V kreativě nejsou částky v Kč; TER VOO je z dat.
 
 ## Odkud je každé tvrzení
 

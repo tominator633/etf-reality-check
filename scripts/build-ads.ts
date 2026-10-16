@@ -258,18 +258,21 @@ const adA = page(
 const adBFund = fund(AD_B_FUND_ID);
 
 const adBCss = `
-h1 { gap: 24px; margin-top: 8px; }
+h1 { gap: 56px; margin-top: 16px; }
 .lead { font-size: 104px; font-weight: var(--font-weight-bold); }
-/* Místo slova „VOO“ karta VOO – stejná jako v reklamě A a na stránce, jen větší */
-h1 .card { justify-self: start; width: 640px; gap: 20px; padding: 32px 44px; font-family: var(--font-sans); letter-spacing: normal; line-height: var(--line-height-snug); }
-h1 .ticker { font-size: 150px; }
-h1 .meta { font-size: 40px; }
-/* Tlačítka ANO / NE ve stylu kvízu na stránce (žlutá plocha, tmavý obrys), vlajky drobně vedle */
-.answers { display: grid; grid-template-columns: 1fr 1fr 220px; align-items: center; gap: 24px; margin-top: 16px; }
+/* Místo slova „VOO“ karta VOO – stejné proporce jako v reklamě A a na stránce (zvětšené 1,3×),
+   vedle ní vlajky: americký fond a jeho evropské dvojče */
+.subject { display: flex; align-items: center; gap: 40px; }
+.subject .card { width: 570px; gap: 16px; padding: 28px 40px; font-family: var(--font-sans); letter-spacing: normal; line-height: var(--line-height-snug); }
+.subject .ticker { font-size: 88px; }
+.subject .meta { font-size: 36px; }
+.subject .flags { width: 290px; }
+/* Tlačítka ANO / NE ve stylu kvízu na stránce (žlutá plocha, tmavý obrys) */
+.answers { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
 .answer {
   display: grid;
   place-items: center;
-  height: 168px;
+  height: 150px;
   border: 4px solid var(--color-accent-fill-border);
   border-radius: var(--radius-md);
   background: var(--color-accent-fill);
@@ -278,7 +281,6 @@ h1 .meta { font-size: 40px; }
   font-weight: var(--font-weight-black);
   letter-spacing: var(--letter-spacing-caps);
 }
-.answers .flags { width: 220px; }
 .hook {
   font-family: var(--font-heading);
   font-size: 56px;
@@ -300,13 +302,12 @@ const adB = page(
   adBCss,
   `<h1 aria-label="Koupíte si ${escape(adBFund.ticker)} v Česku?">
   <span class="line"><span class="lead w1">Koupíte${NBSP}si</span></span>
-  ${fundCard(adBFund, "span")}
+  <span class="subject">${fundCard(adBFund, "span")}${flagTwins()}</span>
   <span class="line"><span class="lead w2">v${NBSP}Česku?</span></span>
 </h1>
 <div class="answers" aria-hidden="true">
   <span class="answer">ANO</span>
   <span class="answer">NE</span>
-  ${flagTwins()}
 </div>
 <section class="bottom">
   <p class="hook">Odpověď vás možná překvapí.</p>

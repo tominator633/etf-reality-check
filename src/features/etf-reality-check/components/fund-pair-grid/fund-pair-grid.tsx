@@ -1,6 +1,5 @@
 import * as m from "motion/react-m";
 import { copy } from "@content/copy";
-import { ArrowIcon } from "@/shared/components/icons/arrow-icon";
 import { fadeUp, stagger } from "@/shared/lib/motion";
 import type { GroupView } from "../../lib/view-model";
 import { FundCard } from "../fund-card/fund-card";
@@ -39,19 +38,14 @@ export function FundPairGrid({ groups, feeCosts, maxFeeCost, lowestTerIds, count
         >
           <div className={styles.usColumn}>
             {group.us.map((fund) => (
-              <div key={fund.id} className={styles.usCell}>
-                <FundCard
-                  fund={fund}
-                  feeCost={feeCosts[fund.id] ?? null}
-                  feeShare={share(fund.id)}
-                  lowestTer={false}
-                  countFrom={countFrom}
-                />
-                {/* šipka k evropskému dvojčeti (dekorativní, vztah říkají nadpisy sloupců) */}
-                <span className={styles.pairArrow}>
-                  <ArrowIcon />
-                </span>
-              </div>
+              <FundCard
+                key={fund.id}
+                fund={fund}
+                feeCost={feeCosts[fund.id] ?? null}
+                feeShare={share(fund.id)}
+                lowestTer={false}
+                countFrom={countFrom}
+              />
             ))}
           </div>
           <div className={styles.ucitsCell}>
