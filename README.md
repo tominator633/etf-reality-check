@@ -10,7 +10,16 @@ Landing page pro českého drobného investora: jedna otázka ukáže, že ameri
 
 **Stack:** Next.js 16 (App Router, TypeScript), CSS Modules + design tokeny, `next/font` (Outfit, Plus Jakarta Sans), `motion` (animace interakcí), Zod, Neon Postgres (čisté SQL bez ORM), Umami, Vitest, Vercel.
 
-**Animace bez zpomalení:** animuje se jen obsah, který vzniká po kliknutí (odhalení, karty, počítadlo částek, formulář). Nadpis ze serveru ne, aby se nezdrželo první vykreslení. Jen průhlednost a posun (CLS 0), `prefers-reduced-motion` je respektován a nic důležitého na animaci nečeká. Lighthouse (mobil, lokální produkční build) s animacemi i bez nich: výkon 94, CLS 0, TBT do 100 ms.
+**Animace bez zpomalení:** animuje se jen obsah, který vzniká po kliknutí (odhalení, karty, počítadlo částek, formulář). Nadpis ze serveru ne, aby se nezdrželo první vykreslení. Jen průhlednost a posun (CLS 0), `prefers-reduced-motion` je respektován a nic důležitého na animaci nečeká.
+
+**Výkon (Lighthouse 13.5 přes PageSpeed Insights, produkce, 16. 10. 2026):**
+
+| | Výkon | Přístupnost | Best Practices | SEO | FCP | LCP | TBT | CLS |
+|---|---|---|---|---|---|---|---|---|
+| Mobil (Moto G Power, pomalé 4G) | 91 | 100 | 100 | 100 | 1,5 s | 3,3 s | 10 ms | 0 |
+| Desktop | 100 | 100 | 100 | 100 | 0,4 s | 0,6 s | 10 ms | 0 |
+
+Na mobilu tvoří většinu LCP zpoždění vykreslení textu (čekání na webové písmo); Lighthouse navrhuje ještě ubrat ~111 KiB nepoužitého JavaScriptu.
 
 **Architektura**
 - `src/features/` – `etf-reality-check` (kvíz, páry, výpočet), `lead` (formulář, API), `analytics` (eventy). Features se navzájem nevolají, komunikují přes `sessionStorage`. Stránku skládá `src/app/`.
@@ -42,7 +51,7 @@ npm install
 ```bash
 npm run dev
 ```
-Env podle `.env.example` (`DATABASE_URL`, Umami, `NEXT_PUBLIC_SITE_URL`). Tabulka se zakládá jednorázově: `db/schema.sql` v Neon SQL Editoru. Testy spustí `npm run test`, kontrolu dat `npm run check:data`.
+Env podle `.env.example` (`DATABASE_URL`, Umami, `NEXT_PUBLIC_SITE_URL`). Tabulka se zakládá jednorázově: `db/schema.sql` v Neon SQL Editoru. Testy spustí `npm run test` (Vitest, 354 testů: výpočet, data, texty, kontrast barev, API leadů, CSP), kontrolu dat `npm run check:data`, kreativy reklam `npm run build:ads`.
 
 **Známá omezení**
 - Rate limit je jen v paměti jedné instance.
@@ -51,6 +60,38 @@ Env podle `.env.example` (`DATABASE_URL`, Umami, `NEXT_PUBLIC_SITE_URL`). Tabulk
 - Vercel Hobby je pro nekomerční provoz.
 - Neon se po nečinnosti probouzí (první odeslání může trvat déle).
 - Blokátory reklam skryjí část eventů. Zdrojem pravdy o leadech je tabulka `leads`.
+- Přepínání hero podle reklamy (`utm_content`) není nasazené: obě reklamy vedou na hero A, `utm_content` je odliší jen v analytice.
+
+## Výchozí scénář (modelový výpočet)
+
+Při výchozím nastavení jezdců – 3 000 Kč měsíčně, 20 let, modelový výnos 6 % ročně před poplatky – vloží investor **720 000 Kč** a bez poplatků by měl modelově **1 360 316 Kč**. Kolik z toho uberou poplatky fondu (TER):
+
+| Americký fond | TER | Přijdete o | Evropské dvojče | TER | Přijdete o |
+|---|---|---|---|---|---|
+| VOO | 0,03 % | 4 557 Kč | VUAA | 0,07 % | 10 605 Kč |
+| IVV | 0,03 % | 4 557 Kč | SXR8 (CSPX) | 0,07 % | 10 605 Kč |
+| SPYM | 0,02 % | 3 040 Kč | SPYL | 0,03 % | 4 557 Kč |
+| SPY | 0,0945 % | 14 295 Kč | SPYL | 0,03 % | 4 557 Kč |
+
+Čísla počítá `projection.ts` z `data/etf.json` (TER ověřené u správců k datu v datech) a hlídají je testy (`projection.test.ts`, přesnost na haléř podle tech-spec 5.1); 16. 10. 2026 je navíc ověřil nezávislý přepočet včetně simulace měsíc po měsíci. Jde o model: výnos je předpoklad, ne záruka; bez poplatků brokera, směny měn a daní.
+
+## Design
+
+Bílé pozadí, karty s 1px rámečkem, barevně odlišená klíčová slova (fakta indigo, ztráta červeně, nejnižší TER zeleně). Hero „NENÍ etf / jako ETF“ má každé slovo jinou barvou a asymetrické velikosti (rozdíl v poplatcích), vedle „dvojčata vlajek“ USA a EU (inline SVG). Každá dvojice fondů má vlastní světlé pozadí a ticker v jeho tmavé verzi; otázka kvízu je v navy kartě, nabídka PDF ve fialové. Na kartách proužek poplatku (podíl vůči nejdražšímu fondu), pod jezdci souhrn ve čtyřech řádcích. Vše přes tokeny v `src/shared/styles/tokens.css`; kontrast WCAG AA hlídá test. Hero a otázka se vejdou na první obrazovku 360 × 640.
+
+## Reklamy
+
+Dvě kreativy pro Meta (Instagram, Facebook), feed 4 : 5, 1080 × 1350, v designu stránky. Generuje je `npm run build:ads` (`scripts/build-ads.ts`) z `data/etf.json` a `tokens.css`, takže tickery, TER, datum ověření i barvy odpovídají stránce. U každé reklamy je v `ads/` popis: texty pro Meta, URL s UTM, vizuál a zdroj každého tvrzení.
+
+| | [A – „Není ETF jako ETF“](ads/reklama-a.md) | [B – „Otestujte se“](ads/reklama-b.md) |
+|---|---|---|
+| Kreativa | [`ads/reklama-a.png`](ads/reklama-a.png) | [`ads/reklama-b.png`](ads/reklama-b.png) |
+| Úhel | srovnání: 4 fondy na S&P 500, jiný poplatek | výzva: jedna otázka „Koupíte si VOO v Česku?“ s ANO / NE |
+| Pro koho | kdo rád porovnává čísla | kdo chce rychlou odpověď |
+| Navazuje na | nadpis a karty v hero | otázku a tlačítka ANO / NE kvízu |
+| UTM | `utm_content=ad_a` | `utm_content=ad_b` |
+
+„Většina lidí odpoví špatně“ v reklamě B není: bez dat z `rc_answer` by to bylo nepodložené, proto „Odpověď vás možná překvapí.“
 
 ## Co lead dostane za e-mail
 
@@ -99,7 +140,7 @@ kroku se celé promítne do výsledku.
 
 ### Společná pravidla pro všechny testy
 
-- **Rozdělení:** dnes určuje variantu reklama (`utm_content=ad_a` / `ad_b`), takže varianty dostávají jiné publikum. Pro čisté A/B je potřeba náhodné rozdělení 50/50 s variantou uloženou v prohlížeči, aby se při návratu neměnila. Uložení v cookie nebo `localStorage` pro A/B test nejspíš podléhá souhlasu podle ePrivacy (stránka teď cookies nepoužívá), proto je to otevřený bod.
+- **Rozdělení:** podle reklamy (`utm_content=ad_a` / `ad_b`) by varianty dostávaly jiné publikum (a přepínání podle UTM zatím není nasazené). Pro čisté A/B je potřeba náhodné rozdělení 50/50 s variantou uloženou v prohlížeči, aby se při návratu neměnila. Uložení v cookie nebo `localStorage` pro A/B test nejspíš podléhá souhlasu podle ePrivacy (stránka teď cookies nepoužívá), proto je to otevřený bod.
 - Ke všem měřeným událostem se přidává parametr `variant` (A/B).
 - Testy běží postupně v pořadí 1 → 2 → 3, aby se jejich účinky nemíchaly.
   Vítězná varianta se vždy nasadí jako nová kontrola pro další test.
@@ -117,7 +158,7 @@ kroku se celé promítne do výsledku.
 Současná hero sekce popisuje rozdíl v poplatcích obecně. Varianta B ho ukazuje
 konkrétními čísly. Kvízová mechanika (otázka s odpověďmi ANO / NE, správně je NE)
 zůstává stejná, design ani zbytek stránky se nemění. Testuje se pouze text.
-Varianta B je nový návrh, ne stávající hero B pro reklamu B („Stejný S&P 500, rozdíl X Kč“).
+Varianta B je nový návrh, nesouvisí s reklamou B.
 
 | Prvek | A – kontrola (současná) | B – varianta s čísly |
 |---|---|---|
@@ -303,3 +344,20 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 | `rc_lead_error` | server nebo síť vrátí chybu (parametr `code`) | – |
 | `rc_pdf_download` | stažení PDF | – |
 | *chybí:* `rc_calculator_view` | kalkulačka z poloviny na obrazovce – potřeba pro jmenovatel v H2 | 2 |
+
+## Práce s AI
+
+- **Plánování** v claude.ai (koncept, texty, reklamy): [`ai-log/planovani/`](ai-log/planovani/).
+- **Implementace** v Claude Code (kód, testy, nasazení, design, reklamy): [`ai-log/implementace/`](ai-log/implementace/), tři logy po fázích. Zprávy jsou doslova, nástroje jen jako seznam.
+- **Pravidla pro AI** jsou v [`CLAUDE.md`](CLAUDE.md): finanční data nikdy z paměti (jen `data/etf.json` se zdrojem a datem), žádná ručně psaná čísla, žádná doporučení, model oddělený od faktů, chybějící text jako viditelný placeholder.
+- **Rozhodnutí** se průběžně zapisují do [`docs/decisions.md`](docs/decisions.md) (datum, co, proč); při změně zadání se upravují i `brief.md` a tech-spec.
+- **Co dělal člověk:** finanční data (TER, ISIN, burzy, dostupnost v ČR) ověřil Tom u správců fondů; zadání, texty, design a schvalování rozhodnutí. AI data neověřuje z paměti – co nejde doložit, zůstává `null` nebo placeholder.
+
+## Co chybí a další kroky
+
+- Přepínání hero podle reklamy (`utm_content`) a náhodné A/B rozdělení (hypotézy výše).
+- PDF tahák (obsah výše) a e-mail přes ověřenou doménu.
+- Event `rc_calculator_view` (jmenovatel pro hypotézu 2).
+- Právní údaje v patičce a zásadách: provozovatel, právní základ a doba zpracování (placeholdery).
+- Testovací lead v produkci se snímkem tabulky, test na skutečném telefonu (iOS Safari, Android Chrome), test 5 sekund s lidmi, end-to-end testy (Playwright).
+- Srovnání brokerů záměrně není (data se rychle mění a nejsou ověřená) – patřilo by do dalších e-mailů.
