@@ -459,7 +459,12 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 **Před spuštěním kampaně (blokuje)**
 - **PDF tahák.** Stránka ho nabízí, ale v této verzi se nevytváří; po odeslání formuláře stránka říká, že ho dokončujeme. Obsah a podklady jsou výše v [Co lead dostane za e-mail](#co-lead-dostane-za-e-mail). Pro strany 2–5 chybí ověřené fondy pro celý americký trh, vyspělý svět, rozvíjející se trhy a celý svět, váhy indexů MSCI a daňová část (jen z aktuálního zákona nebo Finanční správy s datem).
 - **Odesílání e-mailu.** Vypnuté (`EMAIL_ENABLED=false`), chybí vlastní ověřená doména pro Resend.
-- **Právní údaje.** V zásadách zpracování a v patičce jsou viditelné placeholdery: správce osobních údajů a kontakt (jméno nebo firma, IČO, adresa, e-mail), účely a právní základ zpracování, doba uložení. Doplní provozovatel, ne AI.
+- **Zásady ochrany osobních údajů** (`/zasady-ochrany-udaju`, odkaz pod tlačítkem formuláře a v patičce) **nejsou hotové.** Hotové jsou sekce Jaké údaje, Kde jsou uložené, Měření návštěvnosti a Vaše práva; tři sekce jsou na stránce viditelné placeholdery `[[CHYBÍ TEXT]]`:
+  - **Kdo údaje zpracovává:** správce (jméno nebo firma, IČO, adresa, kontaktní e-mail) – totéž chybí v patičce jako provozovatel a kontakt.
+  - **Proč:** účely a právní základ zpracování (jen předání taháku, nebo i další e-maily). Text pod tlačítkem „odhlásit se můžete jedním kliknutím“ naznačuje další e-maily – musí odpovídat zvolenému účelu.
+  - **Jak dlouho:** doba uložení e-mailu.
+
+  Doplní provozovatel (případně s právníkem), ne AI. Po doplnění se zvýší verze zásad, která se ukládá ke každému leadu.
 - **Ověření na produkci.** Odeslání formuláře na produkci a testovací lead v produkční databázi (se snímkem tabulky; v Umami zatím není žádné `rc_form_submit` ani `rc_lead_success`) a průchod stránkou na skutečném telefonu (iOS Safari, Android Chrome) – zatím jen emulovaná šířka v prohlížeči.
 
 **Měření a A/B testy**
