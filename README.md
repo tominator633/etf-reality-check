@@ -44,11 +44,33 @@ Env podle `.env.example` (`DATABASE_URL`, Umami, `NEXT_PUBLIC_SITE_URL`). Tabulk
 
 **Známá omezení**
 - Rate limit je jen v paměti jedné instance.
-- PDF leží veřejně v `public/` (měkké omezení přístupu).
+- PDF tahák se v této verzi nevytváří, obsah je popsaný v sekci Co lead dostane za e-mail.
 - E-mail je vypnutý, dokud není ověřená doména.
 - Vercel Hobby je pro nekomerční provoz.
 - Neon se po nečinnosti probouzí (první odeslání může trvat déle).
 - Blokátory reklam skryjí část eventů. Zdrojem pravdy o leadech je tabulka `leads`.
+
+## Co lead dostane za e-mail
+
+Výměnou za e-mail dostane návštěvník tahák **„Z amerického videa do českého portfolia“** (PDF, 4–5 stran). První strana sama odpoví na hlavní otázku, další ji rozšíří na celé portfolio.
+
+> **Stav:** v této verzi se PDF nevytváří (rozhodnutí v `docs/decisions.md`). Níže je jeho obsah a odkud se bere. Stránka po odeslání ukáže stav úspěchu. E-mail se zatím neposílá (`EMAIL_ENABLED=false`, chybí ověřená doména).
+
+| Strana | Obsah | Proč tam je | Podklady v projektu |
+|---|---|---|---|
+| 1. Rychlá odpověď | Tři zjištění z kvízu ve třech větách: americká ETF nemají KID, každé má evropské dvojče na stejný index, poplatky se liší. Pod tím schéma „chci USA / vyspělý svět / rozvíjející se trhy → tyto evropské fondy“. | Kdo přečte jen jednu stranu, dostane slíbenou hodnotu. | Zjištění: ano (texty odhalení, `etf.json`). Schéma: chybí fondy mimo S&P 500. |
+| 2. Překladový slovník NYSE → UCITS | Tabulka po kategoriích: S&P 500 (4 americké fondy z kvízu → 3 evropská dvojčata, SPYL je dvojčetem SPYM i SPY), celý americký trh, vyspělý svět (MSCI World), rozvíjející se trhy, celý svět. U každého fondu: ticker a burza, TER, ISIN, akumulační/distribuční, měna, zdroj a datum ověření. | Rozšiřuje kvíz z jednoho indexu na celé portfolio. Tohle si člověk za dvě minuty z aplikace brokera nesestaví. | S&P 500: kompletní a ověřené v `data/etf.json`. Ostatní kategorie: fondy je potřeba vybrat a ověřit u správců (role `guide-only`). |
+| 3. Mapa indexů | Schéma: S&P 500 leží uvnitř World, World + rozvíjející se trhy = celý svět. Váhy zemí z factsheetů MSCI s datem. Tři ilustrační způsoby, jak pokrýt celý svět dvěma až třemi fondy, každý s jednou větou, co znamená. | Odpovídá na „co přidat k S&P 500“ a plní slib „jak poskládat celý svět“. Označeno jako ilustrace, ne doporučení. | Chybí: váhy MSCI a fondy pro World/EM/celý svět. |
+| 4. Akumulační vs. distribuční | Co je rozdíl, co znamená pro reinvestici a pro papírování v ČR. | Na stránce vidí u evropských dvojčat „akum.“, zatímco americké fondy výnos vyplácejí čtvrtletně. Videa tenhle rozdíl neřeší. | Typ výplaty u všech 7 fondů je v `etf.json`. Daňová část chybí. |
+| 5. Kontrolní seznam před nákupem | 6–8 bodů: má fond KID, v jaké měně ho kupuji a kolik stojí směna, domicil fondu, poplatek za nákup u brokera, časový a hodnotový test u daní. | Praktický výstup, ke kterému se člověk vrátí při nákupu. | KID, měna a domicil: ano (`czRetailAvailable`, `baseCurrency`, `listing`, `domicile`). Daně: chybí. |
+| Zdroje a metodika | Odkazy na stránky a dokumenty správců, data ověření, vzorec modelového výpočtu (`projection.ts`), upozornění „nejde o investiční ani daňové poradenství“. | Důvěryhodnost a dohledatelnost dat. | Ano: zdroj u každé hodnoty v `etf.json`, vzorec v Technickém řešení. |
+
+**Pravidla obsahu**
+- Daňová pravidla (časový a hodnotový test, limit osvobození) jen z aktuálního znění zákona nebo z webu Finanční správy, u každého datum. Od roku 2025 se pravidla měnila. Nejisté raději vynechat.
+- Fondy pro World, rozvíjející se trhy a celý svět ověřit u správců stejně jako u S&P 500 (zdroj, datum, ISIN s kontrolní číslicí). Hlídat mix poskytovatelů indexů (MSCI vs. FTSE), protože některé země zařazují jinak.
+- Slib v nabídce nad tlačítkem musí PDF splnit. Pokud nabídka slíbí „jak poskládat celý svět ze dvou až tří fondů“, strana 3 to musí opravdu ukázat.
+- Žádné srovnání brokerů (data se rychle mění a nejsou ověřená) a žádné doporučení konkrétního fondu. Jen fakta a ilustrace.
+- Čísla jen z `etf.json` a `projection.ts`. PDF by se generovalo ze stejných dat jako stránka, aby nevznikl rozpor.
 
 ## A/B testování
 

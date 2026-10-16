@@ -115,14 +115,14 @@ Kvíz má jedinou otázku. Téma „World není celý svět“ a skládání por
 
 ## 8. Tahák (PDF) – „Z amerického videa do českého portfolia“
 
-4–5 stran, první strana sama splní slib.
+4–5 stran, první strana sama splní slib. **V této verzi se PDF nevytváří (Tom, 16. 10. 2026)**; obsah je popsaný v README → „Co lead dostane za e-mail“ (včetně toho, které podklady v projektu jsou a které chybí).
 
 | Strana | Obsah |
 |---|---|
 | 1. Rychlá odpověď | Hlavní zjištění z kvízu (KID, dvojčata, poplatky) ve 3 větách + schéma „chci USA / svět / rozvíjející se trhy → tyto evropské fondy“ |
-| 2. Překladový slovník NYSE → UCITS | S&P 500 (4 páry), celý US trh, MSCI World, rozvíjející se trhy, celý svět. U každého: TER, ISIN, ACC/DIST, měna, datum ověření |
-| 3. Mapa indexů | S&P 500 ⊂ World, World + EM = celý svět (kvalitativně, s odkazem na metodiku MSCI; váhy jen pokud je stihneme ověřit). 3 **ilustrační** způsoby pokrytí světa, označené „ilustrace, ne doporučení“ |
-| 4. ACC vs. DIST | Rozdíl pro reinvestici a pro papírování v ČR |
+| 2. Překladový slovník NYSE → UCITS | S&P 500 (4 americké fondy → 3 evropská dvojčata, SPYL sdílené), celý US trh, MSCI World, rozvíjející se trhy, celý svět. U každého: ticker a burza, TER, ISIN, ACC/DIST, měna, zdroj a datum ověření |
+| 3. Mapa indexů | S&P 500 ⊂ World, World + EM = celý svět (váhy zemí z factsheetů MSCI s datem, jinak kvalitativně). 3 **ilustrační** způsoby pokrytí světa dvěma až třemi fondy, označené „ilustrace, ne doporučení“ – plní slib „jak poskládat celý svět“ |
+| 4. ACC vs. DIST | Rozdíl pro reinvestici a pro papírování v ČR (na stránce: evropská dvojčata „akum.“, americké fondy vyplácejí čtvrtletně) |
 | 5. Kontrolní seznam | KID, měna a směna, domicil, poplatek brokera, časový a hodnotový test u daní |
 | Zdroje a metodika | Odkazy, data ověření, vzorec, „nejde o investiční ani daňové poradenství“ |
 

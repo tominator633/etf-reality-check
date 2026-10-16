@@ -424,6 +424,8 @@ export async function saveLead(lead: Lead): Promise<"created" | "duplicate"> {
 
 ### 7.5 PDF tahák (`npm run build:pdf`)
 
+> **V této verzi se PDF nevytváří (Tom, 16. 10. 2026).** Obsah je popsaný v README → „Co lead dostane za e-mail“. Návrh níže zůstává pro další verzi.
+
 - Název: **„Z amerického videa do českého portfolia“**, 4–5 stran, osnova v `brief.md` kap. 8.
 - Generuje se z `data/etf.json` a `data/assumptions.json` + texty z `content/guide.ts` (vytvořit, až Tom dodá texty).
 - Font s českou diakritikou (TTF s Latin Extended-A v `public/fonts/`); po vygenerování PDF otevřít a diakritiku zkontrolovat.
@@ -595,7 +597,7 @@ Závazné pořadí a zdůvodnění je v `brief.md` kap. 3:
 | 4 | `content/copy.ts` a `hero-variants.ts` z `brief.md` (chybějící texty jako `[[CHYBÍ TEXT]]`) | MUST | `feat(content): texty stránky` | ✅ (texty se průběžně mění) |
 | 5 | Hero + otázka + odhalení (páry, karty, jezdce) | MUST | po komponentách | ✅ |
 | 6 | `db/schema.sql`, `save-lead.ts`, `/api/lead`, `lead-capture` + stavy chyb | MUST | `feat(lead): formulář a uložení do Neonu` | ✅ ověřeno proti Neonu lokálně (API i formulář, duplicita) |
-| 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` | stav úspěchu i jeho obnova po reloadu hotové, PDF chybí |
+| 7 | `lead-success`, `use-lead-status`, PDF (nebo záložní plán 7.5) | MUST | `feat(lead): tahák po odeslání` | stav úspěchu i jeho obnova po reloadu hotové; PDF se nevytváří (Tom), obsah v README |
 | 8 | Umami + `rc_` eventy | MUST | `feat(analytics): měření cesty` | ✅ (Umami Cloud napojený na produkci) |
 | 9 | Varianty hero A/B, middleware/proxy, `ads/` | MUST | `feat(ads): varianty pro reklamy` | částka hero B počítaná (`buildHeroValues`), zbytek – |
 | 10 | Nasazení na Vercel, Neon integrace, smoke test na telefonu | MUST | `chore(deploy): …` | – |
