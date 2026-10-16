@@ -7,7 +7,7 @@
   padding: var(--space-4) var(--space-3);
   border: var(--border-width) solid var(--color-card-border);
   border-radius: var(--radius-md);
-  background: var(--color-surface);
+  background: var(--pair-bg, var(--color-surface)); /* ve dvojici pozadí dvojice */
   box-shadow: var(--shadow-card);
   overflow-wrap: anywhere;
   transition:
@@ -23,7 +23,7 @@
 }
 
 .us {
-  background: var(--color-us-card-bg);
+  background: var(--pair-bg, var(--color-us-card-bg));
   color: var(--color-us-card-ink);
 }
 

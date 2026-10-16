@@ -22,6 +22,18 @@
   gap: var(--space-3);
 }
 
+.pair1 {
+  --pair-bg: var(--color-pair-1);
+}
+
+.pair2 {
+  --pair-bg: var(--color-pair-2);
+}
+
+.pair3 {
+  --pair-bg: var(--color-pair-3);
+}
+
 .usColumn {
   display: grid;
   gap: var(--space-3);

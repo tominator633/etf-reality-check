@@ -30,11 +30,17 @@
   --color-loss: #b42318; /* ztráta na poplatcích (6,6 : 1) */
   --color-gain: #166534; /* nejvýhodnější evropské dvojče (7,1 : 1) */
 
-  /* Hero nadpis: každé slovo jinou barvou (NENÍ / ETF / JAKO / ETF) */
+  /* Hero nadpis: každé slovo jinou barvou (NENÍ / ETF / JAKO / ETF). Bez zelené (= správná
+     odpověď) a bez červené (= ztráta). */
   --color-hero-word-1: #0b1f4d; /* navy */
   --color-hero-word-2: var(--palette-purple);
-  --color-hero-word-3: #0f766e; /* petrolejová */
-  --color-hero-word-4: #15803d; /* zelená */
+  --color-hero-word-3: #1d4ed8; /* královská modrá */
+  --color-hero-word-4: #b45309; /* jantarová, ladí se žlutým CTA */
+
+  /* Světlé pozadí dvojic fondů (US ↔ UCITS), každá dvojice jiné; bez zelené a červené */
+  --color-pair-1: #eef2ff; /* světle modrá */
+  --color-pair-2: #fff4e5; /* meruňková */
+  --color-pair-3: #f5edfc; /* levandulová */
 
   /* Akcent: CTA (žlutá plocha s tmavým textem a obrysem) */
   --color-accent: var(--color-fact);

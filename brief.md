@@ -206,7 +206,8 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 ## 13. Vizuál (Tom, 16. 10. 2026 – inspirace Sheba Online a Urban Tech Republic)
 
 - **Pozadí:** čistě bílé (`#ffffff`), vzdušné sekce s velkými mezerami, tenké linky jako oddělovače, karty s 1px rámečkem a jemným stínem při najetí.
-- **Hero nadpis:** dva řádky „NENÍ etf / jako ETF“ – velká a malá slova v poměru 2 : 1, každé slovo jinou barvou (navy, fialová #57008E, petrolejová, zelená). Asymetrie symbolizuje rozdíl v poplatcích u fondů na stejný index.
+- **Hero nadpis:** dva řádky „NENÍ etf / jako ETF“ – velká a malá slova v poměru 2 : 1, každé slovo jinou barvou (navy, fialová #57008E, královská modrá, jantarová), **bez zelené** (ta patří správné odpovědi) a bez červené (ztráta). Asymetrie symbolizuje rozdíl v poplatcích u fondů na stejný index.
+- **Dvojice fondů:** každá dvojice (americký fond ↔ evropské dvojče) má vlastní světlé pozadí obou karet – modré, meruňkové, levandulové; bez zelené a červené.
 - **Barevně odlišená klíčová slova:** fakta (tickery, index, vložené částky) indigo, ztráta na poplatcích červeně, nejvýhodnější evropské dvojče zeleně – vždy jako zvýrazněný text, ne jen barva.
 - **Odznaky na kartách:** americké „V ČR obvykle nekoupíte“ (červený), evropské s nejnižším TER „✓ nejnižší TER“ (zelený, karta se zeleným rámečkem).
 - **CTA:** žlutá plocha #FFC349 s tmavým textem a obrysem.

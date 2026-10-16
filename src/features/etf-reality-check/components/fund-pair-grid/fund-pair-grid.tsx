@@ -15,14 +15,21 @@ type FundPairGridProps = {
 
 // Vlevo americké fondy, vpravo jejich UCITS dvojče. Sdílené dvojče (SPYL) je jedna karta
 // přes víc řádků, nikdy dvakrát (docs/decisions.md).
+// Každá dvojice má vlastní světlé pozadí (obě karty), aby bylo vidět, co k čemu patří.
+const PAIR_TONES = [styles.pair1, styles.pair2, styles.pair3];
+
 export function FundPairGrid({ groups, feeCosts, lowestTerIds, countUp }: FundPairGridProps) {
   const countFrom = countUp ? 0 : undefined;
   return (
     <m.div className={styles.grid} variants={stagger(0, 0.12)}>
       <p className={styles.heading}>{copy.pairGrid.usHeading}</p>
       <p className={styles.heading}>{copy.pairGrid.ucitsHeading}</p>
-      {groups.map((group) => (
-        <m.div key={group.ucits.id} className={styles.group} variants={fadeUp}>
+      {groups.map((group, index) => (
+        <m.div
+          key={group.ucits.id}
+          className={`${styles.group} ${PAIR_TONES[index % PAIR_TONES.length]}`}
+          variants={fadeUp}
+        >
           <div className={styles.usColumn}>
             {group.us.map((fund) => (
               <FundCard
