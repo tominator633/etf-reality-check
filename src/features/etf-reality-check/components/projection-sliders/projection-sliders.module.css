@@ -77,12 +77,80 @@
 }
 
 .summary {
+  display: grid;
+  gap: var(--space-3);
   padding-top: var(--space-4);
   border-top: var(--border-width) solid var(--color-card-border);
+}
+
+.summaryHeading {
+  font-family: var(--font-heading);
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-tight);
+}
+
+.rows {
+  display: grid;
+  margin: 0;
+}
+
+/* Mobil: popisek a vysvětlení nad částkou; od 40rem částka vpravo na řádku */
+.row {
+  display: grid;
+  gap: var(--space-1);
+  padding-block: var(--space-3);
+  border-bottom: var(--border-width) solid var(--color-card-border);
+}
+
+.rowText {
+  display: grid;
+}
+
+.rowLabel {
+  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-snug);
+}
+
+.rowNote {
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-snug);
+}
+
+.amount {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-tight);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.fact {
+  color: var(--color-fact);
+}
+
+.loss {
+  color: var(--color-loss);
+}
+
+@media (min-width: 40rem) {
+  .row {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .amount {
+    text-align: right;
+  }
+}
+
+.footnote {
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-sm);
 }
 
 .disclaimer {

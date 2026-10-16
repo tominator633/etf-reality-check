@@ -81,16 +81,46 @@ export const copy = {
     grossReturn: "Modelový výnos před TER",
     years: "Doba",
     monthly: "Měsíčně",
-    // brief kap. 4 – částky dosadí volající jako naformátované řetězce (včetně „Kč“)
-    summary: (values: { invested: string; grossValue: string; minFeeCost: string; maxFeeCost: string }) => [
-      "Vložíte ",
-      fact(values.invested),
-      ". Bez poplatků by to modelově bylo ",
-      fact(values.grossValue),
-      ", poplatky z toho uberou ",
-      loss(`${values.minFeeCost} až ${values.maxFeeCost}`),
-      " podle fondu.",
-    ],
+    // brief kap. 4 (Tom 16. 10.: rozdělit na řádky, vysvětlit, co částky znamenají) – hodnoty dosadí
+    // volající jako naformátované řetězce (včetně „Kč“)
+    summary: (values: {
+      monthly: string;
+      years: string;
+      grossReturn: string;
+      invested: string;
+      grossValue: string;
+      minFeeCost: string;
+      maxFeeCost: string;
+    }) => ({
+      heading: "Co z toho vychází",
+      rows: [
+        {
+          label: "Celkem vložíte",
+          note: `${values.monthly} měsíčně po dobu ${values.years}`,
+          amount: values.invested,
+          tone: "fact" as const,
+        },
+        {
+          label: "Modelová hodnota bez poplatků",
+          note: `vklady i zhodnocení ${values.grossReturn} ročně, kdyby fond nic nestál`,
+          amount: values.grossValue,
+          tone: "fact" as const,
+        },
+        {
+          label: "Poplatky fondu vám uberou nejméně",
+          note: "fond s nejnižším TER ve srovnání",
+          amount: values.minFeeCost,
+          tone: "loss" as const,
+        },
+        {
+          label: "Poplatky fondu vám uberou nejvíce",
+          note: "fond s nejvyšším TER ve srovnání",
+          amount: values.maxFeeCost,
+          tone: "loss" as const,
+        },
+      ],
+      footnote: "Ztráta na poplatcích zahrnuje i zhodnocení, o které vás poplatky během let připraví.",
+    }),
     // brief kap. 5 – povinná věta pod výsledkem
     disclaimer:
       "Modelový výpočet, výnos je předpoklad, ne záruka. Měsíční úročení, TER odečten od výnosu. Bez poplatků brokera, směny měn a daní.",

@@ -1,9 +1,7 @@
 import { useEffect, useId, useRef } from "react";
 import assumptions from "@data/assumptions.json";
 import { copy } from "@content/copy";
-import { RichText } from "@/shared/components/rich-text/rich-text";
 import { formatCzk, formatRate, formatYears } from "@/shared/lib/format";
-import type { RichText as RichTextValue } from "@/shared/lib/rich-text";
 import type { ProjectionInput } from "../../lib/projection";
 import styles from "./projection-sliders.module.css";
 
@@ -54,10 +52,10 @@ function Slider({ label, value, range, format, onChange }: SliderProps) {
 type ProjectionSlidersProps = {
   input: ProjectionInput;
   onChange: (input: Partial<ProjectionInput>) => void;
-  summary: RichTextValue | null;
+  summary: ReturnType<typeof copy.sliders.summary> | null;
 };
 
-// 3 nativní jezdce, souhrnná věta (aria-live) a povinná věta o modelovém výpočtu (brief kap. 5).
+// 3 nativní jezdce, souhrn v řádcích (aria-live) a povinná věta o modelovém výpočtu (brief kap. 5).
 export function ProjectionSliders({ input, onChange, summary }: ProjectionSlidersProps) {
   return (
     <div className={styles.sliders}>
@@ -82,9 +80,25 @@ export function ProjectionSliders({ input, onChange, summary }: ProjectionSlider
         format={formatCzk}
         onChange={(monthly) => onChange({ monthly })}
       />
-      <p className={styles.summary} aria-live="polite">
-        {summary && <RichText value={summary} />}
-      </p>
+      <div className={styles.summary} aria-live="polite">
+        {summary && (
+          <>
+            <p className={styles.summaryHeading}>{summary.heading}</p>
+            <dl className={styles.rows}>
+              {summary.rows.map((row) => (
+                <div key={row.label} className={styles.row}>
+                  <dt className={styles.rowText}>
+                    <span className={styles.rowLabel}>{row.label}</span>
+                    <span className={styles.rowNote}>{row.note}</span>
+                  </dt>
+                  <dd className={`${styles.amount} ${styles[row.tone]}`}>{row.amount}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className={styles.footnote}>{summary.footnote}</p>
+          </>
+        )}
+      </div>
       <p className={styles.disclaimer}>{copy.sliders.disclaimer}</p>
     </div>
   );

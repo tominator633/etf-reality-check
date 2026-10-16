@@ -65,7 +65,7 @@ SPYL je dvojčetem SPYM i SPY: v mřížce je **jedna** karta SPYL vedle obou am
 
 **Zvýraznění:** odznak **„nejnižší TER“** u evropského fondu (nebo fondů) s nejnižším TER. Při shodě dostanou odznak všechny shodné. Formulovat jako fakt, ne jako doporučení („ten, který si koupíte“ **ne**).
 
-**Pod jezdci jedna souhrnná věta:** „Vložíte X Kč. Bez poplatků by to modelově bylo Y Kč, poplatky z toho uberou Z až W Kč podle fondu.“
+**Pod jezdci souhrn ve 4 řádcích** (Tom 16. 10.: místo jedné věty; popisek, krátké vysvětlení, výrazná částka): Celkem vložíte X Kč (M Kč měsíčně po dobu N let) · Modelová hodnota bez poplatků Y Kč (vklady i zhodnocení r % ročně, kdyby fond nic nestál) · Poplatky fondu vám uberou nejméně Z Kč (fond s nejnižším TER ve srovnání) · … nejvíce W Kč (fond s nejvyšším TER). Pod tím: ztráta zahrnuje i ušlé zhodnocení.
 
 ---
 

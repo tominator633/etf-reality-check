@@ -313,7 +313,7 @@ type State = {
 - `fund-card`: ticker (velký, z `listing.ticker`), správce, u UCITS ACC/DIST jako text („akum.“ / „dist.“), TER s krátkým odkazem „zdroj, datum“ (celý popis v `aria-label`/`title`), **jedno velké číslo** „přijdete o X Kč“ v barvě akcentu. Americké karty zašedlé (kontrast AA).
 - Odznak **„nejnižší TER“** (symbol + text) u všech UCITS fondů se shodně nejnižším TER. Počítá se z dat, ne natvrdo.
 - `projection-sliders`: 3 nativní range inputy s viditelnou hodnotou (`6 %`, `20 let`, `3 000 Kč`), `aria-valuetext` česky. Přepočet okamžitě (bez debounce pro UI; debounce jen pro analytiku).
-- Souhrnná věta pod jezdci: „Vložíte X Kč. Bez poplatků by to modelově bylo Y Kč, poplatky z toho uberou Z až W Kč podle fondu.“ (min/max přes fondy s ověřeným TER). Výsledek v `aria-live="polite"`.
+- Souhrn pod jezdci jako `<dl>` se 4 řádky (vloženo, modelová hodnota bez poplatků, nejnižší a nejvyšší ztráta na poplatcích – min/max přes fondy s ověřeným TER), každý s popiskem, vysvětlením a výraznou částkou; texty v `copy.sliders.summary`. Výsledek v `aria-live="polite"`.
 - Na začátku odhalení kotva `#reveal-start` (pro sticky CTA). Hned za odhalením následuje `lead-capture` (6.5).
 
 ### 6.4 Otázka 2

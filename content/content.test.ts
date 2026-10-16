@@ -41,9 +41,19 @@ describe("content", () => {
     expect(heroVariants.b.subtitle(values).map(plainText).join(" ")).toContain("«DOBA»");
   });
 
-  it("souhrnná věta pod jezdci dosazuje všechny čtyři hodnoty", () => {
-    const sentence = plainText(copy.sliders.summary({ invested: "«V»", grossValue: "«H»", minFeeCost: "«MIN»", maxFeeCost: "«MAX»" }));
-    for (const token of ["«V»", "«H»", "«MIN»", "«MAX»"]) expect(sentence).toContain(token);
+  it("souhrn pod jezdci dosazuje všechny hodnoty a částky jsou v pořadí vloženo, bez poplatků, min, max", () => {
+    const summary = copy.sliders.summary({
+      monthly: "«M»",
+      years: "«R»",
+      grossReturn: "«G»",
+      invested: "«V»",
+      grossValue: "«H»",
+      minFeeCost: "«MIN»",
+      maxFeeCost: "«MAX»",
+    });
+    expect(summary.rows.map((row) => row.amount)).toEqual(["«V»", "«H»", "«MIN»", "«MAX»"]);
+    const notes = summary.rows.map((row) => row.note).join(" ");
+    for (const token of ["«M»", "«R»", "«G»"]) expect(notes).toContain(token);
   });
 
   it("žádné doporučení v textech", () => {

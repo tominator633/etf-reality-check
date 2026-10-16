@@ -5,7 +5,7 @@ import * as m from "motion/react-m";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { copy } from "@content/copy";
 import { track, trackOnce, useTrackInView } from "@/features/analytics";
-import { formatCzk } from "@/shared/lib/format";
+import { formatCzk, formatRate, formatYears } from "@/shared/lib/format";
 import { fadeUp, MotionProvider, stagger } from "@/shared/lib/motion";
 import { readQuizAnswer, storeQuizAnswer } from "@/shared/lib/quiz-answer-storage";
 import { restoreScroll, startScrollRetention } from "@/shared/lib/scroll-retention";
@@ -96,6 +96,9 @@ export function EtfRealityCheck({ view, afterReveal }: EtfRealityCheckProps) {
     knownCosts.length === 0
       ? null
       : copy.sliders.summary({
+          monthly: formatCzk(input.monthly),
+          years: formatYears(input.years),
+          grossReturn: formatRate(input.grossReturn),
           invested: formatCzk(projection.invested),
           grossValue: formatCzk(projection.grossValue),
           minFeeCost: formatCzk(Math.min(...knownCosts)),
