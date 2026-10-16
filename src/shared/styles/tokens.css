@@ -58,6 +58,10 @@
   --color-pair-1: #eef2ff; /* světle modrá */
   --color-pair-2: #fff4e5; /* meruňková */
   --color-pair-3: #f5edfc; /* levandulová */
+  /* Tickery na kartách: tmavá verze pozadí dvojice (Tom 16. 10.) */
+  --color-pair-1-ink: #3730a3; /* tmavě indigová */
+  --color-pair-2-ink: #92400e; /* tmavě jantarová */
+  --color-pair-3-ink: #6b21a8; /* tmavě fialová */
 
   /* Tmavé karty (otázka kvízu, nabídka PDF): bílý text, žlutý fokus a fajfky */
   --color-quiz-bg: #0b1f4d; /* navy */

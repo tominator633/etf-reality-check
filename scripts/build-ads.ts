@@ -139,14 +139,17 @@ h1 {
 }
 .card:nth-child(2) { background: var(--color-pair-2); }
 .card:nth-child(n + 3) { background: var(--color-pair-3); }
+/* Ticker = tmavá verze pozadí dvojice, stejné tokeny jako karty na stránce */
 .ticker {
-  color: var(--color-fact);
+  color: var(--color-pair-1-ink);
   font-family: var(--font-heading);
   font-size: 68px;
   font-weight: var(--font-weight-black);
   line-height: 1;
   letter-spacing: var(--letter-spacing-tight);
 }
+.card:nth-child(2) .ticker { color: var(--color-pair-2-ink); }
+.card:nth-child(n + 3) .ticker { color: var(--color-pair-3-ink); }
 .meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 28px; }
 .index { color: var(--color-ink-muted); font-weight: var(--font-weight-bold); }
 .ter { color: var(--color-ink); }

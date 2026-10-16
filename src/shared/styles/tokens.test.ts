@@ -79,6 +79,9 @@ const TEXT_PAIRS: [foreground: string, background: string][] = [
   ["color-gain", "color-pair-3"],
   ["color-us-card-ink", "color-pair-3"],
   ["color-us-card-ink-muted", "color-pair-3"],
+  ["color-pair-1-ink", "color-pair-1"],
+  ["color-pair-2-ink", "color-pair-2"],
+  ["color-pair-3-ink", "color-pair-3"],
 ];
 
 const UI_PAIRS: [foreground: string, background: string][] = [

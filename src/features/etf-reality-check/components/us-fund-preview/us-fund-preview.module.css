@@ -11,6 +11,21 @@
   list-style: none;
 }
 
+.pair1 {
+  --pair-bg: var(--color-pair-1);
+  --pair-ink: var(--color-pair-1-ink);
+}
+
+.pair2 {
+  --pair-bg: var(--color-pair-2);
+  --pair-ink: var(--color-pair-2-ink);
+}
+
+.pair3 {
+  --pair-bg: var(--color-pair-3);
+  --pair-ink: var(--color-pair-3-ink);
+}
+
 .source {
   color: var(--color-ink-muted);
   font-size: var(--font-size-sm);

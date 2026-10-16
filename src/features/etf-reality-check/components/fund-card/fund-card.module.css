@@ -47,8 +47,9 @@
   color: var(--color-badge-warn-ink);
 }
 
+/* Ve dvojici tmavá verze pozadí dvojice (--pair-ink), jinak výchozí barvy */
 .ticker {
-  color: var(--color-fact);
+  color: var(--pair-ink, var(--color-fact));
   font-family: var(--font-heading);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-black);
@@ -57,11 +58,11 @@
 }
 
 .us .ticker {
-  color: var(--color-ink);
+  color: var(--pair-ink, var(--color-ink));
 }
 
 .best .ticker {
-  color: var(--color-gain);
+  color: var(--pair-ink, var(--color-gain));
 }
 
 .issuer,

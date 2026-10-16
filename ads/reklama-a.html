@@ -66,6 +66,10 @@
   --color-pair-1: #eef2ff; /* světle modrá */
   --color-pair-2: #fff4e5; /* meruňková */
   --color-pair-3: #f5edfc; /* levandulová */
+  /* Tickery na kartách: tmavá verze pozadí dvojice (Tom 16. 10.) */
+  --color-pair-1-ink: #3730a3; /* tmavě indigová */
+  --color-pair-2-ink: #92400e; /* tmavě jantarová */
+  --color-pair-3-ink: #6b21a8; /* tmavě fialová */
 
   /* Tmavé karty (otázka kvízu, nabídka PDF): bílý text, žlutý fokus a fajfky */
   --color-quiz-bg: #0b1f4d; /* navy */
@@ -246,14 +250,17 @@ h1 {
 }
 .card:nth-child(2) { background: var(--color-pair-2); }
 .card:nth-child(n + 3) { background: var(--color-pair-3); }
+/* Ticker = tmavá verze pozadí dvojice, stejné tokeny jako karty na stránce */
 .ticker {
-  color: var(--color-fact);
+  color: var(--color-pair-1-ink);
   font-family: var(--font-heading);
   font-size: 68px;
   font-weight: var(--font-weight-black);
   line-height: 1;
   letter-spacing: var(--letter-spacing-tight);
 }
+.card:nth-child(2) .ticker { color: var(--color-pair-2-ink); }
+.card:nth-child(n + 3) .ticker { color: var(--color-pair-3-ink); }
 .meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 28px; }
 .index { color: var(--color-ink-muted); font-weight: var(--font-weight-bold); }
 .ter { color: var(--color-ink); }

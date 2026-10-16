@@ -122,7 +122,7 @@ export function EtfRealityCheck({ view, afterReveal }: EtfRealityCheckProps) {
         <AnimatePresence initial={false} mode="popLayout">
           {!answer && (
             <m.div key="preview" exit={{ opacity: 0, y: -12, transition: { duration: 0.2 } }}>
-              <UsFundPreview funds={view.usFunds} verifiedAt={view.verifiedAt} />
+              <UsFundPreview groups={view.groups} verifiedAt={view.verifiedAt} />
             </m.div>
           )}
         </AnimatePresence>
