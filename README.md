@@ -26,12 +26,14 @@ užitečnou odpověď dřív, než po něm chceme e-mail.
 
 | # | Sekce | Úkol | Proč právě tady |
 |---|---|---|---|
-| 1 | Hero „Není ETF jako ETF“ + kvíz ANO / NE | Zaujmout za 2–3 sekundy a navázat na reklamu | Opakuje slib obou reklam. Otázka je nejmenší možný první krok: jedno kliknutí místo čtení. Vejde se na první obrazovku 360 × 640. |
+| 1 | Hero „Není ETF jako ETF“ + malé karty 4 amerických fondů + kvíz ANO / NE | Zaujmout za 2–3 sekundy a navázat na reklamu | Opakuje slib obou reklam. Otázka je nejmenší možný první krok: jedno kliknutí místo čtení. Vejde se na první obrazovku 360 × 640. |
 | 2 | Odhalení odpovědi | Dát první hodnotu: „obvykle je nekoupíte, ale mají evropská dvojčata“ | Odpověď přichází hned po kliknutí, se zdrojem (PRIIPs). Překvapení buduje důvěru a chuť pokračovat. |
 | 3 | Páry fondů USA → EU + kalkulačka | Ukázat řešení a osobní dopad v korunách | Po „co nekoupím“ přirozeně následuje „co místo toho“. Jezdce mění obecnou informaci na číslo pro konkrétního člověka. |
 | 4 | Nabídka PDF + tlačítko | Ukázat, co dalšího získá | Přichází v momentě, kdy návštěvník už má odpověď na jeden index a logicky se ptá „a co zbytek portfolia?“. |
 | 5 | Formulář (jen e-mail) | Získat kontakt | Otevře se až po kliknutí na nabídku, takže ho vidí jen ten, kdo projevil zájem. Jedno pole. |
-| 6 | Potvrzení po odeslání | Potvrdit, co se stane dál | Uzavírá cestu a říká, kdy a jak tahák dostane. |
+| 6 | Potvrzení po odeslání | Potvrdit, co se stane dál | Uzavírá cestu a říká, jak tahák dostane (v této verzi, že ho dokončujeme a bude ke stažení přímo na stránce). |
+
+Pod tím pro ty, kdo chtějí víc: FAQ (TER, KID a UCITS, akumulační vs. distribuční, měnové riziko), Zdroje a metodika a patička.
 
 ## Okamžik žádosti o kontakt
 
@@ -70,7 +72,7 @@ kam se po spuštění podívat.
 Na mobilu tvoří většinu LCP zpoždění vykreslení textu (čekání na webové písmo); Lighthouse navrhuje ještě ubrat ~111 KiB nepoužitého JavaScriptu.
 
 **Architektura**
-- `src/features/` – `etf-reality-check` (kvíz, páry, výpočet), `lead` (formulář, API), `analytics` (eventy). Features se navzájem nevolají, komunikují přes `sessionStorage`. Stránku skládá `src/app/`.
+- `src/features/` – `etf-reality-check` (kvíz, páry, výpočet), `lead` (formulář, API), `analytics` (eventy). Feature importuje jinou jen přes její veřejné `index.ts` (kvíz a formulář volají `analytics`), stav si kvíz a formulář předávají přes `sessionStorage`. Stránku skládá `src/app/`.
 - `data/etf.json` – jediný zdroj finančních dat. Každá hodnota má zdroj (URL, popisek) a datum. `content/` obsahuje všechny texty.
 - Hero a data se renderují na serveru (staticky), na klienta jde jen interaktivní část a jen data, která UI zobrazuje.
 
@@ -99,7 +101,7 @@ npm install
 ```bash
 npm run dev
 ```
-Env podle `.env.example` (`DATABASE_URL`, Umami, `NEXT_PUBLIC_SITE_URL`). Tabulka se zakládá jednorázově: `db/schema.sql` v Neon SQL Editoru. Testy spustí `npm run test` (Vitest, 354 testů: výpočet, data, texty, kontrast barev, API leadů, CSP), kontrolu dat `npm run check:data`, kreativy reklam `npm run build:ads`.
+Env podle `.env.example` (`DATABASE_URL`, `NEXT_PUBLIC_UMAMI_WEBSITE_ID`, `NEXT_PUBLIC_UMAMI_SCRIPT_URL`, `NEXT_PUBLIC_SITE_URL`, `EMAIL_ENABLED`; `RESEND_API_KEY` a `EMAIL_FROM` až s e-mailem). Tabulka se zakládá jednorázově: `db/schema.sql` v Neon SQL Editoru. Testy spustí `npm run test` (Vitest, 357 testů: výpočet, data, texty, kontrast barev, API leadů, CSP), kontrolu dat `npm run check:data`, kreativy reklam `npm run build:ads`.
 
 **Známá omezení**
 - Rate limit je jen v paměti jedné instance.
@@ -261,7 +263,7 @@ jsou u každé hodnoty v `data/etf.json` a na kartách fondů na stránce.
   takže otázka „můžu si ho koupit?“ je pro něj osobně důležitá.
 - **Averze ke ztrátě:** vyšší poplatek je srozumitelná ztráta, kterou chce
   investor snížit.
-- **Návaznost na reklamu:** nadpis opakuje slib reklamy zaměřené na poplatky.
+- **Návaznost na reklamu:** nadpis rozvádí „Jiný poplatek“ z reklamy A.
 
 **Měřítko úspěchu**
 
@@ -291,10 +293,10 @@ Karty, kalkulačka, data i výpočet zůstávají stejné.
 
 | Prvek | A – kontrola (současná) | B – varianta se závěrem |
 |---|---|---|
-| Nad kartami | nic, návštěvník porovnává 7 karet sám | „Výběrem nejlevnějšího evropského fondu ušetříte až 6 048 Kč.“ |
+| Nad kartami | nic, návštěvník porovnává 7 karet sám (rozpětí ztráty je až v souhrnu pod jezdci) | „Výběrem nejlevnějšího evropského fondu ušetříte až 6 048 Kč.“ |
 | Pod řádkem | – | „Při 3 000 Kč měsíčně, 20 letech a modelovém výnosu 6 %.“ |
 | Karty fondů | 7 karet s částkou „přijdete o … Kč“ | beze změny |
-| Kalkulačka | výnos, doba, měsíční vklad | beze změny |
+| Kalkulačka | měsíční vklad, doba, výnos | beze změny |
 
 Částka = poplatky u nejdražšího evropského dvojčete (VUAA / SXR8, TER 0,07 %)
 minus poplatky u nejlevnějšího (SPYL, TER 0,03 %): 10 605 − 4 557 = 6 048 Kč
@@ -353,14 +355,14 @@ dvoukrokový: tlačítko „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ ho otevře, pak 
 pole e-mail a odesílací tlačítko. Úvodní tlačítko, pole formuláře, text nabídky,
 text pod tlačítkem i design zůstávají stejné. Po odeslání dostane návštěvník
 v obou variantách stejné PDF „Z amerického videa do českého portfolia“
-(4–5 stran; připravuje se, krok 7). E-mail je zatím vypnutý, PDF se po odeslání
-stáhne přímo na stránce.
+(4–5 stran). V této verzi PDF ani e-mail nejsou: po odeslání stránka potvrdí
+uložení a napíše, že tahák dokončujeme a bude ke stažení přímo na stránce.
 
 | Prvek | A – popis akce (současná) | B – přínos v první osobě |
 |---|---|---|
 | Text tlačítka | Odeslat PDF | Chci evropská dvojčata |
 | Co komunikuje | co se stane po kliknutí | co tím návštěvník získá |
-| Text pod tlačítkem | Tahák stáhnete hned po odeslání. Žádný spam, odhlásit se můžete jedním kliknutím. | beze změny |
+| Text pod tlačítkem | Žádný spam, odhlásit se můžete jedním kliknutím. + odkaz na zásady zpracování údajů (věta „Tahák stáhnete hned po odeslání.“ přibude až s hotovým PDF) | beze změny |
 
 **Očekávaný účinek (odhad)**
 
@@ -411,13 +413,13 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 | `rc_view` | kvíz z poloviny na obrazovce, 1× za relaci | – |
 | `rc_answer` | kliknutí ANO / NE (parametr `answer`) | 1, 2 |
 | `rc_slider_change` | první pohyb každého jezdce kalkulačky za relaci (parametr `slider`) | 2 |
-| `rc_cta_click` | kliknutí na „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ (otevře formulář) | 1, 3 |
-| `rc_form_view` | karta formuláře z poloviny na obrazovce po odpovědi, 1× za relaci | – |
+| `rc_cta_click` | kliknutí na „CHCI KOMPLETNÍ SROVNÁNÍ V PDF“ (otevře formulář; parametr `location`) | 1, 3 |
+| `rc_form_view` | karta s nabídkou PDF z poloviny na obrazovce (jen po odpovědi), 1× za relaci | – |
 | `rc_form_focus` | první fokus do pole e-mail | 2, 3 |
 | `rc_form_submit` | každý pokus o odeslání (i neplatný e-mail) | 3 |
 | `rc_lead_success` | server potvrdí uložení kontaktu | 1, 2, 3 |
 | `rc_lead_error` | server nebo síť vrátí chybu (parametr `code`) | – |
-| `rc_pdf_download` | stažení PDF | – |
+| `rc_pdf_download` | stažení PDF (v této verzi se neodesílá, PDF není) | – |
 | *chybí:* `rc_calculator_view` | kalkulačka z poloviny na obrazovce – potřeba pro jmenovatel v H2 | 2 |
 
 ## Práce s AI
@@ -466,7 +468,7 @@ Události posílá Umami, všechny s parametrem `variant` (`src/features/analyti
 - End-to-end testy (Playwright) a test 5 sekund s lidmi (co stránka nabízí).
 - Sticky CTA na mobilu (brief: „mělo by“) – není.
 - Výkon na mobilu: LCP 3,3 s čeká hlavně na webové písmo, Lighthouse navrhuje ubrat ~111 KiB nepoužitého JavaScriptu.
-- Texty, které doplnil Claude (FAQ, metodika, hlavní texty reklam pro Meta), jsou označené k revizi.
+- Texty, které doplnil Claude, čekají na revizi: FAQ, metodika a drobné texty formuláře (v `content/copy.ts` označené „Claude 16. 10.“) a hlavní texty reklam pro Meta (označené v `ads/`).
 
 **Provoz**
 - Ostrá kampaň by běžela na Vercel Pro (Hobby je pro nekomerční provoz) a s rate limitem sdíleným mezi instancemi (teď jen v paměti jedné instance).

@@ -13,7 +13,7 @@ Kreativa: [`reklama-b.png`](reklama-b.png) (zdroj [`reklama-b.html`](reklama-b.h
 ## Texty
 
 - **Nadpis Meta:** Koupíte si VOO v Česku?
-- **Hlavní text Meta:** VOO je populární americké ETF na index S&P 500. Koupíte si ho jako drobný investor v Česku? Odpovězte ANO, nebo NE a hned uvidíte, jak to je, jaké má evropské dvojče a kolik vás stojí poplatky.
+- **Hlavní text Meta** *(návrh Claude 16. 10., k revizi)*: VOO je populární americké ETF na index S&P 500. Koupíte si ho jako drobný investor v Česku? Odpovězte ANO, nebo NE a hned uvidíte, jak to je, jaké má evropské dvojče a kolik vás stojí poplatky.
 - **Text v kreativě:** ETF REALITY CHECK · Koupíte si [karta VOO: S&P 500, TER {z dat}] v Česku? · ANO / NE · Odpověď vás možná překvapí. · OVĚŘTE SI ODPOVĚĎ → · TER podle dokumentů správců, ověřeno {datum z `verifiedAt`}. Nejde o investiční doporučení.
 
 ## Vizuál

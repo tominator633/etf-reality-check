@@ -13,7 +13,7 @@ Kreativa: [`reklama-a.png`](reklama-a.png) (zdroj [`reklama-a.html`](reklama-a.h
 ## Texty
 
 - **Nadpis Meta:** Není ETF jako ETF
-- **Hlavní text Meta:** VOO, IVV, SPYM a SPY sledují stejný index S&P 500. Liší se poplatkem. Víte, které z nich si jako drobný investor v Česku koupíte? Otestujte se jednou otázkou a uvidíte jejich evropská dvojčata i to, kolik vás poplatky stojí.
+- **Hlavní text Meta** *(návrh Claude 16. 10., k revizi)*: VOO, IVV, SPYM a SPY sledují stejný index S&P 500. Liší se poplatkem. Víte, které z nich si jako drobný investor v Česku koupíte? Otestujte se jednou otázkou a uvidíte jejich evropská dvojčata i to, kolik vás poplatky stojí.
 - **Text v kreativě:** NENÍ ETF JAKO ETF · Stejný index S&P 500. Jiný ticker. Jiný poplatek. · Které si koupíte v Česku? · OTESTUJTE SE JEDNOU OTÁZKOU →
 
 ## Vizuál
