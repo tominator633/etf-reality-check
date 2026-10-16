@@ -32,7 +32,7 @@
 
   /* Hero nadpis: každé slovo jinou barvou (NENÍ / ETF / JAKO / ETF). Bez zelené (= správná
      odpověď) a bez červené (= ztráta). */
-  --color-hero-word-1: #0b1f4d; /* navy */
+  --color-hero-word-1: #0e7490; /* petrolejová – odlišná od navy karty s otázkou */
   --color-hero-word-2: var(--palette-purple);
   --color-hero-word-3: #1d4ed8; /* královská modrá */
   --color-hero-word-4: #b45309; /* jantarová, ladí se žlutým CTA */
