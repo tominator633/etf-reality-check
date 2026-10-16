@@ -44,11 +44,11 @@ export const heroVariants: Record<HeroVariantId, HeroVariant> = {
         { text: "ETF", size: "big" },
       ],
     ],
-    // Tom 15. 10. 2026: tři řádky místo „VOO, IVV, SPYM a SPY sledují stejný S&P 500. Liší se poplatkem.“
+    // Tom 16. 10. 2026: věty s tečkou. Tom 15. 10. 2026: tři řádky místo „VOO, IVV, SPYM a SPY sledují stejný S&P 500. Liší se poplatkem.“
     subtitle: () => [
-      [fact("VOO, IVV, SPYM a SPY"), " jsou populární americká ETF"],
-      ["všechny sledují stejný index ", fact("S&P\u00a0500")],
-      ["Liší se ", loss("poplatkem (TER)")],
+      [fact("VOO, IVV, SPYM a SPY"), " jsou populární americká ETF."],
+      ["Všechny sledují stejný index ", fact("S&P\u00a0500"), "."],
+      ["Liší se ", loss("poplatkem (TER)"), "."],
     ],
   },
   b: {

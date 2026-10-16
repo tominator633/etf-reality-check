@@ -122,7 +122,7 @@ Varianta B je nový návrh, ne stávající hero B pro reklamu B („Stejný S&P
 | Prvek | A – kontrola (současná) | B – varianta s čísly |
 |---|---|---|
 | Nadpis | NENÍ ETF JAKO ETF | STEJNÝ INDEX. TÉMĚŘ 5× VYŠŠÍ POPLATEK. |
-| Podtext | VOO, IVV, SPYM a SPY jsou populární americká ETF / všechny sledují stejný index S&P 500 / Liší se poplatkem (TER) | SPYM stojí 0,02 % ročně, SPY 0,0945 %. Obě sledují stejný index S&P 500. |
+| Podtext | VOO, IVV, SPYM a SPY jsou populární americká ETF. Všechny sledují stejný index S&P 500. Liší se poplatkem (TER). | SPYM stojí 0,02 % ročně, SPY 0,0945 %. Obě sledují stejný index S&P 500. |
 | Otázka | Můžete si je koupit v Česku? | Můžete si ten nejlevnější koupit v Česku? |
 | Odpovědi | ANO (špatně) / NE | ANO (špatně) / NE |
 

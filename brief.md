@@ -141,7 +141,7 @@ Meta (IG/FB), feed 4:5 (1080 × 1350), CTA „Zjistit více“. Obě reklamy ved
 | Vizuál | 4 karty VOO · IVV · SPYM · SPY | 2 karty vedle sebe (dražší a levnější fond na S&P 500) a velké číslo rozdílu v Kč v barvě akcentu |
 | Text | NENÍ ETF JAKO ETF. Stejný index S&P 500. Jiný ticker. Jiný poplatek. Které si koupíte v Česku? Otestujte se jednou otázkou → | STEJNÝ S&P 500. ROZDÍL X Kč. Při 3 000 Kč měsíčně za 20 let. A ten levnější v Česku obvykle nekoupíte. Spočítejte si to → |
 | H1 na stránce | NENÍ ETF JAKO ETF | STEJNÝ S&P 500, ROZDÍL X Kč |
-| Podnadpis | 3 řádky se stupňovanou velikostí: „VOO, IVV, SPYM a SPY jsou populární americká ETF“ / „všechny sledují stejný index S&P 500“ / „Liší se poplatkem (TER)“ | Tolik dělá rozdíl v poplatku mezi fondy na stejný index za {doba z výchozích jezdců}. |
+| Podnadpis | 3 řádky se stupňovanou velikostí: „VOO, IVV, SPYM a SPY jsou populární americká ETF.“ / „Všechny sledují stejný index S&P 500.“ / „Liší se poplatkem (TER).“ (věty s tečkou, Tom 16. 10.) | Tolik dělá rozdíl v poplatku mezi fondy na stejný index za {doba z výchozích jezdců}. |
 | URL | `/?utm_source=meta&utm_medium=paid_social&utm_campaign=etf_reality_check&utm_content=ad_a` | totéž s `utm_content=ad_b` |
 
 - Bez UTM se zobrazí A. Liší se jen hero (H1 a podnadpis), otázka a zbytek stránky jsou stejné.
